@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery Page</title>
+  <style>
+    :root {
+      --bg-dark: #000;
+      --bg-nav: #222;
+      --bg-hover: #555;
+      --text-light: #fff;
+      --container-max: 1200px;
+      --gap: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+    }
+
+    .top-section {
+      width: 100%;
+    }
+
+    header {
+      width: 100%;
+    }
+
+    header img.banner {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    nav {
+      background: var(--bg-nav);
+      width: 100%;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li + li {
+      margin-left: var(--gap);
+    }
+
+    nav a {
+      display: block;
+      padding: 15px 20px;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: var(--bg-hover);
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+
+    section {
+      margin-bottom: calc(var(--gap) * 3);
+    }
+
+    section h2 {
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: var(--gap);
+    }
+
+    .video-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap);
+      justify-content: center;
+    }
+
+    .video-box {
+      flex: 1 1 300px;
+      max-width: 400px;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .video-box iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav li + li {
+        margin-left: 0;
+        margin-top: var(--gap);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-section">
+    <header>
+      <img src="../Website%20Design/Banner/Banner.png" alt="Banner" class="banner" />
+    </header>
+    <nav>
+      <ul>
+        <li><a href="../Home.html">Home</a></li>
+        <li><a href="../pages/ProjectGallery.html">Projects</a></li>
+        <li><a href="../pages/Social.html">Social</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <section>
+      <h2>MINDARYN COVERS | <a href="https://www.youtube.com/@samuelsmusicallibrary8725" target="_blank">Playlist</a></h2>
+      <div class="video-row">
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/KtAk9sEvpdc?si=XK3k1MReNkhfj-03" title="Trinity" allowfullscreen></iframe>
+        </div> 
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/cIuT61cxbsc?si=PeLFZCpjU2HSR67x" title="Minda-Trinity" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/YvOmDOpv80Y?si=E18hl9Tea89Y178-" title="YouTube video player" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/AbDM8a_oxv8?si=eoM1WvKEzU3QVoSb" title="Minda-Hibana" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/y9nzbC2hrOc?si=Xz8bbCCQm0yutJv-" title="Minda-Shine" allowfullscreen></iframe>
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/OBP6UWpufA0?si=qWN2Mf4EcAGy5jwE" title="Minda-Miracle Soup" allowfullscreen></iframe>    
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tokusatsu Covers | <a href="https://www.youtube.com/@samuelsmusicallibrary8725" target="_blank">Playlist</a></h2>
+      <div class="video-row">
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/QCCbzBOk9ts?si=fDgpJc81CgxoFCWw" title="Ultraman Zero Beyond" allowfullscreen></iframe>
+        </div>        
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/GeACPgPpNFU?si=VidSmBfLVEkwHU7D" title="YouTube video player" allowfullscreen></iframe>    
+        </div>
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/0GscotMfcwA?si=z1TU9rJ1trL6E26v" title="YouTube video player" allowfullscreen></iframe>    
+        </div>       
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/8_94VHp_ebk?si=Ra7EKxZZyCn0AliN" title="YouTube video player" allowfullscreen></iframe>    
+        </div>       
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/96vlfflFn2s?si=FAskzuWyrzzZzlba" title="YouTube video player" allowfullscreen></iframe>
+        </div>       
+        <div class="video-box">
+          <iframe src="https://www.youtube.com/embed/1mJEU2g9KIE?si=HyZC8D89gY_6ClCW" title="YouTube video player" allowfullscreen></iframe>    
+        </div>           
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>
+
