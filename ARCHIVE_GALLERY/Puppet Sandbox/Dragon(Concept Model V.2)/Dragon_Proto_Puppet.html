@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Four-Head Dragon Puppet</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#061a40;font-family:system-ui,Segoe UI,Arial,sans-serif}
+.stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 45%,#1f5fa8 0,#123d78 42%,#0a2858 72%,#04152f 100%)}
+#dragon{position:absolute;left:50%;top:50%;width:1px;height:1px;transform:translate(-50%,-50%) scale(1.16);transform-origin:0 0;cursor:pointer;isolation:isolate}
+.chain{position:absolute;left:0;top:0;width:var(--nw);height:var(--nh);transform-origin:var(--root-x) var(--root-y);z-index:var(--z);will-change:transform}
+.neck{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.18))}
+.head-wrap{position:absolute;width:var(--hw);height:var(--hh);transform-origin:var(--head-pivot-x) var(--head-pivot-y);will-change:transform;z-index:5}
+.head{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:7;backface-visibility:hidden}
+.jaw{position:absolute;left:var(--jaw-left);top:var(--jaw-top);width:var(--jw);height:auto;transform-origin:var(--jaw-pivot-x) var(--jaw-pivot-y);pointer-events:none;z-index:6;will-change:transform;backface-visibility:hidden}
+.socket{display:none;position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border:2px solid #fff;border-radius:50%;z-index:30;pointer-events:none}
+body.debug .socket{display:block}.root-dot{left:var(--root-x);top:var(--root-y);background:#ff2d55}.neck-head-dot{left:var(--head-end-x);top:var(--head-end-y);background:#00e5ff}.head-socket-dot{left:var(--head-pivot-x);top:var(--head-pivot-y);background:#00e5ff}.jaw-socket-dot{left:var(--jaw-socket-x);top:var(--jaw-socket-y);background:#ffe600}
+.hud{position:absolute;left:14px;top:14px;z-index:40;color:#eef5f7;background:rgba(3,14,35,.66);border:1px solid rgba(255,255,255,.16);padding:10px 12px;border-radius:10px;font-size:12px;backdrop-filter:blur(8px)}
+button{margin-top:7px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;border-radius:7px;padding:5px 8px;cursor:pointer}
+
+/*
+  Each color is a completely independent SAME-COLOR chain:
+  one common root -> its own neck -> its own head -> its own jaw.
+  The coordinates below are per asset; nothing is shared between colors
+  except the world root at (0,0).
+*/
+.black{
+ --nw:360px;--nh:358px; --root-x:59.63px;--root-y:230.87px; --head-end-x:84.40px;--head-end-y:99.60px;
+ --hw:186px;--hh:163px; --head-pivot-x:158px;--head-pivot-y:98px;
+ --jaw-left:18px;--jaw-top:58px;--jw:90px; --jaw-pivot-x:62px;--jaw-pivot-y:19px; --jaw-socket-x:62px;--jaw-socket-y:19px; --z:10; --base-angle:-18deg;
+}
+.orange{
+ --nw:310px;--nh:282px; --root-x:57.51px;--root-y:184.22px;
+ /* Upper-left neck end is the Orange head socket. Overlap both pieces
+    slightly so rotation never exposes a gap. */
+ --head-end-x:69.80px;--head-end-y:96.80px;
+ --hw:223px;--hh:224px; --head-pivot-x:183px;--head-pivot-y:149px;
+ /* Jaw hinge is inside the actual lower-mouth socket. */
+ --jaw-left:14px;--jaw-top:79px;--jw:110px;
+ --jaw-pivot-x:66px;--jaw-pivot-y:60px; --jaw-socket-x:72px;--jaw-socket-y:149px; --z:9; --base-angle:-9deg;
+}
+.green{
+ --nw:360px;--nh:354px; --root-x:65.24px;--root-y:233.92px; --head-end-x:75.20px;--head-end-y:126.60px;
+ --hw:206px;--hh:218px; --head-pivot-x:176px;--head-pivot-y:144px;
+ --jaw-left:18px;--jaw-top:89px;--jw:101px; --jaw-pivot-x:76px;--jaw-pivot-y:20px; --jaw-socket-x:76px;--jaw-socket-y:20px; --z:8; --base-angle:0deg;
+}
+.blue{
+ --nw:365px;--nh:377px; --root-x:59.95px;--root-y:240.64px; --head-end-x:76.00px;--head-end-y:128.60px;
+ --hw:181px;--hh:159px; --head-pivot-x:153px;--head-pivot-y:106px;
+ --jaw-left:12px;--jaw-top:60px;--jw:88px; --jaw-pivot-x:63px;--jaw-pivot-y:19px; --jaw-socket-x:63px;--jaw-socket-y:19px; --z:7; --base-angle:9deg;
+}
+.black,.orange,.green,.blue{display:block;--head-base-angle:0deg}
+@media(max-width:900px){#dragon{transform:translate(-50%,-50%) scale(.92)}}
+.chain{transition:filter .2s ease}.chain:hover{filter:brightness(1.12)}
+.chain.selected{filter:brightness(1.28) drop-shadow(0 0 9px rgba(255,255,255,.35))}
+#commandBox{position:fixed;top:16px;right:16px;width:min(360px,calc(100vw - 32px));padding:14px 16px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(3,14,35,.82);color:#f3f7ff;font:13px/1.45 system-ui,Segoe UI,Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.35);backdrop-filter:blur(8px);z-index:100}
+#commandBox.hidden{display:none}.cmd-title{font-weight:800;letter-spacing:.07em;margin-bottom:8px}.cmd-section{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.14)}.cmd-label{font-size:11px;font-weight:800;letter-spacing:.1em;opacity:.72;margin-bottom:4px}.key{display:inline-block;min-width:60px;font-weight:800;color:#fff}.activeHead{margin:8px 0 0;padding:7px 9px;border-radius:7px;background:rgba(255,255,255,.08);font-weight:700}.buttonRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.buttonRow button{margin-top:0;flex:1 1 auto;min-width:82px}.headBtn.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.5)}
+
+
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="hud"><b>FOUR-HEAD DRAGON PUPPET</b><br>All heads look around independently until you interact. Use the buttons to perform motions.<br><button id="debugBtn">Show joints</button> <button id="pauseBtn">Pause idle</button></div>
+  <div id="commandBox">
+    <div class="cmd-title">DRAGON PUPPET CONTROLS</div>
+    <div id="activeHead" class="activeHead">Selected: BLACK HEAD</div>
+    <div class="cmd-section"><div class="cmd-label">SELECT HEAD</div>
+      <div class="buttonRow"><button class="headBtn" data-head="0">Black</button><button class="headBtn" data-head="1">Orange</button><button class="headBtn" data-head="2">Green</button><button class="headBtn" data-head="3">Blue</button></div>
+    </div>
+    <div class="cmd-section"><div class="cmd-label">MOVEMENT SEQUENCE</div>
+      <div class="buttonRow"><button data-action="nod">Nod</button><button data-action="lookLeft">Look Left</button><button data-action="lookRight">Look Right</button></div>
+      <div class="buttonRow"><button data-action="sway">Neck Sway</button><button data-action="reset">Reset Head</button></div>
+      <div class="buttonRow"><button data-action="all">All Heads</button><button data-action="resetAll">Reset All</button></div>
+      
+    </div>
+    <div class="cmd-section"><div class="cmd-label">IMPORTANT</div>
+      <div>Heads do not translate up/down or sideways. They move independently by rotation until you interact.</div>
+    </div>
+  </div>
+  <div id="dragon">
+    <div class="chain black" data-i="0"><img class="neck" src="Neck_Black.png"><span class="socket root-dot"></span><span class="socket neck-head-dot"></span><div class="head-wrap"><img class="head" src="Head_Black.png"><span class="socket head-socket-dot"></span><img class="jaw" src="Jaw_Black.png"><span class="socket jaw-socket-dot"></span></div></div>
+    <div class="chain orange" data-i="1"><img class="neck" src="Neck_Orange.png"><span class="socket root-dot"></span><span class="socket neck-head-dot"></span><div class="head-wrap"><img class="head" src="Head_Orange.png"><span class="socket head-socket-dot"></span><img class="jaw" src="Jaw_Orange.png"><span class="socket jaw-socket-dot"></span></div></div>
+    <div class="chain green" data-i="2"><img class="neck" src="Neck_Green.png"><span class="socket root-dot"></span><span class="socket neck-head-dot"></span><div class="head-wrap"><img class="head" src="Head_Green.png"><span class="socket head-socket-dot"></span><img class="jaw" src="Jaw_Green.png"><span class="socket jaw-socket-dot"></span></div></div>
+    <div class="chain blue" data-i="3"><img class="neck" src="Neck_Blue.png"><span class="socket root-dot"></span><span class="socket neck-head-dot"></span><div class="head-wrap"><img class="head" src="Head_Blue.png"><span class="socket head-socket-dot"></span><img class="jaw" src="Jaw_Blue.png"><span class="socket jaw-socket-dot"></span></div></div>
+  </div>
+</div>
+<script>
+(()=>{
+ const chains=[...document.querySelectorAll('.chain')];
+ const names=['Black','Orange','Green','Blue'];
+ const phases=[0,.75,1.5,2.25];
+ const css=(el,p)=>parseFloat(getComputedStyle(el).getPropertyValue(p))||0;
+ const activeHead=document.getElementById('activeHead');
+ const headButtons=[...document.querySelectorAll('.headBtn')];
+ let selected=0, idle=true, last=performance.now();
+
+ const states=chains.map(()=>({
+   headRot:0, neckRot:0, jaw:0,
+   headTarget:0, neckTarget:0, jawTarget:0,
+   seq:null, seqStart:0
+ }));
+
+ function layout(){
+   chains.forEach(el=>{
+     const rx=css(el,'--root-x'), ry=css(el,'--root-y');
+     const ex=css(el,'--head-end-x'), ey=css(el,'--head-end-y');
+     const hx=css(el,'--head-pivot-x'), hy=css(el,'--head-pivot-y');
+     const head=el.querySelector('.head-wrap');
+     el.style.left=(-rx)+'px';
+     el.style.top=(-ry)+'px';
+     // No X/Y puppet translation. The head pivot remains exactly on the neck socket.
+     head.style.left=(ex-hx+5)+'px';
+     head.style.top=(ey-hy+2)+'px';
+   });
+ }
+ layout(); addEventListener('resize',layout);
+
+ function selectHead(i){
+   selected=i;
+   chains.forEach((c,n)=>c.classList.toggle('selected',n===i));
+   headButtons.forEach((b,n)=>b.classList.toggle('active',n===i));
+   activeHead.textContent='Selected: '+names[i].toUpperCase()+' HEAD';
+ }
+ selectHead(0);
+ headButtons.forEach(btn=>btn.addEventListener('click',()=>selectHead(Number(btn.dataset.head))));
+
+ const debugBtn=document.getElementById('debugBtn');
+ debugBtn.onclick=()=>{document.body.classList.toggle('debug');debugBtn.textContent=document.body.classList.contains('debug')?'Hide joints':'Show joints'};
+ const pauseBtn=document.getElementById('pauseBtn');
+ function setIdle(v){idle=v;pauseBtn.textContent=idle?'Pause idle':'Resume idle'}
+ pauseBtn.onclick=()=>setIdle(!idle);
+
+ function resetOne(i){
+   const s=states[i];
+   s.seq=null;s.headTarget=0;s.neckTarget=0;s.jawTarget=0;
+ }
+ function resetAll(){states.forEach((_,i)=>resetOne(i))}
+ function startSequence(i,type,delay=0){
+   const s=states[i];
+   s.seq=type;s.seqStart=performance.now()+delay;
+ }
+ function action(type){
+   if(type==='reset'){resetOne(selected);return}
+   if(type==='resetAll'){resetAll();return}
+   if(type==='all'){
+     chains.forEach((_,i)=>startSequence(i,'combo',i*130));
+     return;
+   }
+   startSequence(selected,type);
+ }
+ document.querySelectorAll('[data-action]').forEach(btn=>btn.addEventListener('click',()=>action(btn.dataset.action)));
+
+ function ease(current,target,speed,dt){return current+(target-current)*(1-Math.exp(-speed*dt))}
+ function sequenceTargets(s,now){
+   if(!s.seq)return;
+   if(now<s.seqStart)return;
+   const t=(now-s.seqStart)/1000;
+   let done=false;
+   if(s.seq==='nod'){
+     s.headTarget=Math.sin(Math.min(t,1.25)*Math.PI*3)*7*(1-Math.min(t/1.25,1));
+     s.neckTarget=0;s.jawTarget=0;done=t>1.25;
+   }else if(s.seq==='lookLeft'){
+     s.headTarget=t<.7?-9:0;s.neckTarget=t<.7?-3:0;s.jawTarget=0;done=t>1.15;
+   }else if(s.seq==='lookRight'){
+     s.headTarget=t<.7?9:0;s.neckTarget=t<.7?3:0;s.jawTarget=0;done=t>1.15;
+   }else if(s.seq==='sway'){
+     s.neckTarget=Math.sin(Math.min(t,1.5)*Math.PI*2.5)*6*(1-Math.min(t/1.5,1));
+     s.headTarget=-s.neckTarget*.28;s.jawTarget=0;done=t>1.5;
+   }else if(s.seq==='combo'){
+     const fade=Math.max(0,1-Math.min(t/1.8,1));
+     s.neckTarget=Math.sin(t*5.2)*5*fade;
+     s.headTarget=Math.sin(t*7.1+.8)*6*fade-s.neckTarget*.22;
+     s.jawTarget=0;
+     done=t>1.8;
+   }
+   if(done){s.seq=null;s.headTarget=0;s.neckTarget=0;s.jawTarget=0}
+ }
+
+ function tick(now){
+   const dt=Math.min(.05,(now-last)/1000);last=now;
+   const t=now/1000;
+   chains.forEach((el,i)=>{
+     const s=states[i];
+     sequenceTargets(s,now);
+     s.headRot=ease(s.headRot,s.headTarget,12,dt);
+     s.neckRot=ease(s.neckRot,s.neckTarget,10,dt);
+     s.jaw=ease(s.jaw,s.jawTarget,16,dt);
+     const head=el.querySelector('.head-wrap');
+     const jaw=el.querySelector('.jaw');
+     const base=css(el,'--base-angle');
+     const headBase=css(el,'--head-base-angle');
+     let neckIdle=0,headIdle=0,jawIdle=0;
+     if(idle&&!s.seq){
+       const idleBias=[-1.8,-0.6,0.8,1.9][i];
+       const driftA=Math.sin(t*(.44+i*.06)+phases[i])*2.2;
+       const driftB=Math.cos(t*(.24+i*.05)+phases[i]*1.35)*1.25;
+       neckIdle=(driftA*.75 + driftB*.45 + idleBias*.38);
+       headIdle=(-driftA*.95 + driftB*.55 + idleBias*1.4 + Math.sin(t*(.82+i*.06)+phases[i]*1.1)*1.15);
+       jawIdle=0;
+     }
+     // Rotation only: no translation away from the sockets.
+     el.style.transform=`rotate(${base+s.neckRot+neckIdle}deg)`;
+     head.style.transform=`rotate(${headBase+s.headRot+headIdle}deg)`;
+     jaw.style.transform=`rotate(0deg)`;
+   });
+   requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

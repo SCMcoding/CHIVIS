@@ -443,7 +443,6 @@
         letter-spacing:2px;
       }
     }
-  
 
     /* INTERACTIVE HTML PAGE HOST */
     .page-host{content-visibility:auto;contain-intrinsic-size:900px;position:relative;padding:18px;margin:15px 0 55px;background:rgba(5,6,5,.78);border:1px solid rgba(154,160,96,.28);border-radius:8px;box-shadow:0 20px 55px rgba(0,0,0,.78);backdrop-filter:blur(2px)}
@@ -480,7 +479,6 @@
       }
     }
 
-  
     /* FROZEN EMBED PREVIEW / PLAY */
     .host-frame{position:relative}
     #projectFrame{opacity:0;transition:opacity .6s ease}
@@ -502,7 +500,6 @@
     @keyframes loaderRotate{to{transform:rotate(360deg)}}.embed-loader strong{color:var(--orange);font-size:12px;letter-spacing:2px}.embed-loader span{margin:6px 0 15px;color:var(--green);font-size:9px}.loader-track{width:min(72%,380px);height:3px;background:rgba(255,255,255,.08);overflow:hidden;border-radius:5px}.loader-track b{display:block;width:8%;height:100%;background:linear-gradient(90deg,var(--orange),var(--green),var(--purple));transition:width .3s ease}
     .embed-pause{position:absolute;z-index:40;left:14px;bottom:14px;padding:8px 12px;border:1px solid rgba(154,160,96,.55);border-radius:4px;background:rgba(0,0,0,.78);color:#fff;font:9px "Courier New",monospace;letter-spacing:1.3px;cursor:pointer}
 
-  
     /* SMOOTH PAUSE TRANSITION */
     .pause-transition{position:absolute;inset:0;z-index:45;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(54,29,13,.55),rgba(0,0,0,.94) 65%);opacity:0;pointer-events:none;transition:opacity .45s ease}
     .pause-transition.active{opacity:1;pointer-events:auto}
@@ -512,7 +509,6 @@
     /* Never show the pause/unload control in fullscreen. */
     .host-frame:fullscreen .embed-pause{display:none!important}
 
-  
     /* FULLSCREEN CAMERA CONTROL */
     .fullscreen-camera{display:none;position:absolute;top:16px;left:18px;z-index:9999;padding:10px 14px;font-family:"Courier New",monospace;font-size:10px;letter-spacing:1.4px;color:#fff;background:rgba(0,0,0,.78);border:1px solid var(--green);border-radius:4px;cursor:pointer}
     .host-frame:fullscreen .fullscreen-camera{display:block}
@@ -575,17 +571,17 @@
     <main class="container">
       <section class="page-host">
         <div class="host-head">
-          <div><small>VisVirtual</small><h1>Virtual Tiger Puppet</h1></div>
+          <div><small>VisVirtual</small><h1>Virtual Dragon Sheesha Puppet</h1></div>
           <div class="host-buttons"><button id="reloadBtn">RELOAD</button><button id="fullBtn">FULLSCREEN</button></div>
         </div>
 
         <div class="host-frame" id="hostFrame">
           <button id="exitFullBtn" class="exit-fullscreen" type="button">✕ EXIT FULLSCREEN</button>
           <button id="fullscreenCameraBtn" class="fullscreen-camera" type="button">◉ ENABLE CAMERA</button>
-          <!-- Page_EMBED IMPORTANT -->
+
           <div id="frozenEmbed" class="frozen-embed">
             <iframe id="previewFrame"
-              src="../Puppet Sandbox/Tiger Simulation/VisPuppet-Tiger.html"
+              src="../Puppet Sandbox/Dragon(Concept Model V.2)/Dragon_Proto_Puppet.html"
               title="Puppet Preview"
               tabindex="-1"
               aria-hidden="true"></iframe>
@@ -605,7 +601,7 @@
           </div>
 
           <iframe id="projectFrame"
-            data-src="../Puppet Sandbox/Tiger Simulation/VisPuppet-Tiger.html"
+            data-src="../Puppet Sandbox/Dragon(Concept Model V.2)/Dragon_Proto_Puppet.html"
             src="about:blank"
             title="Interactive Puppet"
             allow="camera; microphone; autoplay; fullscreen"
@@ -625,73 +621,154 @@
             <button class="tab active" data-panel="descriptionPanel">DESCRIPTION</button>
             <button class="tab" data-panel="instructionsPanel">HOW TO USE</button>
           </div>
+
           <div class="panel active" id="descriptionPanel">
             <h2>Description</h2>
-              
-<p>The tiger is the largest member of the cat family and is known for its striped coat,
-  strength, and powerful build. Tigers have also appeared in stories and traditions
-  across Asia, where they are sometimes connected with courage, protection, and
-  spiritual power.
-</p>
 
-<br>
+            <p>
+              This multi-headed creature was inspired in part by <strong>Shesha</strong>,
+              the great many-headed serpent found in Hindu tradition. Shesha is closely
+              associated with Vishnu and is often represented as a vast cosmic serpent
+              with multiple hoods. That imagery helped inspire the idea of a creature made
+              from several independently moving heads and necks.
+            </p>
 
-<p>
-  In <em>The Archer&rsquo;s Journey</em>, the tiger appears in the second arc as the
-  spiritual familiar of the great archer Dronacharya..
-</p>
+            <br>
 
-<br>
+            <p>
+              The puppet first appeared in the second part of
+              <em>The Archer&rsquo;s Journey</em>. Its visual design was adapted from an
+              earlier character concept that had originally been scrapped, giving the
+              unused design a new role within the production.
+            </p>
 
-<p>
-  Its design was inspired by Chinese lion dance costumes and Indonesian shadow puppets,
-  especially their bold shapes, strong silhouettes, and exaggerated movement. These
-  influences helped shape the tiger&rsquo;s appearance and the way it moves as a puppet.
-</p>
+            <br>
 
-<br>
+            <p>
+              The original stage puppet was built as a large, heavy multi-headed creature.
+              Its size gave it a strong physical presence onstage, but the weight also made
+              it difficult to operate. During use, parts of the puppet eventually broke,
+              revealing problems with the weight and with the way the heads were supported
+              and moved.
+            </p>
 
-<p>
-  Here, you can test the virtual tiger puppet and explore its different movements and
-  features.
-</p>
+            <br>
+
+            <p>
+              This virtual version is a prototype for studying a different approach to the
+              head mechanism. Each head and neck is treated as its own connected puppet
+              chain. The neck rotates from a fixed root point, while each head rotates from
+              the socket at the end of its neck. This allows the heads to move independently
+              while remaining attached to their original joints.
+            </p>
+
+            <br>
+
+            <p>
+              The prototype is mainly a movement and engineering test. It allows us to
+              experiment with nodding, looking left and right, neck swaying, and coordinated
+              movement across all four heads before attempting another physical version of
+              the puppet.
+            </p>
           </div>
+
           <div class="panel" id="instructionsPanel">
-            <h2>How To Use The Tiger Puppet</h2>
+            <h2>How To Use The Dragon Puppet</h2>
 
             <div class="puppet-note">
-              <strong>To use the keyboard controls:</strong> press <strong>P</strong> to enter Virtual Puppet Mode, then click once inside the Tiger puppet window so it receives your keyboard input.
+              <strong>This prototype is controlled with on-screen buttons.</strong>
+              Each of the four dragon heads can be selected and tested independently.
+              The prototype is designed to study how the neck and head joints rotate
+              while remaining connected to their fixed sockets.
             </div>
 
-            <table class="control-chart" aria-label="Tiger puppet keyboard controls">
-              <thead><tr><th>Section</th><th>Key</th><th>Action</th></tr></thead>
+            <table class="control-chart" aria-label="Dragon puppet controls">
+              <thead>
+                <tr>
+                  <th>Section</th>
+                  <th>Control</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
               <tbody>
-                <tr><td rowspan="2" class="section">Movement</td><td class="key">W A S D</td><td>Move the tiger.</td></tr>
-                <tr><td class="key">R</td><td>Reverse direction. Running Mode only.</td></tr>
+                <tr>
+                  <td rowspan="4" class="section">Select Head</td>
+                  <td class="key">BLACK</td>
+                  <td>Select the black dragon head.</td>
+                </tr>
+                <tr>
+                  <td class="key">ORANGE</td>
+                  <td>Select the orange dragon head.</td>
+                </tr>
+                <tr>
+                  <td class="key">GREEN</td>
+                  <td>Select the green dragon head.</td>
+                </tr>
+                <tr>
+                  <td class="key">BLUE</td>
+                  <td>Select the blue dragon head.</td>
+                </tr>
 
-                <tr><td rowspan="6" class="section">Actions</td><td class="key">I</td><td>Toggle idle.</td></tr>
-                <tr><td class="key">0</td><td>Toggle vanish.</td></tr>
-                <tr><td class="key">1</td><td>Rush in from the left.</td></tr>
-                <tr><td class="key">2</td><td>Dash out to the right.</td></tr>
-                <tr><td class="key">3</td><td>Pounce into the frame.</td></tr>
-                <tr><td class="key">4</td><td>Pounce out.</td></tr>
+                <tr>
+                  <td rowspan="5" class="section">Head Movement</td>
+                  <td class="key">NOD</td>
+                  <td>Make the selected head perform a nodding motion.</td>
+                </tr>
+                <tr>
+                  <td class="key">LOOK LEFT</td>
+                  <td>Turn the selected head and neck toward the left.</td>
+                </tr>
+                <tr>
+                  <td class="key">LOOK RIGHT</td>
+                  <td>Turn the selected head and neck toward the right.</td>
+                </tr>
+                <tr>
+                  <td class="key">NECK SWAY</td>
+                  <td>Test a swaying movement through the selected neck.</td>
+                </tr>
+                <tr>
+                  <td class="key">RESET HEAD</td>
+                  <td>Return the selected head and neck to their starting position.</td>
+                </tr>
 
-                <tr><td rowspan="5" class="section">Poses &amp; Movement</td><td class="key">5</td><td>Toggle running.</td></tr>
-                <tr><td class="key">6</td><td>Toggle sit.</td></tr>
-                <tr><td class="key">7</td><td>Toggle crouch.</td></tr>
-                <tr><td class="key">8</td><td>Jump.</td></tr>
-                <tr><td class="key">9</td><td>Roar.</td></tr>
+                <tr>
+                  <td rowspan="2" class="section">All Heads</td>
+                  <td class="key">ALL HEADS</td>
+                  <td>Run a coordinated movement test across all four heads.</td>
+                </tr>
+                <tr>
+                  <td class="key">RESET ALL</td>
+                  <td>Return all four heads and necks to their starting positions.</td>
+                </tr>
 
-                <tr><td rowspan="3" class="section">Display</td><td class="key">B</td><td>Toggle background.</td></tr>
-                <tr><td class="key">M</td><td>Show or hide the command box.</td></tr>
-                <tr><td class="key">P</td><td>Exit Virtual Puppet Mode.</td></tr>
+                <tr>
+                  <td rowspan="2" class="section">Prototype</td>
+                  <td class="key">SHOW JOINTS</td>
+                  <td>Display the attachment points used to connect the necks, heads, and jaws.</td>
+                </tr>
+                <tr>
+                  <td class="key">PAUSE IDLE</td>
+                  <td>Pause or resume the automatic independent head movement.</td>
+                </tr>
               </tbody>
             </table>
 
             <div class="steps">
-              <div><b>01</b><span>Press P to enter Virtual Puppet Mode.</span></div>
-              <div><b>02</b><span>Click inside the Tiger window, then use W A S D and the numbered commands.</span></div>
-              <div><b>03</b><span>Press M anytime to show or hide the Tiger command box.</span></div>
+              <div>
+                <b>01</b>
+                <span>Select the Black, Orange, Green, or Blue head.</span>
+              </div>
+
+              <div>
+                <b>02</b>
+                <span>Use Nod, Look Left, Look Right, or Neck Sway to test that head&rsquo;s movement.</span>
+              </div>
+
+              <div>
+                <b>03</b>
+                <span>Use Show Joints to examine how the heads connect, or All Heads to test the complete prototype together.</span>
+              </div>
             </div>
           </div>
         </div>
@@ -845,7 +922,6 @@
     });
   </script>
 
-
   <script>
   (()=>{const frame=document.getElementById("projectFrame"),stage=document.getElementById("hostFrame"),full=document.getElementById("fullBtn"),exitFull=document.getElementById("exitFullBtn"),drawer=document.getElementById("bottomPanel"),handle=document.getElementById("dragHandle");
   const frozen=document.getElementById("frozenEmbed"),previewFrame=document.getElementById("previewFrame"),playProgram=document.getElementById("playProgramBtn"),pauseProgram=document.getElementById("pauseProgramBtn"),pauseTransition=document.getElementById("pauseTransition"),cameraFull=document.getElementById("fullscreenCameraBtn"),loader=document.getElementById("embedLoader"),loaderBar=document.getElementById("loaderBar"),loaderText=document.getElementById("loaderText"),programURL=frame.dataset.src;
@@ -921,7 +997,6 @@
       cameraFull.textContent="◉ CLICK PUPPET + PRESS C";
     }
   });
-
 
   document.getElementById("reloadBtn").onclick=()=>{
     if(!programLoaded){ startProgram(); return; }
