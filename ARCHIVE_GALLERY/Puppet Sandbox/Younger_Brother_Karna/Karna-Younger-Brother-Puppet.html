@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karna Younger Brother Puppet</title>
+<style>
+html,body{width:100%;height:100%;margin:0;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#10151d}
+body{background:radial-gradient(circle at 50% 38%,#f2ffe8 0%,#d7f4be 38%,#9add84 72%,#63b764 100%)}
+body.transparent-bg{background:transparent!important}
+#stage{position:relative;width:100vw;height:100vh;overflow:hidden;cursor:crosshair}
+#puppet{position:absolute;left:50%;top:50%;width:325px;height:718px;transform:translate(-50%,-50%);transform-origin:50% 56%;pointer-events:none;will-change:left,top,transform,opacity;transition:opacity .6s ease}
+#rig{position:absolute;inset:0;transform-origin:50% 56%;will-change:transform}
+.part{position:absolute;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none;backface-visibility:hidden}
+#body{left:0;top:0;width:325px;height:718px;z-index:4}
+#shadow{position:absolute;left:55px;top:662px;width:215px;height:28px;border-radius:50%;background:rgba(0,0,0,.34);filter:blur(10px);z-index:1;transform-origin:center}
+
+/* Left arm and hand — both pivots are locked to their sockets. */
+#leftShoulderRig{position:absolute;left:-5px;top:104px;width:164px;height:214px;transform-origin:83px 82px;z-index:8;will-change:transform}
+#leftUpper{left:0;top:0;width:164px;height:214px;z-index:7}
+/* The top joint of Left_Hand.png is pinned to the bottom joint of Left_Arm.png. */
+#leftElbowRig{position:absolute;left:-44px;top:174px;width:210px;height:214px;transform-origin:127px 18px;z-index:9;will-change:transform}
+#leftLower{left:0;top:0;width:210px;height:214px;z-index:8}
+
+/* Right arm and hand — both pivots are locked to their sockets. */
+#rightShoulderRig{position:absolute;left:173px;top:104px;width:155px;height:212px;transform-origin:74px 82px;z-index:8;will-change:transform}
+#rightUpper{left:0;top:0;width:155px;height:212px;z-index:7}
+/* The top joint of Right-Hand.png is pinned to the bottom joint of Right_Arm.png. */
+#rightElbowRig{position:absolute;left:10px;top:173px;width:215px;height:220px;transform-origin:72px 24px;z-index:9;will-change:transform}
+#rightLower{left:0;top:0;width:215px;height:220px;z-index:8}
+
+#status{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:8px 12px;border-radius:999px;background:rgba(0,0,0,.3);color:#eef4ff;font-size:13px;letter-spacing:.03em;backdrop-filter:blur(6px);z-index:1000}
+#status.hidden{display:none}
+#commandBox{position:fixed;top:16px;right:16px;width:min(360px,calc(100vw - 32px));padding:14px 16px;border:2px solid rgba(220,232,255,.75);border-radius:12px;background:rgba(11,18,31,.82);color:#edf4ff;font:14px/1.45 Arial,Helvetica,sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:9999;display:none;backdrop-filter:blur(5px)}
+#commandBox.show{display:block}.cmd-title{font-weight:800;letter-spacing:.06em;margin-bottom:8px;color:#dce9ff}.cmd-section{margin-top:10px;padding-top:8px;border-top:1px solid rgba(214,227,255,.2)}.cmd-section-title{margin-bottom:5px;font-size:11px;font-weight:800;letter-spacing:.12em;color:#a8c7ff}#commandBox b{display:inline-block;min-width:72px;color:#fff}
+#coords{margin:0 0 10px;padding:7px 9px;border:1px solid rgba(255,255,255,.2);border-radius:7px;background:rgba(255,255,255,.06);font:700 13px Consolas,monospace;text-align:center;color:#fff}
+#puppet.vanished{opacity:0}
+@media (max-width:760px){#puppet{transform:translate(-50%,-50%) scale(.72)}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="puppet">
+    <div id="rig">
+      <div id="shadow"></div>
+      <div id="rightShoulderRig">
+        <img class="part" id="rightUpper" src="Right_Arm.png" alt="">
+        <div id="rightElbowRig"><img class="part" id="rightLower" src="Right-Hand.png" alt=""></div>
+      </div>
+      <div id="leftShoulderRig">
+        <img class="part" id="leftUpper" src="Left_Arm.png" alt="">
+        <div id="leftElbowRig"><img class="part" id="leftLower" src="Left_Hand.png" alt=""></div>
+      </div>
+      <img class="part" id="body" src="Karna_Body.png" alt="">
+    </div>
+  </div>
+  <div id="status">Move the mouse — the younger brother follows</div>
+</div>
+<div id="commandBox" aria-live="polite">
+  <div id="coords">X: 0 &nbsp;&nbsp; Y: 0</div>
+  <div class="cmd-title">YOUNGER BROTHER PUPPET MODE</div>
+  <div class="cmd-section"><div class="cmd-section-title">MOVEMENT</div><div><b>W A S D</b> – Walk / steer</div><div><b>R</b> – Reverse direction</div><div><b>1</b> – Dramatic entrance</div><div><b>5</b> – Dramatic exit</div></div>
+  <div class="cmd-section"><div class="cmd-section-title">DISPLAY</div><div><b>M</b> – Hide/show commands</div><div><b>9</b> – Hide/show bottom text</div><div><b>B</b> – Background / transparent</div><div><b>0</b> – Vanish / return</div><div><b>P</b> – Enter/exit puppet mode</div></div>
+</div>
+<script>
+const stage=document.getElementById('stage');
+const puppet=document.getElementById('puppet');
+const rig=document.getElementById('rig');
+const leftShoulderRig=document.getElementById('leftShoulderRig');
+const leftElbowRig=document.getElementById('leftElbowRig');
+const rightShoulderRig=document.getElementById('rightShoulderRig');
+const rightElbowRig=document.getElementById('rightElbowRig');
+const shadow=document.getElementById('shadow');
+const status=document.getElementById('status');
+const commandBox=document.getElementById('commandBox');
+const coords=document.getElementById('coords');
+
+const IDLE_AFTER=9000;
+const centerX=()=>innerWidth*.5;
+const centerY=()=>innerHeight*.54;
+const state={x:centerX(),y:centerY(),tx:centerX(),ty:centerY(),vx:0,vy:0,lastInteraction:performance.now(),idle:false,returning:false,facing:1};
+const puppetMode={enabled:false,showCommands:true,reverse:false,vanished:false,entering:false,exiting:false,keys:new Set(),speed:7.2};
+
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function setStatus(t){status.textContent=t;}
+function updateCommandBox(){commandBox.classList.toggle('show',puppetMode.enabled&&puppetMode.showCommands)}
+function wake(){if(puppetMode.enabled)return;state.lastInteraction=performance.now();state.idle=false;state.returning=false;setStatus('Awake — following your mouse')}
+function pointTo(x,y){if(puppetMode.enabled)return;wake();state.tx=x;state.ty=y;}
+stage.addEventListener('pointermove',e=>pointTo(e.clientX,e.clientY));
+stage.addEventListener('pointerdown',e=>pointTo(e.clientX,e.clientY));
+
+function togglePuppet(){
+  puppetMode.enabled=!puppetMode.enabled;
+  puppetMode.keys.clear();
+  state.lastInteraction=performance.now();
+  state.idle=false; state.returning=false;
+  if(puppetMode.enabled){puppetMode.showCommands=true;updateCommandBox();setStatus('Puppet mode active — keyboard control enabled')}
+  else{updateCommandBox();setStatus('Puppet mode off — mouse control restored')}
+}
+function toggleReverse(){puppetMode.reverse=!puppetMode.reverse;setStatus(puppetMode.reverse?'Direction reversed':'Direction normal')}
+function vanish(){puppetMode.vanished=!puppetMode.vanished;puppet.classList.toggle('vanished',puppetMode.vanished);setStatus(puppetMode.vanished?'Puppet fading away':'Puppet returning')}
+function toggleBackground(){document.body.classList.toggle('transparent-bg');setStatus(document.body.classList.contains('transparent-bg')?'Transparent background':'Stage background')}
+function entrance(){
+  puppetMode.vanished=false;puppet.classList.remove('vanished');puppetMode.entering=true;puppetMode.exiting=false;puppetMode.keys.clear();state.facing=1;
+  const sx=-220,sy=innerHeight*.56,tx=centerX(),ty=centerY(),start=performance.now();
+  function step(now){if(!puppetMode.entering)return;const t=Math.min(1,(now-start)/1300),e=1-Math.pow(1-t,3);state.x=sx+(tx-sx)*e;state.y=sy+(ty-sy)*e-Math.sin(t*Math.PI)*36;state.vx=4;state.vy=0;if(t<1)requestAnimationFrame(step);else{state.x=tx;state.y=ty;state.vx=state.vy=0;puppetMode.entering=false;setStatus('Puppet entered the scene')}}
+  requestAnimationFrame(step);setStatus('Dramatic entrance');
+}
+function exitScene(){
+  puppetMode.exiting=true;puppetMode.entering=false;puppetMode.keys.clear();state.facing=1;const sx=state.x,sy=state.y,tx=innerWidth+220,ty=innerHeight*.5,start=performance.now();
+  function step(now){if(!puppetMode.exiting)return;const t=Math.min(1,(now-start)/1200),e=t*t*(3-2*t);state.x=sx+(tx-sx)*e;state.y=sy+(ty-sy)*e-Math.sin(t*Math.PI)*24;state.vx=5;if(t<1)requestAnimationFrame(step);else{puppetMode.exiting=false;puppetMode.vanished=true;puppet.classList.add('vanished');setStatus('Puppet left the scene')}}
+  requestAnimationFrame(step);setStatus('Dramatic exit');
+}
+
+window.addEventListener('keydown',e=>{
+  const k=e.key.toLowerCase();
+  if(k==='p'&&!e.repeat){e.preventDefault();togglePuppet();return}
+  if(!puppetMode.enabled)return;
+  if(['w','a','s','d'].includes(k)){e.preventDefault();puppetMode.keys.add(k);return}
+  if(e.repeat)return;
+  if(k==='m'){puppetMode.showCommands=!puppetMode.showCommands;updateCommandBox()}
+  else if(k==='9'){status.classList.toggle('hidden')}
+  else if(k==='r')toggleReverse();
+  else if(k==='0')vanish();
+  else if(k==='1')entrance();
+  else if(k==='5')exitScene();
+  else if(k==='b')toggleBackground();
+});
+window.addEventListener('keyup',e=>puppetMode.keys.delete(e.key.toLowerCase()));
+
+function animate(now){
+  if(!puppetMode.enabled && !state.idle && !state.returning && now-state.lastInteraction>IDLE_AFTER){state.returning=true;state.tx=centerX();state.ty=centerY();setStatus('Returning to center')}  
+
+  if(puppetMode.enabled && !puppetMode.vanished && !puppetMode.entering && !puppetMode.exiting){
+    let dx=0,dy=0;if(puppetMode.keys.has('w'))dy--;if(puppetMode.keys.has('s'))dy++;if(puppetMode.keys.has('a'))dx--;if(puppetMode.keys.has('d'))dx++;
+    if(dx||dy){const m=Math.hypot(dx,dy)||1;dx/=m;dy/=m;state.vx+=dx*.4;state.vy+=dy*.4; if(dx<0)state.facing=-1; else if(dx>0)state.facing=1;}
+    state.vx*=.94;state.vy*=.94;const mag=Math.hypot(state.vx,state.vy);if(mag>puppetMode.speed){state.vx=state.vx/mag*puppetMode.speed;state.vy=state.vy/mag*puppetMode.speed}
+    state.x+=state.vx;state.y+=state.vy;state.x=clamp(state.x,85,innerWidth-85);state.y=clamp(state.y,90,innerHeight-70);
+  } else if(!puppetMode.enabled && !state.idle){
+    const dx=state.tx-state.x,dy=state.ty-state.y;state.vx+=dx*.0035;state.vy+=dy*.0035;state.vx*=.93;state.vy*=.93;state.vx=clamp(state.vx,-8,8);state.vy=clamp(state.vy,-8,8);state.x+=state.vx;state.y+=state.vy;state.x=clamp(state.x,85,innerWidth-85);state.y=clamp(state.y,90,innerHeight-70);
+    if(state.returning && Math.abs(dx)<8 && Math.abs(dy)<8 && Math.hypot(state.vx,state.vy)<1){state.idle=true;state.returning=false;state.vx=state.vy=0;setStatus('Idle — move the mouse to wake the puppet')}
+    if(!state.returning){if(dx<0)state.facing=-1; else if(dx>0)state.facing=1;}
+  }
+
+  const speed=Math.hypot(state.vx,state.vy);
+  const walk=Math.sin(now*.008);
+  const breathe=Math.sin(now*.0021);
+  const activeWalk = speed>.35;
+  const leftShoulder = activeWalk ? walk*1.0 : breathe*0.30;
+  const leftElbow = 0;
+  const rightShoulder = activeWalk ? -walk*1.0 : -breathe*0.30;
+  const rightElbow = 0;
+  leftShoulderRig.style.transform=`rotate(${leftShoulder}deg)`;
+  leftElbowRig.style.transform=`rotate(${leftElbow}deg)`;
+  rightShoulderRig.style.transform=`rotate(${rightShoulder}deg)`;
+  rightElbowRig.style.transform=`rotate(${rightElbow}deg)`;
+
+  const tilt=clamp(state.vx*.35,-4,4);
+  const bob=activeWalk? Math.abs(walk)*3.4 : breathe*2.2;
+  const flip = puppetMode.reverse ? -state.facing : state.facing;
+  rig.style.transform=`translateY(${bob}px) rotate(${tilt}deg) scaleX(${flip})`;
+  shadow.style.transform=`scaleX(${1+Math.min(speed,.12)*.03})`;
+
+  puppet.style.left=state.x+'px';puppet.style.top=state.y+'px';coords.textContent=`X: ${Math.round(state.x)}   Y: ${Math.round(state.y)}`;
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+window.addEventListener('resize',()=>{state.x=clamp(state.x,85,innerWidth-85);state.y=clamp(state.y,90,innerHeight-70);state.tx=clamp(state.tx,85,innerWidth-85);state.ty=clamp(state.ty,90,innerHeight-70)});
+</script>
+</body>
+</html>
