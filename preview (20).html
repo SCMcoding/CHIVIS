@@ -1,0 +1,6071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grand Cathedral Pipe Organ Simulator</title>
+
+<style>
+
+:root{
+    --wood0:#120b07;
+    --wood1:#24150d;
+    --wood2:#432817;
+    --wood3:#6e472c;
+    --wood4:#9a704b;
+
+    --gold:#c8a766;
+    --gold2:#e1c98e;
+
+    --ivory:#f8f4e9;
+    --ivory2:#ddd7c9;
+
+    --panel:#100b08;
+    --text:#e8d8bf;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    background:#050404;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    color:var(--text);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(224,177,94,.17),
+            transparent 25%
+        ),
+        radial-gradient(
+            ellipse at 18% 45%,
+            rgba(111,72,43,.07),
+            transparent 27%
+        ),
+        radial-gradient(
+            ellipse at 82% 45%,
+            rgba(111,72,43,.07),
+            transparent 27%
+        ),
+        linear-gradient(
+            180deg,
+            #171412,
+            #0a0908 55%,
+            #050404
+        );
+}
+
+button,
+select,
+input{
+    font:inherit;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.stage{
+    width:min(1600px,98vw);
+    margin:0 auto;
+    padding:24px 8px 70px;
+}
+
+.heading{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.heading h1{
+    margin:0;
+    font-size:clamp(22px,2.7vw,42px);
+    font-weight:500;
+    letter-spacing:.19em;
+    color:#f0e2c7;
+
+    text-shadow:
+        0 3px 18px rgba(0,0,0,.95);
+}
+
+.heading p{
+    margin:7px 0 0;
+    font:11px/1.5 Arial,sans-serif;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:#a59686;
+}
+
+/* =========================================================
+   MAIN ORGAN CASE
+========================================================= */
+
+.organ-case{
+    position:relative;
+
+    padding:22px 22px 20px;
+
+    border:
+        1px solid rgba(191,146,93,.33);
+
+    border-radius:
+        27px 27px 12px 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.02),
+            transparent 8%,
+            transparent 92%,
+            rgba(255,255,255,.02)
+        ),
+        linear-gradient(
+            180deg,
+            #3a281c,
+            #24160e 48%,
+            #130c08
+        );
+
+    box-shadow:
+        inset 0 0 0 3px rgba(24,12,5,.62),
+        inset 0 0 80px rgba(0,0,0,.56),
+        0 35px 90px rgba(0,0,0,.68);
+}
+
+/* =========================================================
+   TOP WOODWORK
+========================================================= */
+
+.cornice{
+    height:42px;
+    margin:0 6px 12px;
+
+    border:
+        1px solid #8b6546;
+
+    border-radius:
+        10px 10px 4px 4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #a47951 0%,
+            #68432a 16%,
+            #2c1a10 50%,
+            #755037 76%,
+            #26160d 100%
+        );
+
+    box-shadow:
+        inset 0 2px 2px rgba(255,255,255,.1),
+        0 6px 12px rgba(0,0,0,.5);
+}
+
+.cornice::after{
+    content:"";
+
+    display:block;
+
+    width:63%;
+    height:4px;
+
+    margin:17px auto 0;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(228,192,123,.65),
+            transparent
+        );
+}
+
+/* =========================================================
+   PIPE FACADE
+========================================================= */
+
+.pipe-facade{
+    display:grid;
+
+    grid-template-columns:
+        .78fr
+        1.08fr
+        1.42fr
+        1.08fr
+        .78fr;
+
+    gap:8px;
+
+    align-items:end;
+
+    padding:0 8px 13px;
+}
+
+.pipe-tower{
+    position:relative;
+
+    height:340px;
+
+    min-width:0;
+
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+
+    gap:4px;
+
+    padding:
+        25px 8px 10px;
+
+    overflow:hidden;
+
+    border:
+        1px solid #59402e;
+
+    border-radius:
+        135px 135px 8px 8px;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(212,157,78,.09),
+            transparent 44%
+        ),
+        linear-gradient(
+            180deg,
+            #211713,
+            #0b0806
+        );
+
+    box-shadow:
+        inset 0 0 40px rgba(0,0,0,.78);
+}
+
+.pipe-tower.medium{
+    height:380px;
+}
+
+.pipe-tower.large{
+    height:440px;
+}
+
+.pipe-tower::before{
+    content:"";
+
+    position:absolute;
+
+    inset:
+        8px 8px 11px;
+
+    border:
+        1px solid rgba(164,118,76,.31);
+
+    border-radius:
+        125px 125px 5px 5px;
+}
+
+.pipe-tower::after{
+    content:"";
+
+    position:absolute;
+
+    left:20%;
+    right:20%;
+    top:8%;
+
+    height:40%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(225,181,105,.06),
+            transparent 70%
+        );
+}
+
+.pipe{
+    position:relative;
+
+    z-index:2;
+
+    width:clamp(7px,1.25vw,20px);
+
+    border:
+        1px solid rgba(230,230,220,.28);
+
+    border-radius:
+        11px 11px 2px 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #444443,
+            #787974 13%,
+            #deddd4 37%,
+            #b7b4a9 52%,
+            #74746f 69%,
+            #41413f
+        );
+
+    box-shadow:
+        inset 2px 0 4px rgba(255,255,255,.16),
+        inset -3px 0 5px rgba(0,0,0,.4),
+        0 3px 7px rgba(0,0,0,.44);
+}
+
+.pipe::before{
+    content:"";
+
+    position:absolute;
+
+    top:24%;
+
+    left:18%;
+    right:18%;
+
+    height:5px;
+
+    background:
+        linear-gradient(
+            #252525,
+            #62615d
+        );
+
+    border-radius:
+        0 0 2px 2px;
+}
+
+.pipe::after{
+    content:"";
+
+    position:absolute;
+
+    top:calc(24% + 5px);
+
+    left:28%;
+    right:28%;
+
+    height:11px;
+
+    background:#151515;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            82% 100%,
+            18% 100%
+        );
+}
+
+.facade-rail{
+    height:40px;
+
+    margin:0 5px 18px;
+
+    border:
+        1px solid #765139;
+
+    border-radius:4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #8b5e3d,
+            #3d2619 47%,
+            #1b100a
+        );
+
+    box-shadow:
+        inset 0 2px 2px rgba(255,255,255,.07),
+        0 6px 12px rgba(0,0,0,.48);
+}
+
+/* =========================================================
+   CONSOLE
+========================================================= */
+
+.console{
+    width:min(1280px,100%);
+
+    margin:0 auto;
+
+    padding:
+        18px 18px 23px;
+
+    border:
+        1px solid #8d6849;
+
+    border-radius:
+        22px 22px 12px 12px;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(231,178,101,.12),
+            transparent 35%
+        ),
+        linear-gradient(
+            180deg,
+            #734d32,
+            #402719 35%,
+            #26170e 74%,
+            #170f0a
+        );
+
+    box-shadow:
+        inset 0 0 0 2px rgba(30,12,4,.58),
+        0 22px 42px rgba(0,0,0,.56);
+}
+
+.console-nameboard{
+    position:relative;
+
+    height:57px;
+
+    margin:
+        0 4px 14px;
+
+    border:
+        1px solid #8f6948;
+
+    border-radius:
+        12px 12px 4px 4px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #906445,
+            #4c301e 43%,
+            #25170f
+        );
+
+    box-shadow:
+        inset 0 2px 2px rgba(255,255,255,.07),
+        0 5px 8px rgba(0,0,0,.37);
+}
+
+.console-nameboard span{
+    position:absolute;
+
+    left:14%;
+    right:14%;
+    top:11px;
+
+    padding:7px;
+
+    text-align:center;
+
+    color:#d9bd80;
+
+    font-size:12px;
+
+    letter-spacing:.29em;
+
+    border:
+        1px solid rgba(200,160,95,.22);
+
+    background:
+        rgba(18,11,7,.75);
+}
+
+.console-body{
+    display:grid;
+
+    grid-template-columns:
+        185px
+        minmax(0,1fr)
+        185px;
+
+    gap:13px;
+
+    align-items:start;
+}
+
+/* =========================================================
+   STOP JAMBS
+========================================================= */
+
+.stop-jamb{
+    min-height:610px;
+
+    padding:
+        12px 10px;
+
+    border:
+        1px solid #65462f;
+
+    border-radius:13px;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(197,145,74,.07),
+            transparent 30%
+        ),
+        linear-gradient(
+            180deg,
+            #352217,
+            #1b110c
+        );
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,.43);
+}
+
+.stop-jamb h3{
+    margin:
+        2px 0 12px;
+
+    text-align:center;
+
+    color:#d8c2a0;
+
+    font-size:10px;
+    font-weight:500;
+
+    letter-spacing:.18em;
+}
+
+.stop-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:9px;
+}
+
+.stop{
+    position:relative;
+
+    aspect-ratio:1;
+
+    padding:
+        5px 4px;
+
+    cursor:pointer;
+
+    border:
+        2px solid #a38b6a;
+
+    border-radius:50%;
+
+    color:#241a13;
+
+    font:
+        bold
+        9px/1.05
+        Georgia,
+        serif;
+
+    background:
+        radial-gradient(
+            circle at 35% 27%,
+            #fff7df 0%,
+            #d8c3a2 48%,
+            #8c7457 72%,
+            #564433 100%
+        );
+
+    box-shadow:
+        inset 0 1px 3px rgba(255,255,255,.84),
+        inset 0 -5px 7px rgba(0,0,0,.2),
+        0 5px 7px rgba(0,0,0,.47);
+
+    transition:
+        transform .14s ease,
+        filter .14s ease;
+}
+
+.stop:hover{
+    filter:brightness(1.06);
+}
+
+.stop.on{
+    transform:
+        translateY(-4px);
+
+    border-color:#d6b872;
+
+    background:
+        radial-gradient(
+            circle at 35% 27%,
+            #fff4bb,
+            #e1bc5f 52%,
+            #8c6726 78%
+        );
+}
+
+/* =========================================================
+   CENTER CONSOLE
+========================================================= */
+
+.manual-console{
+    min-width:0;
+
+    padding:11px;
+
+    border:
+        1px solid #64452f;
+
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #25160f,
+            #120b08
+        );
+
+    box-shadow:
+        inset 0 0 18px rgba(0,0,0,.5);
+}
+
+.manual{
+    position:relative;
+
+    margin-bottom:9px;
+
+    padding:
+        6px 7px 10px;
+
+    border:
+        1px solid #594131;
+
+    border-radius:6px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #21160f,
+            #0d0907
+        );
+
+    box-shadow:
+        0 3px 6px rgba(0,0,0,.25);
+}
+
+.manual-label{
+    height:20px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#cdb797;
+
+    font-size:9px;
+
+    letter-spacing:.21em;
+}
+
+/* =========================================================
+   REAL 61-NOTE MANUALS
+========================================================= */
+
+.keyboard{
+    position:relative;
+
+    height:82px;
+
+    display:flex;
+
+    overflow:hidden;
+
+    user-select:none;
+
+    touch-action:none;
+
+    border:
+        1px solid #40342a;
+
+    border-radius:
+        2px 2px 5px 5px;
+
+    background:#080605;
+
+    box-shadow:
+        inset 0 5px 7px rgba(0,0,0,.65);
+}
+
+.white{
+    position:relative;
+
+    flex:1;
+
+    min-width:0;
+
+    padding:0;
+
+    z-index:1;
+
+    cursor:pointer;
+
+    border:
+        1px solid #777168;
+
+    border-top:0;
+
+    border-radius:
+        0 0 3px 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #d5cfc1 0%,
+            #f7f2e7 10%,
+            #fbf7ec 75%,
+            #d0cabd 100%
+        );
+
+    box-shadow:
+        inset 0 -5px 5px rgba(0,0,0,.11);
+}
+
+.white::after{
+    content:"";
+
+    position:absolute;
+
+    left:12%;
+    right:12%;
+    bottom:4px;
+
+    height:2px;
+
+    background:
+        rgba(255,255,255,.43);
+}
+
+.white.active{
+    background:
+        linear-gradient(
+            180deg,
+            #dfc078,
+            #b98b35
+        );
+}
+
+.black{
+    position:absolute;
+
+    top:0;
+
+    height:61%;
+
+    padding:0;
+
+    z-index:5;
+
+    cursor:pointer;
+
+    border:
+        1px solid #050505;
+
+    border-radius:
+        0 0 3px 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #050505 0%,
+            #252525 25%,
+            #383838 52%,
+            #090909 100%
+        );
+
+    box-shadow:
+        0 4px 5px rgba(0,0,0,.58),
+        inset 0 1px 1px rgba(255,255,255,.09);
+}
+
+.black.active{
+    background:
+        linear-gradient(
+            90deg,
+            #3c2a0a,
+            #b08430,
+            #342205
+        );
+}
+
+/* =========================================================
+   PISTONS
+========================================================= */
+
+.piston-board{
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:5px;
+
+    margin:
+        5px 5px 9px;
+
+    padding:6px;
+
+    border:
+        1px solid #513824;
+
+    border-radius:5px;
+
+    background:#190f0a;
+}
+
+.piston{
+    width:32px;
+    height:21px;
+
+    cursor:pointer;
+
+    border:
+        1px solid #81725d;
+
+    border-radius:12px;
+
+    color:#261a10;
+
+    font-size:8px;
+
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            #f0e5d2,
+            #a9977f
+        );
+
+    box-shadow:
+        0 2px 3px #000;
+}
+
+.piston.cancel{
+    color:#fff;
+
+    background:
+        linear-gradient(
+            #bc7669,
+            #773429
+        );
+}
+
+/* =========================================================
+   PEDALS
+========================================================= */
+
+.pedal-section{
+    margin-top:11px;
+
+    padding:10px;
+
+    border:
+        1px solid #59402c;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1b100a,
+            #0d0805
+        );
+}
+
+.pedal-label{
+    margin-bottom:7px;
+
+    text-align:center;
+
+    color:#cbb493;
+
+    font-size:9px;
+
+    letter-spacing:.2em;
+}
+
+.pedalboard{
+    position:relative;
+
+    height:118px;
+
+    overflow:hidden;
+
+    border-radius:6px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #080605,
+            #110b08
+        );
+
+    box-shadow:
+        inset 0 5px 8px #000;
+}
+
+/* naturals */
+
+.pedal-natural{
+    position:absolute;
+
+    bottom:5px;
+
+    height:88px;
+
+    cursor:pointer;
+
+    border:
+        1px solid #26170f;
+
+    border-radius:
+        1px 1px 5px 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #50341f,
+            #8a6342 32%,
+            #67462c 68%,
+            #352116
+        );
+
+    box-shadow:
+        inset 1px 0 rgba(255,255,255,.06),
+        0 3px 4px #000;
+}
+
+/* sharps */
+
+.pedal-sharp{
+    position:absolute;
+
+    bottom:45px;
+
+    height:65px;
+
+    z-index:4;
+
+    cursor:pointer;
+
+    border:
+        1px solid #090706;
+
+    border-radius:
+        2px 2px 4px 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #1c1713,
+            #443327,
+            #16110e
+        );
+
+    box-shadow:
+        0 3px 5px #000;
+}
+
+.pedal-natural.active,
+.pedal-sharp.active{
+    background:
+        linear-gradient(
+            180deg,
+            #c29248,
+            #714719
+        );
+}
+
+/* =========================================================
+   EXPRESSION SHOES
+========================================================= */
+
+.shoe-panel{
+    display:flex;
+
+    justify-content:center;
+    align-items:flex-end;
+
+    flex-wrap:wrap;
+
+    gap:17px;
+
+    margin-top:11px;
+}
+
+.shoe-unit{
+    text-align:center;
+
+    color:#c6b095;
+
+    font-size:8px;
+
+    letter-spacing:.11em;
+}
+
+.shoe{
+    width:92px;
+    height:53px;
+
+    margin-top:5px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    transform:
+        perspective(120px)
+        rotateX(-12deg);
+
+    border:
+        2px solid #735339;
+
+    border-radius:5px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #33241b,
+            #33241b 6px,
+            #211710 7px,
+            #211710 9px
+        );
+
+    box-shadow:
+        0 5px 5px rgba(0,0,0,.5);
+}
+
+.shoe input{
+    width:70px;
+
+    accent-color:#bc9650;
+}
+
+/* =========================================================
+   REGISTRATION
+========================================================= */
+
+.registration{
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+    margin-top:12px;
+}
+
+.registration button{
+    padding:
+        7px 10px;
+
+    cursor:pointer;
+
+    border:
+        1px solid #806349;
+
+    border-radius:5px;
+
+    color:#271b12;
+
+    font-size:10px;
+
+    background:
+        linear-gradient(
+            #d9c6a8,
+            #9e8768
+        );
+
+    box-shadow:
+        0 3px 4px rgba(0,0,0,.3);
+}
+
+/* =========================================================
+   MIDI PLAYER
+========================================================= */
+
+.player{
+    margin-top:15px;
+
+    padding:13px;
+
+    border:
+        1px solid #654831;
+
+    border-radius:10px;
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(216,172,92,.08),
+            transparent 47%
+        ),
+        linear-gradient(
+            180deg,
+            #291a11,
+            #120c08
+        );
+}
+
+.player-title{
+    text-align:center;
+
+    color:#ddc396;
+
+    font-size:10px;
+
+    letter-spacing:.23em;
+
+    margin-bottom:10px;
+}
+
+.player-controls{
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:7px;
+}
+
+.player button,
+.file-button,
+.player select{
+    min-height:38px;
+
+    padding:
+        7px 11px;
+
+    border:
+        1px solid #806448;
+
+    border-radius:6px;
+
+    color:#25190f;
+
+    background:
+        linear-gradient(
+            #e0ccb0,
+            #a48a68
+        );
+
+    font:
+        10px Georgia,
+        serif;
+}
+
+.player button,
+.file-button{
+    cursor:pointer;
+}
+
+.file-button input{
+    display:none;
+}
+
+.player button:hover,
+.file-button:hover{
+    filter:brightness(1.08);
+}
+
+.performance-info{
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-top:11px;
+
+    color:#bfae99;
+
+    font:
+        10px Arial,
+        sans-serif;
+}
+
+.track{
+    height:7px;
+
+    margin-top:6px;
+
+    overflow:hidden;
+
+    border:
+        1px solid #3c2c22;
+
+    border-radius:8px;
+
+    background:#070504;
+}
+
+#progress{
+    width:0%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #8f692e,
+            #e1c271
+        );
+}
+
+/* =========================================================
+   MIDI TRACK ROUTING
+========================================================= */
+
+.routing{
+    display:none;
+
+    margin-top:13px;
+
+    padding:10px;
+
+    border:
+        1px solid #4a3527;
+
+    border-radius:8px;
+
+    background:#0e0907;
+}
+
+.routing.show{
+    display:block;
+}
+
+.routing-title{
+    margin-bottom:8px;
+
+    text-align:center;
+
+    color:#c7ad81;
+
+    font:
+        9px Arial,sans-serif;
+
+    letter-spacing:.16em;
+}
+
+.routing-row{
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        130px;
+
+    gap:8px;
+
+    align-items:center;
+
+    margin:6px 0;
+
+    color:#baa995;
+
+    font:
+        10px Arial,sans-serif;
+}
+
+.routing-row select{
+    min-height:32px;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+    width:min(1280px,100%);
+
+    min-height:42px;
+
+    margin:
+        13px auto 0;
+
+    padding:
+        10px 12px;
+
+    border:
+        1px solid #403028;
+
+    border-radius:7px;
+
+    color:#d2b77c;
+
+    background:
+        rgba(8,6,5,.92);
+
+    font:
+        11px/1.4
+        Consolas,
+        monospace;
+}
+
+.instructions{
+    margin-top:7px;
+
+    text-align:center;
+
+    color:#97897d;
+
+    font:
+        11px/1.5
+        Arial,
+        sans-serif;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1050px){
+
+    .console-body{
+        grid-template-columns:1fr;
+    }
+
+    .manual-console{
+        order:1;
+    }
+
+    .stop-jamb{
+        order:2;
+
+        min-height:0;
+    }
+
+    .stop-grid{
+        grid-template-columns:
+            repeat(
+                5,
+                minmax(52px,1fr)
+            );
+    }
+
+    .pipe-tower{
+        height:245px;
+    }
+
+    .pipe-tower.medium{
+        height:280px;
+    }
+
+    .pipe-tower.large{
+        height:320px;
+    }
+}
+
+@media(max-width:650px){
+
+    .stage{
+        width:100%;
+
+        padding-inline:5px;
+    }
+
+    .organ-case{
+        padding:
+            12px 7px;
+    }
+
+    .pipe-facade{
+        gap:3px;
+
+        padding-inline:2px;
+    }
+
+    .pipe-tower{
+        height:145px;
+
+        padding-inline:3px;
+    }
+
+    .pipe-tower.medium{
+        height:170px;
+    }
+
+    .pipe-tower.large{
+        height:195px;
+    }
+
+    .pipe{
+        width:7px;
+    }
+
+    .console{
+        padding:
+            10px 7px 14px;
+    }
+
+    .keyboard{
+        height:65px;
+    }
+
+    .stop-grid{
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(50px,1fr)
+            );
+    }
+
+    .routing-row{
+        grid-template-columns:1fr;
+    }
+
+    .performance-info{
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+
+<header class="heading">
+
+<h1>
+THE GRAND CATHEDRAL ORGAN
+</h1>
+
+<p>
+61-note manuals · 32-note pedal · MIDI performance system
+</p>
+
+</header>
+
+
+<div class="organ-case">
+
+<div class="cornice"></div>
+
+
+<!-- =====================================================
+     PIPE FACADE
+====================================================== -->
+
+<div class="pipe-facade">
+
+
+<div class="pipe-tower">
+
+<div class="pipe" style="height:46%"></div>
+<div class="pipe" style="height:58%"></div>
+<div class="pipe" style="height:72%"></div>
+<div class="pipe" style="height:87%"></div>
+<div class="pipe" style="height:100%"></div>
+<div class="pipe" style="height:87%"></div>
+<div class="pipe" style="height:72%"></div>
+<div class="pipe" style="height:58%"></div>
+
+</div>
+
+
+<div class="pipe-tower medium">
+
+<div class="pipe" style="height:43%"></div>
+<div class="pipe" style="height:53%"></div>
+<div class="pipe" style="height:64%"></div>
+<div class="pipe" style="height:76%"></div>
+<div class="pipe" style="height:88%"></div>
+<div class="pipe" style="height:100%"></div>
+<div class="pipe" style="height:88%"></div>
+<div class="pipe" style="height:76%"></div>
+<div class="pipe" style="height:64%"></div>
+<div class="pipe" style="height:53%"></div>
+
+</div>
+
+
+<div class="pipe-tower large">
+
+<div class="pipe" style="height:37%"></div>
+<div class="pipe" style="height:45%"></div>
+<div class="pipe" style="height:54%"></div>
+<div class="pipe" style="height:64%"></div>
+<div class="pipe" style="height:74%"></div>
+<div class="pipe" style="height:86%"></div>
+<div class="pipe" style="height:100%"></div>
+<div class="pipe" style="height:86%"></div>
+<div class="pipe" style="height:74%"></div>
+<div class="pipe" style="height:64%"></div>
+<div class="pipe" style="height:54%"></div>
+<div class="pipe" style="height:45%"></div>
+<div class="pipe" style="height:37%"></div>
+
+</div>
+
+
+<div class="pipe-tower medium">
+
+<div class="pipe" style="height:53%"></div>
+<div class="pipe" style="height:64%"></div>
+<div class="pipe" style="height:76%"></div>
+<div class="pipe" style="height:88%"></div>
+<div class="pipe" style="height:100%"></div>
+<div class="pipe" style="height:88%"></div>
+<div class="pipe" style="height:76%"></div>
+<div class="pipe" style="height:64%"></div>
+<div class="pipe" style="height:53%"></div>
+
+</div>
+
+
+<div class="pipe-tower">
+
+<div class="pipe" style="height:46%"></div>
+<div class="pipe" style="height:58%"></div>
+<div class="pipe" style="height:72%"></div>
+<div class="pipe" style="height:87%"></div>
+<div class="pipe" style="height:100%"></div>
+<div class="pipe" style="height:87%"></div>
+<div class="pipe" style="height:72%"></div>
+<div class="pipe" style="height:58%"></div>
+
+</div>
+
+
+</div>
+
+<div class="facade-rail"></div>
+
+
+<!-- =====================================================
+     CONSOLE
+====================================================== -->
+
+<section class="console">
+
+<div class="console-nameboard">
+
+<span>
+CATHEDRAL GRAND ORGAN
+</span>
+
+</div>
+
+
+<div class="console-body">
+
+
+<!-- =====================================================
+     LEFT STOP JAMB
+====================================================== -->
+
+<aside class="stop-jamb">
+
+<h3>
+GREAT · PEDAL
+</h3>
+
+
+<div class="stop-grid">
+
+
+<button
+class="stop on"
+data-stop="principal8"
+>
+Open<br>
+Diapason<br>
+8′
+</button>
+
+
+<button
+class="stop"
+data-stop="octave4"
+>
+Principal<br>
+4′
+</button>
+
+
+<button
+class="stop"
+data-stop="super2"
+>
+Fifteenth<br>
+2′
+</button>
+
+
+<button
+class="stop"
+data-stop="bourdon16"
+>
+Bourdon<br>
+16′
+</button>
+
+
+<button
+class="stop"
+data-stop="flute8"
+>
+Harmonic<br>
+Flute 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="mixture"
+>
+Fourniture<br>
+IV
+</button>
+
+
+<button
+class="stop"
+data-stop="trumpet8"
+>
+Trumpet<br>
+8′
+</button>
+
+
+<button
+class="stop"
+data-stop="subbass16"
+>
+Subbass<br>
+16′
+</button>
+
+
+<button
+class="stop"
+data-stop="bass8"
+>
+Octave<br>
+Bass 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="posaune16"
+>
+Posaune<br>
+16′
+</button>
+
+
+</div>
+
+</aside>
+
+
+<!-- =====================================================
+     CENTER
+====================================================== -->
+
+<main class="manual-console">
+
+
+<div class="manual">
+
+<div class="manual-label">
+SOLO · MANUAL III · C–C · 61 NOTES
+</div>
+
+<div
+class="keyboard"
+data-manual="solo"
+></div>
+
+</div>
+
+
+<div class="manual">
+
+<div class="manual-label">
+SWELL · MANUAL II · C–C · 61 NOTES
+</div>
+
+<div
+class="keyboard"
+data-manual="swell"
+></div>
+
+</div>
+
+
+<div class="manual">
+
+<div class="manual-label">
+GREAT · MANUAL I · C–C · 61 NOTES
+</div>
+
+<div
+class="keyboard"
+data-manual="great"
+></div>
+
+</div>
+
+
+<!-- PISTONS -->
+
+<div class="piston-board">
+
+<button
+class="piston"
+data-preset="soft"
+>
+1
+</button>
+
+<button
+class="piston"
+data-preset="foundation"
+>
+2
+</button>
+
+<button
+class="piston"
+data-preset="reeds"
+>
+3
+</button>
+
+<button
+class="piston"
+data-preset="full"
+>
+4
+</button>
+
+<button
+class="piston cancel"
+id="cancelStops"
+>
+0
+</button>
+
+</div>
+
+
+<!-- PEDAL -->
+
+<div class="pedal-section">
+
+<div class="pedal-label">
+32-NOTE PEDALBOARD · C–G
+</div>
+
+<div
+class="pedalboard"
+id="pedalboard"
+></div>
+
+
+<div class="shoe-panel">
+
+
+<div class="shoe-unit">
+
+SWELL
+
+<div class="shoe">
+
+<input
+id="swellExp"
+type="range"
+min=".08"
+max=".9"
+step=".01"
+value=".48"
+>
+
+</div>
+
+</div>
+
+
+<div class="shoe-unit">
+
+SOLO
+
+<div class="shoe">
+
+<input
+id="soloExp"
+type="range"
+min=".08"
+max=".9"
+step=".01"
+value=".53"
+>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- REGISTRATIONS -->
+
+<div class="registration">
+
+<button data-preset="soft">
+SOFT
+</button>
+
+<button data-preset="foundation">
+FOUNDATION
+</button>
+
+<button data-preset="reeds">
+REEDS
+</button>
+
+<button data-preset="full">
+FULL ORGAN
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     REAL MIDI PLAYER
+====================================================== -->
+
+<div class="player">
+
+<div class="player-title">
+AUTOMATIC ORGAN PERFORMANCE
+</div>
+
+
+<div class="player-controls">
+
+<label class="file-button">
+
+LOAD FULL MIDI
+
+<input
+id="midiFile"
+type="file"
+accept=".mid,.midi,audio/midi,audio/x-midi"
+>
+
+</label>
+
+
+<button
+id="playButton"
+type="button"
+>
+▶ PLAY
+</button>
+
+
+<button
+id="pauseButton"
+type="button"
+>
+❚❚ PAUSE
+</button>
+
+
+<button
+id="stopButton"
+type="button"
+>
+■ STOP
+</button>
+
+
+<select id="speed">
+
+<option value=".5">
+50% Tempo
+</option>
+
+<option value=".75">
+75% Tempo
+</option>
+
+<option
+value="1"
+selected
+>
+100% Tempo
+</option>
+
+<option value="1.25">
+125% Tempo
+</option>
+
+<option value="1.5">
+150% Tempo
+</option>
+
+</select>
+
+
+</div>
+
+
+<div class="performance-info">
+
+<span id="pieceName">
+Load a complete MIDI transcription
+</span>
+
+<span id="time">
+0:00 / 0:00
+</span>
+
+</div>
+
+
+<div class="track">
+
+<div id="progress"></div>
+
+</div>
+
+
+<!-- TRACK ROUTING -->
+
+<div
+class="routing"
+id="routing"
+>
+
+<div class="routing-title">
+MIDI TRACK → ORGAN DIVISION
+</div>
+
+<div id="routingRows"></div>
+
+</div>
+
+
+</div>
+
+
+</main>
+
+
+<!-- =====================================================
+     RIGHT STOPS
+====================================================== -->
+
+<aside class="stop-jamb">
+
+<h3>
+SWELL · SOLO
+</h3>
+
+
+<div class="stop-grid">
+
+
+<button
+class="stop"
+data-stop="gedeckt8"
+>
+Stopped<br>
+Diapason 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="flute4"
+>
+Rohrflöte<br>
+4′
+</button>
+
+
+<button
+class="stop"
+data-stop="string8"
+>
+Viola da<br>
+Gamba 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="celeste8"
+>
+Voix<br>
+Céleste 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="oboe8"
+>
+Oboe<br>
+8′
+</button>
+
+
+<button
+class="stop"
+data-stop="clarion4"
+>
+Clarion<br>
+4′
+</button>
+
+
+<button
+class="stop"
+data-stop="horn8"
+>
+French<br>
+Horn 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="tuba8"
+>
+Tuba<br>
+Mirabilis 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="soloFlute8"
+>
+Concert<br>
+Flute 8′
+</button>
+
+
+<button
+class="stop"
+data-stop="vox8"
+>
+Vox<br>
+Humana 8′
+</button>
+
+
+</div>
+
+</aside>
+
+
+</div>
+
+</section>
+
+</div>
+
+
+<div
+class="status"
+id="status"
+>
+Open Diapason 8′ drawn. Play manually or load a complete MIDI performance.
+</div>
+
+
+<div class="instructions">
+
+Manual keyboard:
+A S D F G H J K L ;
+&nbsp; · &nbsp;
+sharps:
+W E T Y U O P
+&nbsp; · &nbsp;
+For full Bach/Wagner performances use the original MIDI transcription.
+
+</div>
+
+</div>
+
+
+<script>
+
+(() => {
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const MANUAL_LOW = 36;    // C2
+const MANUAL_HIGH = 96;   // C7
+
+const PEDAL_LOW = 36;     // C2
+const PEDAL_HIGH = 67;    // G4
+
+const AudioCtx =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+
+/* =========================================================
+   AUDIO STATE
+========================================================= */
+
+let ctx = null;
+
+let masterGain = null;
+let dryGain = null;
+let reverbGain = null;
+let convolver = null;
+
+const activeNotes =
+    new Map();
+
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+
+/* =========================================================
+   ORGAN STOP STATE
+========================================================= */
+
+const stopState = {
+
+    principal8:true,
+
+    octave4:false,
+    super2:false,
+    bourdon16:false,
+    flute8:false,
+    mixture:false,
+    trumpet8:false,
+
+    subbass16:false,
+    bass8:false,
+    posaune16:false,
+
+    gedeckt8:false,
+    flute4:false,
+    string8:false,
+    celeste8:false,
+    oboe8:false,
+    clarion4:false,
+
+    horn8:false,
+    tuba8:false,
+    soloFlute8:false,
+    vox8:false
+
+};
+
+
+const divisionStops = {
+
+    great:[
+        "principal8",
+        "octave4",
+        "super2",
+        "bourdon16",
+        "flute8",
+        "mixture",
+        "trumpet8"
+    ],
+
+    swell:[
+        "gedeckt8",
+        "flute4",
+        "string8",
+        "celeste8",
+        "oboe8",
+        "clarion4"
+    ],
+
+    solo:[
+        "horn8",
+        "tuba8",
+        "soloFlute8",
+        "vox8"
+    ],
+
+    pedal:[
+        "subbass16",
+        "bass8",
+        "posaune16"
+    ]
+
+};
+
+
+/* =========================================================
+   PIPE SYNTHESIS
+========================================================= */
+
+const stopRecipes = {
+
+    principal8:{
+        attack:.028,
+        cutoff:5300,
+
+        harmonics:[
+            [1,.72],
+            [2,.27],
+            [3,.14],
+            [4,.075],
+            [5,.043],
+            [6,.025]
+        ]
+    },
+
+
+    octave4:{
+        attack:.023,
+        cutoff:6100,
+
+        harmonics:[
+            [2,.62],
+            [4,.20],
+            [6,.09],
+            [8,.04]
+        ]
+    },
+
+
+    super2:{
+        attack:.018,
+        cutoff:6900,
+
+        harmonics:[
+            [4,.53],
+            [8,.14],
+            [12,.05]
+        ]
+    },
+
+
+    bourdon16:{
+        attack:.052,
+        cutoff:2500,
+
+        harmonics:[
+            [.5,.88],
+            [1,.17],
+            [1.5,.055],
+            [2,.025]
+        ]
+    },
+
+
+    flute8:{
+        attack:.04,
+        cutoff:3600,
+
+        harmonics:[
+            [1,.76],
+            [2,.085],
+            [3,.032],
+            [4,.014]
+        ]
+    },
+
+
+    mixture:{
+        attack:.017,
+        cutoff:7600,
+
+        harmonics:[
+            [2,.19],
+            [2.67,.16],
+            [4,.14],
+            [5.33,.105],
+            [8,.05]
+        ]
+    },
+
+
+    trumpet8:{
+        attack:.02,
+        cutoff:6800,
+
+        harmonics:[
+            [1,.31],
+            [2,.21],
+            [3,.145],
+            [4,.095],
+            [5,.056],
+            [6,.034]
+        ],
+
+        reed:true
+    },
+
+
+    subbass16:{
+        attack:.06,
+        cutoff:2100,
+
+        harmonics:[
+            [.5,.97],
+            [1,.15],
+            [1.5,.04]
+        ]
+    },
+
+
+    bass8:{
+        attack:.042,
+        cutoff:3000,
+
+        harmonics:[
+            [1,.76],
+            [2,.11],
+            [3,.03]
+        ]
+    },
+
+
+    posaune16:{
+        attack:.027,
+        cutoff:5600,
+
+        harmonics:[
+            [.5,.43],
+            [1,.27],
+            [1.5,.14],
+            [2,.09],
+            [3,.05]
+        ],
+
+        reed:true
+    },
+
+
+    gedeckt8:{
+        attack:.048,
+        cutoff:2700,
+
+        harmonics:[
+            [1,.77],
+            [2,.06],
+            [3,.018]
+        ]
+    },
+
+
+    flute4:{
+        attack:.035,
+        cutoff:4100,
+
+        harmonics:[
+            [2,.68],
+            [4,.07],
+            [6,.023]
+        ]
+    },
+
+
+    string8:{
+        attack:.042,
+        cutoff:5200,
+
+        harmonics:[
+            [1,.35],
+            [2,.22],
+            [3,.145],
+            [4,.085],
+            [5,.043]
+        ]
+    },
+
+
+    celeste8:{
+        attack:.052,
+        cutoff:4400,
+
+        harmonics:[
+            [1,.31],
+            [2,.13],
+            [3,.055]
+        ],
+
+        celeste:true
+    },
+
+
+    oboe8:{
+        attack:.032,
+        cutoff:5600,
+
+        harmonics:[
+            [1,.35],
+            [2,.20],
+            [3,.115],
+            [4,.057],
+            [5,.026]
+        ],
+
+        reed:true
+    },
+
+
+    clarion4:{
+        attack:.023,
+        cutoff:7000,
+
+        harmonics:[
+            [2,.33],
+            [4,.19],
+            [6,.09],
+            [8,.04]
+        ],
+
+        reed:true
+    },
+
+
+    horn8:{
+        attack:.058,
+        cutoff:3900,
+
+        harmonics:[
+            [1,.47],
+            [2,.18],
+            [3,.08],
+            [4,.034]
+        ]
+    },
+
+
+    tuba8:{
+        attack:.018,
+        cutoff:7000,
+
+        harmonics:[
+            [1,.37],
+            [2,.26],
+            [3,.18],
+            [4,.115],
+            [5,.075],
+            [6,.045]
+        ],
+
+        reed:true
+    },
+
+
+    soloFlute8:{
+        attack:.043,
+        cutoff:3700,
+
+        harmonics:[
+            [1,.79],
+            [2,.068],
+            [3,.022]
+        ]
+    },
+
+
+    vox8:{
+        attack:.052,
+        cutoff:4800,
+
+        harmonics:[
+            [1,.33],
+            [1.5,.10],
+            [2,.15],
+            [3,.076],
+            [4,.034]
+        ],
+
+        reed:true
+    }
+
+};
+
+
+/* =========================================================
+   MUSIC HELPERS
+========================================================= */
+
+function midiFrequency(midi){
+
+    return 440 *
+        Math.pow(
+            2,
+            (midi - 69) / 12
+        );
+}
+
+
+function pitchClass(midi){
+
+    return midi % 12;
+}
+
+
+function isBlackKey(midi){
+
+    const pc =
+        pitchClass(midi);
+
+    return (
+        pc === 1 ||
+        pc === 3 ||
+        pc === 6 ||
+        pc === 8 ||
+        pc === 10
+    );
+}
+
+
+function noteName(midi){
+
+    const names = [
+        "C",
+        "C♯",
+        "D",
+        "D♯",
+        "E",
+        "F",
+        "F♯",
+        "G",
+        "G♯",
+        "A",
+        "A♯",
+        "B"
+    ];
+
+    const octave =
+        Math.floor(
+            midi / 12
+        ) - 1;
+
+    return (
+        names[
+            midi % 12
+        ]
+        +
+        octave
+    );
+}
+
+
+/* =========================================================
+   REVERB
+========================================================= */
+
+function makeImpulse(
+    audioContext,
+    seconds = 5.2,
+    decay = 3.15
+){
+
+    const length =
+        Math.floor(
+            audioContext.sampleRate *
+            seconds
+        );
+
+
+    const buffer =
+        audioContext.createBuffer(
+            2,
+            length,
+            audioContext.sampleRate
+        );
+
+
+    for(
+        let channel = 0;
+        channel < 2;
+        channel++
+    ){
+
+        const data =
+            buffer.getChannelData(
+                channel
+            );
+
+
+        for(
+            let i = 0;
+            i < length;
+            i++
+        ){
+
+            const progress =
+                i / length;
+
+
+            const diffuse =
+                (
+                    Math.random()*2
+                    -
+                    1
+                )
+                *
+                Math.pow(
+                    1-progress,
+                    decay
+                );
+
+
+            let early =
+                0;
+
+
+            if(
+                i <
+                audioContext.sampleRate *
+                .14
+            ){
+
+                early =
+                    Math.sin(
+                        i * .014
+                    )
+                    *
+                    .08
+                    *
+                    Math.pow(
+                        1-progress,
+                        7
+                    );
+            }
+
+
+            data[i] =
+                diffuse +
+                early;
+        }
+    }
+
+
+    return buffer;
+}
+
+
+/* =========================================================
+   AUDIO INIT
+========================================================= */
+
+function ensureAudio(){
+
+    if(!ctx){
+
+        ctx =
+            new AudioCtx();
+
+
+        masterGain =
+            ctx.createGain();
+
+
+        dryGain =
+            ctx.createGain();
+
+
+        reverbGain =
+            ctx.createGain();
+
+
+        convolver =
+            ctx.createConvolver();
+
+
+        masterGain.gain.value =
+            .75;
+
+
+        dryGain.gain.value =
+            .84;
+
+
+        reverbGain.gain.value =
+            .31;
+
+
+        convolver.buffer =
+            makeImpulse(
+                ctx
+            );
+
+
+        dryGain.connect(
+            masterGain
+        );
+
+
+        convolver.connect(
+            reverbGain
+        );
+
+
+        reverbGain.connect(
+            masterGain
+        );
+
+
+        masterGain.connect(
+            ctx.destination
+        );
+    }
+
+
+    if(
+        ctx.state ===
+        "suspended"
+    ){
+
+        ctx.resume();
+    }
+}
+
+
+/* =========================================================
+   PIPE SPEECH / CHIFF
+========================================================= */
+
+function addPipeChiff(
+    destination,
+    frequency,
+    amount=.012
+){
+
+    const size =
+        Math.floor(
+            ctx.sampleRate *
+            .045
+        );
+
+
+    const buffer =
+        ctx.createBuffer(
+            1,
+            size,
+            ctx.sampleRate
+        );
+
+
+    const data =
+        buffer.getChannelData(0);
+
+
+    for(
+        let i=0;
+        i<size;
+        i++
+    ){
+
+        data[i] =
+            (
+                Math.random()*2-1
+            )
+            *
+            (
+                1-i/size
+            );
+    }
+
+
+    const source =
+        ctx.createBufferSource();
+
+
+    const filter =
+        ctx.createBiquadFilter();
+
+
+    const gain =
+        ctx.createGain();
+
+
+    source.buffer =
+        buffer;
+
+
+    filter.type =
+        "bandpass";
+
+
+    filter.frequency.value =
+        Math.min(
+            2600,
+            Math.max(
+                700,
+                frequency * 4
+            )
+        );
+
+
+    filter.Q.value =
+        .75;
+
+
+    gain.gain.setValueAtTime(
+        .0001,
+        ctx.currentTime
+    );
+
+
+    gain.gain.linearRampToValueAtTime(
+        amount,
+        ctx.currentTime + .007
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        ctx.currentTime + .045
+    );
+
+
+    source.connect(
+        filter
+    );
+
+
+    filter.connect(
+        gain
+    );
+
+
+    gain.connect(
+        destination
+    );
+
+
+    source.start();
+
+
+    source.stop(
+        ctx.currentTime + .055
+    );
+}
+
+
+/* =========================================================
+   ORGAN NOTE ENGINE
+========================================================= */
+
+function selectedStops(
+    division
+){
+
+    return (
+        divisionStops[division]
+        ||
+        []
+    )
+    .filter(
+        stop =>
+            stopState[stop]
+    );
+}
+
+
+function divisionExpression(
+    division
+){
+
+    if(
+        division ===
+        "swell"
+    ){
+
+        return Number(
+            document
+            .getElementById(
+                "swellExp"
+            )
+            .value
+        );
+    }
+
+
+    if(
+        division ===
+        "solo"
+    ){
+
+        return Number(
+            document
+            .getElementById(
+                "soloExp"
+            )
+            .value
+        );
+    }
+
+
+    if(
+        division ===
+        "pedal"
+    ){
+
+        return .57;
+    }
+
+
+    return .44;
+}
+
+
+function visualKey(
+    division,
+    midi
+){
+
+    if(
+        division ===
+        "pedal"
+    ){
+
+        return document.querySelector(
+            `#pedalboard [data-midi="${midi}"]`
+        );
+    }
+
+
+    return document.querySelector(
+        `.keyboard[data-manual="${division}"] [data-midi="${midi}"]`
+    );
+}
+
+
+function startNote(
+    midi,
+    division,
+    element=null,
+    velocity=100
+){
+
+    ensureAudio();
+
+
+    if(
+        division !== "pedal"
+        &&
+        (
+            midi < MANUAL_LOW ||
+            midi > MANUAL_HIGH
+        )
+    ){
+
+        return;
+    }
+
+
+    if(
+        division === "pedal"
+        &&
+        (
+            midi < PEDAL_LOW ||
+            midi > PEDAL_HIGH
+        )
+    ){
+
+        return;
+    }
+
+
+    const id =
+        division +
+        ":" +
+        midi;
+
+
+    if(
+        activeNotes.has(id)
+    ){
+
+        return;
+    }
+
+
+    const stops =
+        selectedStops(
+            division
+        );
+
+
+    if(
+        !stops.length
+    ){
+
+        return;
+    }
+
+
+    const noteGain =
+        ctx.createGain();
+
+
+    const filter =
+        ctx.createBiquadFilter();
+
+
+    filter.type =
+        "lowpass";
+
+
+    let cutoff =
+        0;
+
+
+    stops.forEach(
+        stop => {
+
+            cutoff +=
+                stopRecipes[
+                    stop
+                ].cutoff;
+        }
+    );
+
+
+    cutoff /=
+        stops.length;
+
+
+    filter.frequency.value =
+        cutoff;
+
+
+    filter.Q.value =
+        .34;
+
+
+    const velocityScale =
+        Math.max(
+            .25,
+            velocity / 127
+        );
+
+
+    const level =
+        (
+            divisionExpression(
+                division
+            )
+            *
+            velocityScale
+        )
+        /
+        Math.max(
+            2.2,
+            stops.length * 1.75
+        );
+
+
+    const attack =
+        Math.min(
+            ...stops.map(
+                stop =>
+                    stopRecipes[
+                        stop
+                    ].attack
+            )
+        );
+
+
+    noteGain.gain.setValueAtTime(
+        .0001,
+        ctx.currentTime
+    );
+
+
+    noteGain.gain.linearRampToValueAtTime(
+        level,
+        ctx.currentTime + attack
+    );
+
+
+    noteGain.connect(
+        filter
+    );
+
+
+    filter.connect(
+        dryGain
+    );
+
+
+    filter.connect(
+        convolver
+    );
+
+
+    const fundamental =
+        midiFrequency(
+            midi
+        );
+
+
+    const oscillators =
+        [];
+
+
+    stops.forEach(
+        stopName => {
+
+            const recipe =
+                stopRecipes[
+                    stopName
+                ];
+
+
+            addPipeChiff(
+                noteGain,
+                fundamental,
+                recipe.reed
+                    ? .008
+                    : .012
+            );
+
+
+            recipe.harmonics
+            .forEach(
+                partial => {
+
+                    const multiplier =
+                        partial[0];
+
+
+                    const amplitude =
+                        partial[1];
+
+
+                    const oscillator =
+                        ctx.createOscillator();
+
+
+                    const harmonicGain =
+                        ctx.createGain();
+
+
+                    oscillator.type =
+                        recipe.reed
+                        ?
+                        "sawtooth"
+                        :
+                        "sine";
+
+
+                    oscillator.frequency.value =
+                        fundamental *
+                        multiplier;
+
+
+                    oscillator.detune.value =
+                        (
+                            Math.random()*2.4
+                        )
+                        -
+                        1.2;
+
+
+                    harmonicGain.gain.value =
+                        amplitude;
+
+
+                    oscillator.connect(
+                        harmonicGain
+                    );
+
+
+                    harmonicGain.connect(
+                        noteGain
+                    );
+
+
+                    oscillator.start();
+
+
+                    oscillators.push(
+                        oscillator
+                    );
+
+
+                    if(
+                        recipe.celeste
+                    ){
+
+                        const partner =
+                            ctx.createOscillator();
+
+
+                        const partnerGain =
+                            ctx.createGain();
+
+
+                        partner.type =
+                            "sine";
+
+
+                        partner.frequency.value =
+                            fundamental *
+                            multiplier;
+
+
+                        partner.detune.value =
+                            7;
+
+
+                        partnerGain.gain.value =
+                            amplitude *
+                            .65;
+
+
+                        partner.connect(
+                            partnerGain
+                        );
+
+
+                        partnerGain.connect(
+                            noteGain
+                        );
+
+
+                        partner.start();
+
+
+                        oscillators.push(
+                            partner
+                        );
+                    }
+                }
+            );
+        }
+    );
+
+
+    const visibleElement =
+        element ||
+        visualKey(
+            division,
+            midi
+        );
+
+
+    if(
+        visibleElement
+    ){
+
+        visibleElement
+        .classList
+        .add(
+            "active"
+        );
+    }
+
+
+    activeNotes.set(
+        id,
+        {
+            gain:
+                noteGain,
+
+            oscillators,
+
+            element:
+                visibleElement
+        }
+    );
+}
+
+
+function stopNote(
+    midi,
+    division
+){
+
+    const id =
+        division +
+        ":" +
+        midi;
+
+
+    const note =
+        activeNotes.get(
+            id
+        );
+
+
+    if(
+        !note ||
+        !ctx
+    ){
+
+        return;
+    }
+
+
+    const now =
+        ctx.currentTime;
+
+
+    note.gain.gain
+    .cancelScheduledValues(
+        now
+    );
+
+
+    note.gain.gain
+    .setValueAtTime(
+        Math.max(
+            .0001,
+            note.gain.gain.value
+        ),
+        now
+    );
+
+
+    note.gain.gain
+    .exponentialRampToValueAtTime(
+        .0001,
+        now + .24
+    );
+
+
+    note.oscillators
+    .forEach(
+        oscillator => {
+
+            try{
+
+                oscillator.stop(
+                    now + .27
+                );
+
+            }
+            catch(error){}
+        }
+    );
+
+
+    if(
+        note.element
+    ){
+
+        note.element
+        .classList
+        .remove(
+            "active"
+        );
+    }
+
+
+    activeNotes.delete(
+        id
+    );
+}
+
+
+/* =========================================================
+   BUILD REAL 61-NOTE MANUAL
+========================================================= */
+
+function buildManual(
+    keyboard,
+    division
+){
+
+    keyboard.innerHTML =
+        "";
+
+
+    const notes =
+        [];
+
+
+    for(
+        let midi =
+            MANUAL_LOW;
+        midi <=
+            MANUAL_HIGH;
+        midi++
+    ){
+
+        notes.push(
+            {
+                midi,
+                black:
+                    isBlackKey(
+                        midi
+                    )
+            }
+        );
+    }
+
+
+    const whites =
+        notes.filter(
+            note =>
+                !note.black
+        );
+
+
+    const whiteWidth =
+        100 /
+        whites.length;
+
+
+    /* WHITE KEYS */
+
+    notes.forEach(
+        note => {
+
+            if(
+                note.black
+            ){
+
+                return;
+            }
+
+
+            const key =
+                document
+                .createElement(
+                    "button"
+                );
+
+
+            key.type =
+                "button";
+
+
+            key.className =
+                "white";
+
+
+            key.dataset.midi =
+                note.midi;
+
+
+            key.setAttribute(
+                "aria-label",
+                division
+                +
+                " "
+                +
+                noteName(
+                    note.midi
+                )
+            );
+
+
+            keyboard.appendChild(
+                key
+            );
+        }
+    );
+
+
+    /* BLACK KEYS */
+
+    let whitesBefore =
+        0;
+
+
+    for(
+        let midi =
+            MANUAL_LOW;
+        midi <=
+            MANUAL_HIGH;
+        midi++
+    ){
+
+        if(
+            !isBlackKey(
+                midi
+            )
+        ){
+
+            whitesBefore++;
+            continue;
+        }
+
+
+        const key =
+            document
+            .createElement(
+                "button"
+            );
+
+
+        key.type =
+            "button";
+
+
+        key.className =
+            "black";
+
+
+        key.dataset.midi =
+            midi;
+
+
+        key.style.width =
+            (
+                whiteWidth *
+                .62
+            )
+            +
+            "%";
+
+
+        key.style.left =
+            (
+                whitesBefore *
+                whiteWidth
+                -
+                whiteWidth *
+                .31
+            )
+            +
+            "%";
+
+
+        key.setAttribute(
+            "aria-label",
+            division
+            +
+            " "
+            +
+            noteName(
+                midi
+            )
+        );
+
+
+        keyboard.appendChild(
+            key
+        );
+    }
+
+
+    keyboard
+    .querySelectorAll(
+        "button"
+    )
+    .forEach(
+        key => {
+
+            const midi =
+                Number(
+                    key.dataset.midi
+                );
+
+
+            key.addEventListener(
+                "pointerdown",
+                event => {
+
+                    event.preventDefault();
+
+
+                    key.setPointerCapture?.(
+                        event.pointerId
+                    );
+
+
+                    startNote(
+                        midi,
+                        division,
+                        key
+                    );
+                }
+            );
+
+
+            [
+                "pointerup",
+                "pointercancel",
+                "lostpointercapture"
+
+            ]
+            .forEach(
+                eventName => {
+
+                    key.addEventListener(
+                        eventName,
+                        () => {
+
+                            stopNote(
+                                midi,
+                                division
+                            );
+                        }
+                    );
+                }
+            );
+        }
+    );
+}
+
+
+document
+.querySelectorAll(
+    ".keyboard"
+)
+.forEach(
+    keyboard => {
+
+        buildManual(
+            keyboard,
+            keyboard.dataset.manual
+        );
+    }
+);
+
+
+/* =========================================================
+   BUILD 32-NOTE PEDALBOARD
+========================================================= */
+
+function buildPedalboard(){
+
+    const board =
+        document.getElementById(
+            "pedalboard"
+        );
+
+
+    board.innerHTML =
+        "";
+
+
+    const naturals =
+        [];
+
+
+    for(
+        let midi =
+            PEDAL_LOW;
+        midi <=
+            PEDAL_HIGH;
+        midi++
+    ){
+
+        if(
+            !isBlackKey(
+                midi
+            )
+        ){
+
+            naturals.push(
+                midi
+            );
+        }
+    }
+
+
+    const naturalWidth =
+        100 /
+        naturals.length;
+
+
+    /* NATURAL PEDALS */
+
+    naturals.forEach(
+        (midi,index) => {
+
+            const pedal =
+                document
+                .createElement(
+                    "button"
+                );
+
+
+            pedal.type =
+                "button";
+
+
+            pedal.className =
+                "pedal-natural";
+
+
+            pedal.dataset.midi =
+                midi;
+
+
+            pedal.style.left =
+                (
+                    index *
+                    naturalWidth
+                )
+                +
+                "%";
+
+
+            pedal.style.width =
+                (
+                    naturalWidth *
+                    .92
+                )
+                +
+                "%";
+
+
+            pedal.setAttribute(
+                "aria-label",
+                "Pedal "
+                +
+                noteName(
+                    midi
+                )
+            );
+
+
+            board.appendChild(
+                pedal
+            );
+        }
+    );
+
+
+    /* SHARP PEDALS */
+
+    let naturalCount =
+        0;
+
+
+    for(
+        let midi =
+            PEDAL_LOW;
+        midi <=
+            PEDAL_HIGH;
+        midi++
+    ){
+
+        if(
+            !isBlackKey(
+                midi
+            )
+        ){
+
+            naturalCount++;
+            continue;
+        }
+
+
+        const pedal =
+            document
+            .createElement(
+                "button"
+            );
+
+
+        pedal.type =
+            "button";
+
+
+        pedal.className =
+            "pedal-sharp";
+
+
+        pedal.dataset.midi =
+            midi;
+
+
+        pedal.style.left =
+            (
+                naturalCount *
+                naturalWidth
+                -
+                naturalWidth *
+                .28
+            )
+            +
+            "%";
+
+
+        pedal.style.width =
+            (
+                naturalWidth *
+                .56
+            )
+            +
+            "%";
+
+
+        pedal.setAttribute(
+            "aria-label",
+            "Pedal "
+            +
+            noteName(
+                midi
+            )
+        );
+
+
+        board.appendChild(
+            pedal
+        );
+    }
+
+
+    board
+    .querySelectorAll(
+        "button"
+    )
+    .forEach(
+        pedal => {
+
+            const midi =
+                Number(
+                    pedal.dataset.midi
+                );
+
+
+            pedal.addEventListener(
+                "pointerdown",
+                event => {
+
+                    event.preventDefault();
+
+
+                    pedal.setPointerCapture?.(
+                        event.pointerId
+                    );
+
+
+                    startNote(
+                        midi,
+                        "pedal",
+                        pedal
+                    );
+                }
+            );
+
+
+            [
+                "pointerup",
+                "pointercancel",
+                "lostpointercapture"
+
+            ]
+            .forEach(
+                eventName => {
+
+                    pedal.addEventListener(
+                        eventName,
+                        () => {
+
+                            stopNote(
+                                midi,
+                                "pedal"
+                            );
+                        }
+                    );
+                }
+            );
+        }
+    );
+}
+
+
+buildPedalboard();
+
+
+/* =========================================================
+   STOP BUTTONS
+========================================================= */
+
+document
+.querySelectorAll(
+    ".stop"
+)
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const stop =
+                    button.dataset.stop;
+
+
+                stopState[
+                    stop
+                ] =
+                    !stopState[
+                        stop
+                    ];
+
+
+                button
+                .classList
+                .toggle(
+                    "on",
+                    stopState[
+                        stop
+                    ]
+                );
+
+
+                status.textContent =
+                    button.textContent
+                    .replace(
+                        /\s+/g,
+                        " "
+                    )
+                    .trim()
+                    +
+                    (
+                        stopState[
+                            stop
+                        ]
+                        ?
+                        " drawn."
+                        :
+                        " retired."
+                    );
+            }
+        );
+    }
+);
+
+
+/* =========================================================
+   PRESETS
+========================================================= */
+
+const presets = {
+
+    soft:[
+        "bourdon16",
+        "gedeckt8",
+        "string8",
+        "celeste8",
+        "soloFlute8"
+    ],
+
+    foundation:[
+        "principal8",
+        "octave4",
+        "flute8",
+        "gedeckt8",
+        "subbass16",
+        "bass8"
+    ],
+
+    reeds:[
+        "trumpet8",
+        "oboe8",
+        "clarion4",
+        "horn8",
+        "tuba8",
+        "posaune16"
+    ],
+
+    full:
+        Object.keys(
+            stopState
+        )
+};
+
+
+function applyPreset(
+    name
+){
+
+    if(
+        !presets[name]
+    ){
+
+        return;
+    }
+
+
+    Object.keys(
+        stopState
+    )
+    .forEach(
+        stop => {
+
+            stopState[
+                stop
+            ] =
+                false;
+        }
+    );
+
+
+    presets[
+        name
+    ]
+    .forEach(
+        stop => {
+
+            stopState[
+                stop
+            ] =
+                true;
+        }
+    );
+
+
+    document
+    .querySelectorAll(
+        ".stop"
+    )
+    .forEach(
+        button => {
+
+            button
+            .classList
+            .toggle(
+                "on",
+                !!stopState[
+                    button.dataset.stop
+                ]
+            );
+        }
+    );
+
+
+    status.textContent =
+        name ===
+        "full"
+        ?
+        "FULL ORGAN registration selected."
+        :
+        name.toUpperCase()
+        +
+        " registration selected.";
+}
+
+
+document
+.querySelectorAll(
+    "[data-preset]"
+)
+.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                applyPreset(
+                    button.dataset.preset
+                );
+            }
+        );
+    }
+);
+
+
+document
+.getElementById(
+    "cancelStops"
+)
+.addEventListener(
+    "click",
+    () => {
+
+        Object.keys(
+            stopState
+        )
+        .forEach(
+            stop => {
+
+                stopState[
+                    stop
+                ] =
+                    false;
+            }
+        );
+
+
+        document
+        .querySelectorAll(
+            ".stop"
+        )
+        .forEach(
+            button => {
+
+                button
+                .classList
+                .remove(
+                    "on"
+                );
+            }
+        );
+
+
+        status.textContent =
+            "General Cancel — all stops retired.";
+    }
+);
+
+
+/* =========================================================
+   COMPUTER KEYBOARD
+========================================================= */
+
+const computerKeys = {
+
+    a:60,
+    s:62,
+    d:64,
+    f:65,
+    g:67,
+    h:69,
+    j:71,
+    k:72,
+    l:74,
+    ";":76,
+
+    w:61,
+    e:63,
+    t:66,
+    y:68,
+    u:70,
+    o:73,
+    p:75
+};
+
+
+const heldComputerKeys =
+    new Set();
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        const tag =
+            event.target.tagName
+            .toLowerCase();
+
+
+        if(
+            [
+                "input",
+                "textarea",
+                "button",
+                "select"
+            ]
+            .includes(
+                tag
+            )
+        ){
+
+            return;
+        }
+
+
+        const key =
+            event.key
+            .toLowerCase();
+
+
+        const midi =
+            computerKeys[
+                key
+            ];
+
+
+        if(
+            midi == null ||
+            heldComputerKeys.has(
+                key
+            )
+        ){
+
+            return;
+        }
+
+
+        heldComputerKeys.add(
+            key
+        );
+
+
+        startNote(
+            midi,
+            "great",
+            visualKey(
+                "great",
+                midi
+            )
+        );
+    }
+);
+
+
+document.addEventListener(
+    "keyup",
+    event => {
+
+        const key =
+            event.key
+            .toLowerCase();
+
+
+        const midi =
+            computerKeys[
+                key
+            ];
+
+
+        if(
+            midi == null
+        ){
+
+            return;
+        }
+
+
+        heldComputerKeys.delete(
+            key
+        );
+
+
+        stopNote(
+            midi,
+            "great"
+        );
+    }
+);
+
+
+/* =========================================================
+   MIDI PERFORMANCE STATE
+========================================================= */
+
+const fileInput =
+    document.getElementById(
+        "midiFile"
+    );
+
+
+const playButton =
+    document.getElementById(
+        "playButton"
+    );
+
+
+const pauseButton =
+    document.getElementById(
+        "pauseButton"
+    );
+
+
+const stopButton =
+    document.getElementById(
+        "stopButton"
+    );
+
+
+const speedSelect =
+    document.getElementById(
+        "speed"
+    );
+
+
+const pieceName =
+    document.getElementById(
+        "pieceName"
+    );
+
+
+const timeDisplay =
+    document.getElementById(
+        "time"
+    );
+
+
+const progress =
+    document.getElementById(
+        "progress"
+    );
+
+
+const routingPanel =
+    document.getElementById(
+        "routing"
+    );
+
+
+const routingRows =
+    document.getElementById(
+        "routingRows"
+    );
+
+
+let parsedMidi =
+    null;
+
+
+let performanceEvents =
+    [];
+
+
+let durationMs =
+    0;
+
+
+let currentPosition =
+    0;
+
+
+let startClock =
+    0;
+
+
+let playing =
+    false;
+
+
+let paused =
+    false;
+
+
+let timers =
+    [];
+
+
+let progressInterval =
+    null;
+
+
+let trackRouting =
+    new Map();
+
+
+/* =========================================================
+   STOP ALL SOUND
+========================================================= */
+
+function silenceAll(){
+
+    Array
+    .from(
+        activeNotes.keys()
+    )
+    .forEach(
+        id => {
+
+            const parts =
+                id.split(
+                    ":"
+                );
+
+
+            stopNote(
+                Number(
+                    parts[1]
+                ),
+                parts[0]
+            );
+        }
+    );
+}
+
+
+/* =========================================================
+   MIDI TRACK ROUTING
+========================================================= */
+
+function defaultDivisionForTrack(
+    track
+){
+
+    const name =
+        (
+            track.name ||
+            ""
+        )
+        .toLowerCase();
+
+
+    if(
+        name.includes(
+            "pedal"
+        )
+        ||
+        name.includes(
+            "bass"
+        )
+    ){
+
+        return "pedal";
+    }
+
+
+    if(
+        name.includes(
+            "swell"
+        )
+        ||
+        name.includes(
+            "manual ii"
+        )
+    ){
+
+        return "swell";
+    }
+
+
+    if(
+        name.includes(
+            "solo"
+        )
+        ||
+        name.includes(
+            "manual iii"
+        )
+    ){
+
+        return "solo";
+    }
+
+
+    return "great";
+}
+
+
+function buildRoutingUI(
+    tracks
+){
+
+    routingRows.innerHTML =
+        "";
+
+
+    trackRouting.clear();
+
+
+    tracks.forEach(
+        (track,index) => {
+
+            if(
+                !track.hasNotes
+            ){
+
+                return;
+            }
+
+
+            const row =
+                document
+                .createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "routing-row";
+
+
+            const label =
+                document
+                .createElement(
+                    "span"
+                );
+
+
+            label.textContent =
+                `Track ${index + 1}`
+                +
+                (
+                    track.name
+                    ?
+                    ` — ${track.name}`
+                    :
+                    ""
+                );
+
+
+            const select =
+                document
+                .createElement(
+                    "select"
+                );
+
+
+            [
+                [
+                    "great",
+                    "Great"
+                ],
+
+                [
+                    "swell",
+                    "Swell"
+                ],
+
+                [
+                    "solo",
+                    "Solo"
+                ],
+
+                [
+                    "pedal",
+                    "Pedal"
+                ],
+
+                [
+                    "ignore",
+                    "Ignore"
+                ]
+
+            ]
+            .forEach(
+                optionData => {
+
+                    const option =
+                        document
+                        .createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        optionData[0];
+
+
+                    option.textContent =
+                        optionData[1];
+
+
+                    select.appendChild(
+                        option
+                    );
+                }
+            );
+
+
+            const defaultDivision =
+                defaultDivisionForTrack(
+                    track
+                );
+
+
+            select.value =
+                defaultDivision;
+
+
+            trackRouting.set(
+                index,
+                defaultDivision
+            );
+
+
+            select.addEventListener(
+                "change",
+                () => {
+
+                    trackRouting.set(
+                        index,
+                        select.value
+                    );
+
+
+                    rebuildPerformanceEvents();
+                }
+            );
+
+
+            row.appendChild(
+                label
+            );
+
+
+            row.appendChild(
+                select
+            );
+
+
+            routingRows.appendChild(
+                row
+            );
+        }
+    );
+
+
+    routingPanel
+    .classList
+    .add(
+        "show"
+    );
+}
+
+
+/* =========================================================
+   REBUILD EVENTS FROM ROUTING
+========================================================= */
+
+function rebuildPerformanceEvents(){
+
+    if(
+        !parsedMidi
+    ){
+
+        return;
+    }
+
+
+    performanceEvents =
+        [];
+
+
+    parsedMidi.events
+    .forEach(
+        event => {
+
+            const division =
+                trackRouting.get(
+                    event.track
+                )
+                ||
+                "great";
+
+
+            if(
+                division ===
+                "ignore"
+            ){
+
+                return;
+            }
+
+
+            /* only send notes within physical division range */
+
+            if(
+                division ===
+                "pedal"
+            ){
+
+                if(
+                    event.midi <
+                        PEDAL_LOW
+                    ||
+                    event.midi >
+                        PEDAL_HIGH
+                ){
+
+                    return;
+                }
+            }
+
+            else{
+
+                if(
+                    event.midi <
+                        MANUAL_LOW
+                    ||
+                    event.midi >
+                        MANUAL_HIGH
+                ){
+
+                    return;
+                }
+            }
+
+
+            performanceEvents.push(
+                {
+                    ...event,
+                    division
+                }
+            );
+        }
+    );
+
+
+    performanceEvents.sort(
+        (a,b) =>
+            a.time -
+            b.time
+    );
+
+
+    durationMs =
+        performanceEvents.length
+        ?
+        performanceEvents[
+            performanceEvents.length-1
+        ].time
+        :
+        0;
+
+
+    updateTimeDisplay(
+        0
+    );
+}
+
+
+/* =========================================================
+   PLAYBACK
+========================================================= */
+
+function clearTimers(){
+
+    timers.forEach(
+        timer => {
+
+            clearTimeout(
+                timer
+            );
+        }
+    );
+
+
+    timers =
+        [];
+}
+
+
+function scheduleEvents(){
+
+    clearTimers();
+
+
+    const speed =
+        Number(
+            speedSelect.value
+        );
+
+
+    performanceEvents
+    .forEach(
+        event => {
+
+            const adjustedTime =
+                event.time /
+                speed;
+
+
+            if(
+                adjustedTime <
+                currentPosition
+            ){
+
+                return;
+            }
+
+
+            const delay =
+                adjustedTime -
+                currentPosition;
+
+
+            const timer =
+                setTimeout(
+                    () => {
+
+                        if(
+                            !playing ||
+                            paused
+                        ){
+
+                            return;
+                        }
+
+
+                        if(
+                            event.type ===
+                            "on"
+                        ){
+
+                            startNote(
+                                event.midi,
+                                event.division,
+                                visualKey(
+                                    event.division,
+                                    event.midi
+                                ),
+                                event.velocity ||
+                                100
+                            );
+                        }
+
+                        else{
+
+                            stopNote(
+                                event.midi,
+                                event.division
+                            );
+                        }
+
+                    },
+                    delay
+                );
+
+
+            timers.push(
+                timer
+            );
+        }
+    );
+}
+
+
+function playPerformance(){
+
+    if(
+        !performanceEvents.length
+    ){
+
+        status.textContent =
+            "Load a MIDI file first.";
+
+        return;
+    }
+
+
+    ensureAudio();
+
+
+    if(
+        playing &&
+        !paused
+    ){
+
+        return;
+    }
+
+
+    const speed =
+        Number(
+            speedSelect.value
+        );
+
+
+    if(
+        !paused
+    ){
+
+        currentPosition =
+            0;
+    }
+
+
+    paused =
+        false;
+
+
+    playing =
+        true;
+
+
+    startClock =
+        performance.now() -
+        currentPosition;
+
+
+    scheduleEvents();
+
+
+    clearInterval(
+        progressInterval
+    );
+
+
+    progressInterval =
+        setInterval(
+            () => {
+
+                if(
+                    !playing ||
+                    paused
+                ){
+
+                    return;
+                }
+
+
+                currentPosition =
+                    performance.now()
+                    -
+                    startClock;
+
+
+                const effectiveDuration =
+                    durationMs /
+                    speed;
+
+
+                if(
+                    currentPosition >=
+                    effectiveDuration
+                ){
+
+                    stopPerformance(
+                        false
+                    );
+
+
+                    status.textContent =
+                        "Performance complete.";
+
+                    return;
+                }
+
+
+                updateTimeDisplay(
+                    currentPosition
+                );
+
+            },
+            80
+        );
+
+
+    status.textContent =
+        "Automatic organ performance playing.";
+}
+
+
+function pausePerformance(){
+
+    if(
+        !playing ||
+        paused
+    ){
+
+        return;
+    }
+
+
+    currentPosition =
+        performance.now()
+        -
+        startClock;
+
+
+    paused =
+        true;
+
+
+    clearTimers();
+
+
+    silenceAll();
+
+
+    status.textContent =
+        "Performance paused.";
+}
+
+
+function stopPerformance(
+    resetStatus=true
+){
+
+    clearTimers();
+
+
+    clearInterval(
+        progressInterval
+    );
+
+
+    playing =
+        false;
+
+
+    paused =
+        false;
+
+
+    currentPosition =
+        0;
+
+
+    silenceAll();
+
+
+    progress.style.width =
+        "0%";
+
+
+    updateTimeDisplay(
+        0
+    );
+
+
+    if(
+        resetStatus
+    ){
+
+        status.textContent =
+            "Performance stopped.";
+    }
+}
+
+
+/* =========================================================
+   TIME / PROGRESS
+========================================================= */
+
+function formatTime(
+    milliseconds
+){
+
+    const totalSeconds =
+        Math.max(
+            0,
+            Math.floor(
+                milliseconds /
+                1000
+            )
+        );
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds /
+            60
+        );
+
+
+    const seconds =
+        totalSeconds %
+        60;
+
+
+    return (
+        minutes
+        +
+        ":"
+        +
+        String(
+            seconds
+        )
+        .padStart(
+            2,
+            "0"
+        )
+    );
+}
+
+
+function updateTimeDisplay(
+    playbackPosition
+){
+
+    const speed =
+        Number(
+            speedSelect.value
+        );
+
+
+    const effectiveDuration =
+        durationMs /
+        speed;
+
+
+    const percent =
+        effectiveDuration > 0
+        ?
+        Math.min(
+            100,
+            playbackPosition /
+            effectiveDuration *
+            100
+        )
+        :
+        0;
+
+
+    progress.style.width =
+        percent +
+        "%";
+
+
+    timeDisplay.textContent =
+        formatTime(
+            playbackPosition
+        )
+        +
+        " / "
+        +
+        formatTime(
+            effectiveDuration
+        );
+}
+
+
+/* =========================================================
+   MIDI FILE INPUT
+========================================================= */
+
+fileInput.addEventListener(
+    "change",
+    async event => {
+
+        const file =
+            event.target.files[
+                0
+            ];
+
+
+        if(
+            !file
+        ){
+
+            return;
+        }
+
+
+        stopPerformance(
+            false
+        );
+
+
+        status.textContent =
+            "Reading MIDI file…";
+
+
+        try{
+
+            const buffer =
+                await file
+                .arrayBuffer();
+
+
+            parsedMidi =
+                parseMidi(
+                    buffer
+                );
+
+
+            pieceName.textContent =
+                file.name;
+
+
+            buildRoutingUI(
+                parsedMidi.tracks
+            );
+
+
+            rebuildPerformanceEvents();
+
+
+            applyPreset(
+                "foundation"
+            );
+
+
+            status.textContent =
+                "MIDI loaded. Assign tracks to Great, Swell, Solo or Pedal, then press PLAY.";
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+
+            parsedMidi =
+                null;
+
+
+            performanceEvents =
+                [];
+
+
+            status.textContent =
+                "Could not read this MIDI file.";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PLAYER BUTTONS
+========================================================= */
+
+playButton.addEventListener(
+    "click",
+    playPerformance
+);
+
+
+pauseButton.addEventListener(
+    "click",
+    pausePerformance
+);
+
+
+stopButton.addEventListener(
+    "click",
+    () => {
+
+        stopPerformance(
+            true
+        );
+    }
+);
+
+
+speedSelect.addEventListener(
+    "change",
+    () => {
+
+        if(
+            playing
+        ){
+
+            stopPerformance(
+                false
+            );
+        }
+
+
+        updateTimeDisplay(
+            0
+        );
+
+
+        status.textContent =
+            "Tempo set to "
+            +
+            Math.round(
+                Number(
+                    speedSelect.value
+                )
+                *
+                100
+            )
+            +
+            "%.";
+    }
+);
+
+
+/* =========================================================
+   STANDARD MIDI FILE PARSER
+========================================================= */
+
+function parseMidi(
+    arrayBuffer
+){
+
+    const bytes =
+        new Uint8Array(
+            arrayBuffer
+        );
+
+
+    let pos =
+        0;
+
+
+    function ensure(
+        length
+    ){
+
+        if(
+            pos + length >
+            bytes.length
+        ){
+
+            throw new Error(
+                "Unexpected end of MIDI file."
+            );
+        }
+    }
+
+
+    function readString(
+        length
+    ){
+
+        ensure(
+            length
+        );
+
+
+        let text =
+            "";
+
+
+        for(
+            let i=0;
+            i<length;
+            i++
+        ){
+
+            text +=
+                String
+                .fromCharCode(
+                    bytes[pos++]
+                );
+        }
+
+
+        return text;
+    }
+
+
+    function read16(){
+
+        ensure(
+            2
+        );
+
+
+        const result =
+            (
+                bytes[pos] <<
+                8
+            )
+            |
+            bytes[
+                pos+1
+            ];
+
+
+        pos +=
+            2;
+
+
+        return result;
+    }
+
+
+    function read32(){
+
+        ensure(
+            4
+        );
+
+
+        const result =
+            (
+                bytes[pos] *
+                0x1000000
+            )
+            +
+            (
+                bytes[pos+1] <<
+                16
+            )
+            +
+            (
+                bytes[pos+2] <<
+                8
+            )
+            +
+            bytes[
+                pos+3
+            ];
+
+
+        pos +=
+            4;
+
+
+        return (
+            result >>>
+            0
+        );
+    }
+
+
+    function readVariable(){
+
+        let value =
+            0;
+
+
+        let count =
+            0;
+
+
+        while(
+            true
+        ){
+
+            ensure(
+                1
+            );
+
+
+            const byte =
+                bytes[
+                    pos++
+                ];
+
+
+            value =
+                (
+                    value <<
+                    7
+                )
+                |
+                (
+                    byte &
+                    0x7f
+                );
+
+
+            count++;
+
+
+            if(
+                !(byte & 0x80)
+            ){
+
+                break;
+            }
+
+
+            if(
+                count >
+                4
+            ){
+
+                throw new Error(
+                    "Invalid MIDI variable-length value."
+                );
+            }
+        }
+
+
+        return value;
+    }
+
+
+    if(
+        readString(
+            4
+        )
+        !==
+        "MThd"
+    ){
+
+        throw new Error(
+            "Not a Standard MIDI file."
+        );
+    }
+
+
+    const headerLength =
+        read32();
+
+
+    if(
+        headerLength <
+        6
+    ){
+
+        throw new Error(
+            "Invalid MIDI header."
+        );
+    }
+
+
+    const format =
+        read16();
+
+
+    const trackCount =
+        read16();
+
+
+    const division =
+        read16();
+
+
+    if(
+        division &
+        0x8000
+    ){
+
+        throw new Error(
+            "SMPTE MIDI timing is not supported by this simulator."
+        );
+    }
+
+
+    const ticksPerQuarter =
+        division;
+
+
+    pos =
+        8 +
+        headerLength;
+
+
+    const rawEvents =
+        [];
+
+
+    const tempoEvents =
+        [
+            {
+                tick:0,
+                tempo:500000
+            }
+        ];
+
+
+    const tracks =
+        [];
+
+
+    for(
+        let trackIndex=0;
+        trackIndex<trackCount;
+        trackIndex++
+    ){
+
+        if(
+            readString(
+                4
+            )
+            !==
+            "MTrk"
+        ){
+
+            throw new Error(
+                "Missing MIDI track chunk."
+            );
+        }
+
+
+        const trackLength =
+            read32();
+
+
+        const trackEnd =
+            pos +
+            trackLength;
+
+
+        if(
+            trackEnd >
+            bytes.length
+        ){
+
+            throw new Error(
+                "Invalid MIDI track length."
+            );
+        }
+
+
+        let tick =
+            0;
+
+
+        let runningStatus =
+            0;
+
+
+        let trackName =
+            "";
+
+
+        let trackHasNotes =
+            false;
+
+
+        while(
+            pos <
+            trackEnd
+        ){
+
+            tick +=
+                readVariable();
+
+
+            ensure(
+                1
+            );
+
+
+            let statusByte =
+                bytes[
+                    pos++
+                ];
+
+
+            if(
+                statusByte <
+                0x80
+            ){
+
+                pos--;
+
+
+                if(
+                    !runningStatus
+                ){
+
+                    throw new Error(
+                        "Invalid MIDI running status."
+                    );
+                }
+
+
+                statusByte =
+                    runningStatus;
+            }
+
+            else if(
+                statusByte <
+                0xf0
+            ){
+
+                runningStatus =
+                    statusByte;
+            }
+
+
+            /* META */
+
+            if(
+                statusByte ===
+                0xff
+            ){
+
+                ensure(
+                    1
+                );
+
+
+                const metaType =
+                    bytes[
+                        pos++
+                    ];
+
+
+                const length =
+                    readVariable();
+
+
+                ensure(
+                    length
+                );
+
+
+                if(
+                    metaType ===
+                    0x03
+                ){
+
+                    let name =
+                        "";
+
+
+                    for(
+                        let i=0;
+                        i<length;
+                        i++
+                    ){
+
+                        name +=
+                            String
+                            .fromCharCode(
+                                bytes[
+                                    pos+i
+                                ]
+                            );
+                    }
+
+
+                    trackName =
+                        name;
+                }
+
+
+                else if(
+                    metaType ===
+                    0x51
+                    &&
+                    length ===
+                    3
+                ){
+
+                    const tempo =
+                        (
+                            bytes[pos] <<
+                            16
+                        )
+                        |
+                        (
+                            bytes[pos+1] <<
+                            8
+                        )
+                        |
+                        bytes[
+                            pos+2
+                        ];
+
+
+                    tempoEvents.push(
+                        {
+                            tick,
+                            tempo
+                        }
+                    );
+                }
+
+
+                pos +=
+                    length;
+
+
+                continue;
+            }
+
+
+            /* SYSEX */
+
+            if(
+                statusByte ===
+                0xf0
+                ||
+                statusByte ===
+                0xf7
+            ){
+
+                const length =
+                    readVariable();
+
+
+                ensure(
+                    length
+                );
+
+
+                pos +=
+                    length;
+
+
+                continue;
+            }
+
+
+            const command =
+                statusByte &
+                0xf0;
+
+
+            const channel =
+                statusByte &
+                0x0f;
+
+
+            ensure(
+                1
+            );
+
+
+            const data1 =
+                bytes[
+                    pos++
+                ];
+
+
+            let data2 =
+                0;
+
+
+            if(
+                command !==
+                0xc0
+                &&
+                command !==
+                0xd0
+            ){
+
+                ensure(
+                    1
+                );
+
+
+                data2 =
+                    bytes[
+                        pos++
+                    ];
+            }
+
+
+            if(
+                command ===
+                0x90
+                &&
+                data2 >
+                0
+            ){
+
+                rawEvents.push(
+                    {
+                        tick,
+                        type:"on",
+                        midi:data1,
+                        velocity:data2,
+                        channel,
+                        track:
+                            trackIndex
+                    }
+                );
+
+
+                trackHasNotes =
+                    true;
+            }
+
+
+            else if(
+                command ===
+                0x80
+                ||
+                (
+                    command ===
+                    0x90
+                    &&
+                    data2 ===
+                    0
+                )
+            ){
+
+                rawEvents.push(
+                    {
+                        tick,
+                        type:"off",
+                        midi:data1,
+                        velocity:0,
+                        channel,
+                        track:
+                            trackIndex
+                    }
+                );
+
+
+                trackHasNotes =
+                    true;
+            }
+        }
+
+
+        pos =
+            trackEnd;
+
+
+        tracks.push(
+            {
+                name:
+                    trackName,
+
+                hasNotes:
+                    trackHasNotes
+            }
+        );
+    }
+
+
+    /* REMOVE DUPLICATE INITIAL TEMPO IF FILE HAS ONE */
+
+    tempoEvents.sort(
+        (a,b) =>
+            a.tick -
+            b.tick
+    );
+
+
+    function tickToMs(
+        tick
+    ){
+
+        let milliseconds =
+            0;
+
+
+        let previousTick =
+            0;
+
+
+        let currentTempo =
+            500000;
+
+
+        for(
+            let i=0;
+            i<tempoEvents.length;
+            i++
+        ){
+
+            const event =
+                tempoEvents[
+                    i
+                ];
+
+
+            if(
+                event.tick >
+                tick
+            ){
+
+                break;
+            }
+
+
+            if(
+                event.tick >
+                previousTick
+            ){
+
+                milliseconds +=
+                    (
+                        event.tick -
+                        previousTick
+                    )
+                    *
+                    currentTempo
+                    /
+                    ticksPerQuarter
+                    /
+                    1000;
+            }
+
+
+            previousTick =
+                event.tick;
+
+
+            currentTempo =
+                event.tempo;
+        }
+
+
+        if(
+            tick >
+            previousTick
+        ){
+
+            milliseconds +=
+                (
+                    tick -
+                    previousTick
+                )
+                *
+                currentTempo
+                /
+                ticksPerQuarter
+                /
+                1000;
+        }
+
+
+        return milliseconds;
+    }
+
+
+    const events =
+        rawEvents
+        .map(
+            event => {
+
+                return {
+                    time:
+                        tickToMs(
+                            event.tick
+                        ),
+
+                    type:
+                        event.type,
+
+                    midi:
+                        event.midi,
+
+                    velocity:
+                        event.velocity,
+
+                    channel:
+                        event.channel,
+
+                    track:
+                        event.track
+                };
+            }
+        )
+        .sort(
+            (a,b) =>
+                a.time -
+                b.time
+        );
+
+
+    return {
+        format,
+        ticksPerQuarter,
+        events,
+        tracks
+    };
+}
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+updateTimeDisplay(
+    0
+);
+
+
+status.textContent =
+    "Open Diapason 8′ drawn. The three manuals each contain 61 notes (C–C), and the pedalboard contains 32 notes (C–G). Load a complete MIDI transcription for exact self-playing performances.";
+
+})();
+
+</script>
+
+</body>
+</html>
