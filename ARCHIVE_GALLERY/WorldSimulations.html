@@ -1424,8 +1424,11 @@
       .intro-gallery{width:calc(100% - 40px);max-width:1200px;margin:20px auto 55px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:28px;background:rgba(5,6,4,.74);border:1px solid rgba(137,145,90,.28);border-radius:8px;box-shadow:0 20px 55px rgba(0,0,0,.82);backdrop-filter:blur(5px)}
       .intro-copy{flex:1;min-width:0;color:#9aa060;font-size:14px;line-height:1.8;letter-spacing:.4px}
       .intro-copy p{margin:0}
-      .intro-gallery iframe{display:block;flex:0 0 520px;width:520px;max-width:52%;height:330px;border:1px solid rgba(137,145,90,.40);border-radius:5px;background:#000}
-      @media(max-width:700px){.sim-tabs,.intro-gallery{width:calc(100% - 20px)}.sim-tab{padding:9px 10px;font-size:9px}.intro-gallery{padding:12px;flex-direction:column;align-items:stretch;gap:16px}.intro-gallery iframe{width:100%;max-width:100%;height:300px;flex-basis:auto}}
+      /* Keep the introduction simulator at its intended desktop viewport internally.
+         Scale that viewport down to fit the available space without enlarging the page. */
+      .intro-preview{position:relative;flex:0 1 520px;width:52%;max-width:520px;min-width:0;aspect-ratio:52 / 33;overflow:hidden;border:1px solid rgba(137,145,90,.40);border-radius:5px;background:#000;isolation:isolate}
+      .intro-preview iframe{display:block;position:absolute;top:0;left:0;width:1100px;height:700px;max-width:none;border:0;background:#000;transform:scale(var(--intro-scale,.47));transform-origin:top left}
+      @media(max-width:700px){.sim-tabs,.intro-gallery{width:calc(100% - 20px)}.sim-tab{padding:9px 10px;font-size:9px}.intro-gallery{padding:12px;flex-direction:column;align-items:stretch;gap:16px}.intro-preview{width:100%;max-width:100%;flex:0 0 auto}}
 
     </style>
 </head>
@@ -1563,7 +1566,9 @@
               controls, and see how each virtual environment responds.
             </p>
           </div>
-          <iframe src="../ARCHIVE_GALLERY/WorldSimulationsPrograms/Physics_Simulations/Newtons_Cradle.html" title="World Simulations Introduction"></iframe>
+          <div class="intro-preview" id="introPreview">
+            <iframe src="../ARCHIVE_GALLERY/WorldSimulationsPrograms/Physics_Simulations/Dungeon's_Dominos.html" title="World Simulations Introduction" loading="lazy" scrolling="no"></iframe>
+          </div>
         </div>
       </div>
 
@@ -2130,6 +2135,24 @@
         }
         setTimeout(packetLoop,1200);
       });
+    </script>
+    <script>
+      /* Fit the simulator's full-size interface inside its introduction preview.
+         The parent gallery never grows to match the embedded document. */
+      (() => {
+        const preview = document.getElementById('introPreview');
+        if (!preview) return;
+        const fit = () => {
+          const width = preview.clientWidth;
+          const height = preview.clientHeight;
+          if (!width || !height) return;
+          preview.style.setProperty('--intro-scale',
+            String(Math.min(width / 1100, height / 700)));
+        };
+        fit();
+        if ('ResizeObserver' in window) new ResizeObserver(fit).observe(preview);
+        else window.addEventListener('resize', fit, {passive:true});
+      })();
     </script>
 </body>
 </html>
