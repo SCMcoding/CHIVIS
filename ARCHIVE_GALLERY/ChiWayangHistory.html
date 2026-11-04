@@ -1,12 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHIVISPUPPETS | CHI WAYANG Archive</title>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHIVISPUPPETS | CHI WAYANG Archive</title>
+<style>
     /* ==================================================
        COLORS / BASE
     ================================================== */
@@ -612,394 +611,285 @@ footer{background:rgba(6,5,5,.96);border-top-color:rgba(210,138,59,.22)}
 
 .archive-strip{position:relative;text-align:center;padding:8px 12px;background:rgba(5,4,4,.82);border-bottom:1px solid rgba(210,138,59,.16);color:rgba(210,138,59,.58);font-size:9px;letter-spacing:3px;text-transform:uppercase}
 
+
+/* ==================================================
+   HISTORY NAVIGATION — WORLD SIMULATIONS FORMAT
+   A single section is shown at a time, with horizontal slides.
+================================================== */
+.history-heading{text-align:center;margin:0 0 21px}
+.history-heading h1{margin:0 0 8px;color:#d28a3b;font-size:30px;letter-spacing:5px;text-shadow:0 0 10px rgba(201,120,43,.24)}
+.history-heading h1::after{content:"";display:block;width:145px;height:3px;margin:12px auto 0;border-radius:5px;background:linear-gradient(90deg,#b3542b,#d28a3b,#89915a)}
+.gallery-subtitle{text-align:center;color:#a3a467;letter-spacing:3px;font-size:10px;margin:12px 0 22px}
+.history-tabs{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;margin:0 0 18px;background:rgba(5,6,4,.74);border:1px solid rgba(137,145,90,.30);border-radius:7px}
+.history-tab{cursor:pointer;padding:10px 15px;border:1px solid rgba(137,145,90,.40);border-radius:5px;background:#050505;color:#9aa060;font:700 11px "Courier New",monospace;letter-spacing:1px;transition:transform .2s,color .2s,border-color .2s,background .2s}
+.history-tab:hover{transform:translateY(-2px);color:#d28a3b;border-color:rgba(210,138,59,.72)}
+.history-tab.active{color:#000;background:linear-gradient(90deg,#d28a3b,#a8ad68);border-color:#d28a3b}
+.history-tab:focus-visible,.history-arrow:focus-visible{outline:2px solid #e3ae6d;outline-offset:3px}
+.history-slide-frame{position:relative;padding:0 48px;min-height:350px}
+.history-viewport{overflow:hidden;position:relative}
+.history-panel{margin:0 0 15px;width:100%;min-height:270px}
+.history-panel[hidden]{display:none!important}
+.history-panel.active{animation:historySlideIn .36s ease-out both}
+.history-panel.active.slide-reverse{animation-name:historySlideFromLeft}
+@keyframes historySlideIn{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:translateX(0)}}
+@keyframes historySlideFromLeft{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:translateX(0)}}
+.history-arrow{position:absolute;top:42%;z-index:5;display:grid;place-items:center;width:40px;height:64px;border:1px solid rgba(210,138,59,.48);border-radius:6px;background:rgba(8,8,7,.93);color:#d28a3b;font:42px/1 Georgia,serif;cursor:pointer;transition:background .2s,color .2s,transform .2s}
+.history-arrow:hover:not(:disabled){background:rgba(81,47,21,.95);color:#f0c18c;transform:scale(1.05)}
+.history-arrow:disabled{opacity:.25;cursor:not-allowed}
+.history-prev{left:0}.history-next{right:0}
+.history-controls{text-align:center;color:#b9ae8b;font-size:11px;letter-spacing:3px;padding:4px 0 12px}
+/* Preserve original aspect ratios rather than cropping historic photographs. */
+.history-panel .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;align-items:start}
+.history-panel .gallery img{max-width:100%;width:100%;height:auto;object-fit:contain}
+@media(max-width:650px){.history-heading h1{font-size:23px;letter-spacing:3px}.history-tabs{gap:6px}.history-tab{padding:8px 10px;font-size:10px}.history-slide-frame{padding:0 30px}.history-arrow{width:27px;height:51px;font-size:30px}.history-panel .gallery{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.history-panel.active,.history-panel.active.slide-reverse{animation:none}.history-tab,.history-arrow{transition:none}}
+
+/* ==================================================
+   INTRODUCTION — EMBEDDED HTML LEFT / ORIGINAL TEXT RIGHT
+================================================== */
+.chi-introduction-layout{display:grid;grid-template-columns:minmax(260px,40%) minmax(0,1fr);gap:clamp(20px,3.5vw,45px);align-items:start;max-width:1100px;margin:0 auto;padding:14px 10px 20px}
+.chi-introduction-side{display:flex;flex-direction:column;align-items:stretch;gap:14px;position:relative;padding:16px;border:1px solid rgba(210,138,59,.20);border-radius:7px;background:rgba(14,12,9,.55)}
+.chi-introduction-embed{display:block;width:100%;height:360px;border:1px solid rgba(210,138,59,.25);border-radius:5px;background:#030303}
+.chi-introduction-link{margin:0;text-align:center}
+.chi-introduction-link a{display:inline-block;color:#b4b977;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:1px;line-height:1.6;padding:11px 14px;border:1px solid rgba(154,160,96,.45);border-radius:4px;background:rgba(154,160,96,.06);overflow-wrap:anywhere}
+.chi-introduction-link a:hover{border-color:#d28a3b;color:#d28a3b}
+/* Keep the introduction beside the logo, with its own vertical scroll. */
+.chi-introduction-text{height:360px;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#a77343 rgba(210,138,59,.10);padding:16px 20px 12px 16px;border:1px solid rgba(210,138,59,.22);border-radius:5px;background:rgba(10,9,8,.60);-webkit-overflow-scrolling:touch}
+.chi-introduction-text::-webkit-scrollbar{width:8px}
+.chi-introduction-text::-webkit-scrollbar-thumb{background:#a77343;border-radius:6px}
+.chi-introduction-text::-webkit-scrollbar-track{background:rgba(210,138,59,.08)}
+.chi-introduction-text:focus-visible{outline:2px solid #d28a3b;outline-offset:3px}
+@media(max-width:760px){.chi-introduction-text{height:290px;padding:14px}}
+.chi-introduction-text h3{color:#dca363;font-size:clamp(17px,2vw,23px);line-height:1.4;letter-spacing:.4px;margin:0 0 18px}
+.chi-introduction-text p{font-size:15px;line-height:1.8;color:#d7d7d0;margin:0 0 19px;text-align:left}
+.chi-introduction-text a{color:#b4ba78;font-weight:700;text-decoration:none}
+.chi-introduction-text a:hover{color:#e0a260;text-decoration:underline}
+@media(max-width:760px){.chi-introduction-layout{grid-template-columns:1fr;gap:22px;padding:6px 0 18px}.chi-introduction-side{position:static;padding:16px;gap:10px}.chi-introduction-embed{height:290px}.chi-introduction-text h3{text-align:center}.chi-introduction-text p{font-size:14px}}
 </style>
 </head>
-
 <body>
-
-  <!-- ==================================================
+<!-- ==================================================
        SPACE BACKGROUND
   ================================================== -->
-  <div id="spaceBackground">
-
-    <div class="milkyway"></div>
-
-    <div class="galaxy purple one"></div>
-    <div class="galaxy green two"></div>
-    <div class="galaxy orange three"></div>
-
-    <div id="starField"></div>
-    <div id="dataField"></div>
-    <div id="floatingWordField"></div>
-
-    <span class="background-word word1">MOVEMENT</span>
-    <span class="background-word word2">PUPPETRY</span>
-    <span class="background-word word3">VISUAL</span>
-    <span class="background-word word4">ARCHIVE</span>
-
-  </div>
-
-  <!-- ==================================================
+<div id="spaceBackground">
+<div class="milkyway"></div>
+<div class="galaxy purple one"></div>
+<div class="galaxy green two"></div>
+<div class="galaxy orange three"></div>
+<div id="starField"></div>
+<div id="dataField"></div>
+<div id="floatingWordField"></div>
+<span class="background-word word1">MOVEMENT</span>
+<span class="background-word word2">PUPPETRY</span>
+<span class="background-word word3">VISUAL</span>
+<span class="background-word word4">ARCHIVE</span>
+</div>
+<!-- ==================================================
        PAGE
   ================================================== -->
-  <div class="page">
-
-    <!-- ==================================================
+<div class="page">
+<!-- ==================================================
          ANIMATED BANNER
     ================================================== -->
-    <header class="banner-header">
-      <iframe
-        src="../Website%20Design/Banner/Banner.html"
-        title="CHI VIS PUPPETS Banner"
-        scrolling="no">
-      </iframe>
-    </header>
-
-    <!-- ==================================================
+<header class="banner-header">
+<iframe scrolling="no" src="../Website%20Design/Banner/Banner.html" title="CHI VIS PUPPETS Banner">
+</iframe>
+</header>
+<!-- ==================================================
          NAVIGATION
     ================================================== -->
-    <nav>
-      <ul>
-        <li><a href="../ArchiveGallery.html">ARCHIVE</a></li>
-      </ul>
-    </nav>
-    <div class="archive-strip">CHI WAYANG / PERFORMANCE / DIGITAL PUPPET ARCHIVE</div>
-
-    <!-- ==================================================
+<nav>
+<ul>
+<li><a href="../ArchiveGallery.html">ARCHIVE</a></li>
+</ul>
+</nav>
+<div class="archive-strip">CHI WAYANG / PERFORMANCE / DIGITAL PUPPET ARCHIVE</div>
+<!-- ==================================================
          MAIN CONTENT
     ================================================== -->
-    <main class="container">
-
-      <!-- ==================================================
+<main class="container">
+<!-- ==================================================
            OUR MISSION
       ================================================== -->
-      <section>
-        <h2>Our Mission and Research</h2>
-
-        <div class="iframe-container">
-          <iframe
-            src="../ARCHIVE_GALLERY/Information_Pages/ABOUTCHI.html"
-            title="Our Mission and Research">
-          </iframe>
-        </div>
-      </section>
-
-      <!-- ==================================================
+<!-- ==================================================
            VIRTUAL PUPPET CONCEPTS — SPRING 2025
       ================================================== -->
-      <section>
-        <h2>Virtual Puppet Concepts | Spring 2025</h2>
-
-        <div class="gallery">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Tiger.png"
-            alt="Tiger Poster">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Karna%202.0.png"
-            alt="Karna Poster">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Kunti%202.0.png"
-            alt="Kunti Poster">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/NagiKara%20(Dragon%20Form).png"
-            alt="Dragon Form">
-
-        </div>
-      </section>
-
-      <!-- ==================================================
+<!-- ==================================================
            VIRTUAL PUPPET FABRICATION — SPRING 2025
       ================================================== -->
-      <section>
-        <h2>Virtual Puppet Fabrication | Spring 2025</h2>
-
-        <div class="gallery">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/3_Puppets.jpg"
-            alt="Three Puppets">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KarnaPuppet.jpg"
-            alt="Karna Puppet">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KuntiPuppet.jpg"
-            alt="Kunti Puppet">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/ProtoTiger.jpg"
-            alt="Proto Tiger">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/Dragon%20Puppet%20_%20Heads%20Attached.jpg"
-            alt="Dragon Puppet Heads Attached">
-
-        </div>
-      </section>
-
-      <!-- ==================================================
+<!-- ==================================================
            THE ARCHER'S JOURNEY — SPRING 2025
       ================================================== -->
-      <section>
-
-        <h2>
-          The Archer's Journey / New York City Tech Fair /
-          Friday Performance | Spring 2025
-          <br>
-          Photo Credit:
-          <a
-            href="https://www.citytech.cuny.edu/faculty/MMcaUliffe"
-            target="_blank">
-            Professor Michael McAuliffe
-          </a>
-        </h2>
-
-        <div class="gallery">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance1.jpg"
-            alt="Audience 1">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance2.jpg"
-            alt="Audience 2">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance3.jpg"
-            alt="Audience 3">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance4.jpg"
-            alt="Audience 4">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance5.jpg"
-            alt="Audience 5">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance6.jpg"
-            alt="Audience 6">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance7.jpg"
-            alt="Audience 7">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance8.jpg"
-            alt="Audience 8">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance9.jpg"
-            alt="Audience 9">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance10.jpg"
-            alt="Audience 10">
-
-        </div>
-      </section>
-
-      <!-- ==================================================
+<!-- ==================================================
            STAGE SCREENSHOTS
       ================================================== -->
-      <section>
-
-        <h2>
-          Stage Screenshots
-          <br>
-          Photo Credit:
-          <a
-            href="https://www.citytech.cuny.edu/faculty/MMcaUliffe"
-            target="_blank">
-            Professor Michael McAuliffe
-          </a>
-        </h2>
-
-        <div class="gallery">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%201.jpg"
-            alt="Screen 1">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%202.jpg"
-            alt="Screen 2">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%203.jpg"
-            alt="Screen 3">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%204.jpg"
-            alt="Screen 4">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%205.jpg"
-            alt="Screen 5">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%206.jpg"
-            alt="Screen 6">
-
-        </div>
-      </section>
-
-      <!-- ==================================================
+<!-- ==================================================
            SPRING 2025 ANIMATED BACKGROUNDS
       ================================================== -->
-      <section>
+<!-- ==================================================
+           SPRING 2024 OPEN LAB
+      ================================================== -->
+<!-- ==================================================
+           SPRING 2024 PROJECT DEVELOPMENT
+      ================================================== -->
+<!-- ==================================================
+           SPRING 2024 PUPPET CONCEPTS
+      ================================================== -->
+<div class="history-heading"><h1>CHI WAYANG HISTORY</h1><div class="gallery-subtitle">CHIVISPUPPETS / ARCHIVE / HISTORY</div></div><div aria-label="CHI WAYANG history categories" class="history-tabs" role="tablist"><button aria-controls="history-panel-0" aria-selected="true" class="history-tab active" data-index="0" id="history-tab-0" role="tab" type="button">Introduction</button><button aria-controls="history-panel-1" aria-selected="false" class="history-tab" data-index="1" id="history-tab-1" role="tab" type="button">Concepts 2025</button><button aria-controls="history-panel-2" aria-selected="false" class="history-tab" data-index="2" id="history-tab-2" role="tab" type="button">Fabrication 2025</button><button aria-controls="history-panel-3" aria-selected="false" class="history-tab" data-index="3" id="history-tab-3" role="tab" type="button">Live Performance</button><button aria-controls="history-panel-4" aria-selected="false" class="history-tab" data-index="4" id="history-tab-4" role="tab" type="button">Stage Screenshots</button><button aria-controls="history-panel-5" aria-selected="false" class="history-tab" data-index="5" id="history-tab-5" role="tab" type="button">Backgrounds 2025</button><button aria-controls="history-panel-6" aria-selected="false" class="history-tab" data-index="6" id="history-tab-6" role="tab" type="button">Open Lab 2024</button><button aria-controls="history-panel-7" aria-selected="false" class="history-tab" data-index="7" id="history-tab-7" role="tab" type="button">Development 2024</button><button aria-controls="history-panel-8" aria-selected="false" class="history-tab" data-index="8" id="history-tab-8" role="tab" type="button">Concepts 2024</button></div><div class="history-slide-frame"><button aria-label="Previous history section" class="history-arrow history-prev" title="Previous section" type="button">‹</button><div aria-live="polite" class="history-viewport"><section aria-labelledby="history-tab-0" class="history-panel active" id="history-panel-0" role="tabpanel">
+<h2>Our Mission and Research</h2>
 
-        <h2>
+<div class="chi-introduction-layout"><div class="chi-introduction-side"><!-- Replace the iframe src with another HTML page when desired. -->
+<iframe class="chi-introduction-embed" src="../ARCHIVE_GALLERY/Website Design/Gallery - AnimatedProfessorSmithPicture/ProfSmithChi.html" title="CHI embedded HTML display" loading="eager"></iframe><p class="chi-introduction-link">
+<a href="https://github.com/CHI-CityTech/BSP-graphic-imagery/wiki" target="_blank">
+          BSP-GRAPHIC IMAGERY WIKI
+        </a>
+</p></div><div class="chi-introduction-text" tabindex="0ProfSmithChi.html" role="region" aria-label="Scrollable CHI introduction text"><h3>City Tech’s Center for Holistic Integration (CHI)</h3><p>
+  City Tech’s Center for Holistic Integration (CHI) started in spring 2024 as a
+  small pilot project. It brought together
+  <a href="https://www.citytech.cuny.edu/faculty/DSmith" target="_blank">
+    Dr. David B. Smith
+  </a>
+  and
+  <a href="https://www.citytech.cuny.edu/faculty/CSwift" target="_blank">
+    Professor Christopher Swift
+  </a>,
+  along with Samuel Cheung, Tshari Yancey, and several other students from
+  New York City College of Technology. Dr. Smith is a composer, sound designer,
+  and inventor who has been part of the City Tech faculty since 1997. His work
+  includes helping to develop one of the first virtual orchestra systems for
+  live performance. Professor Swift is an associate professor of theatre whose
+  research includes performance, puppetry, and theatrical space.
+</p><p>
+  One of CHI’s first projects was a Wayang kulit shadow-puppet performance
+  presented as part of City Tech’s response to anti-Asian hate. The project
+  combined traditional Javanese shadow puppetry with digital backgrounds and
+  other modern tools. Samuel Cheung worked on the virtual backgrounds and
+  puppet designs, while Tshari Yancey developed the story, characters, and
+  script.
+</p><p>
+  What began as a small project has continued to grow into a space for
+  experimenting with performance, storytelling, technology, and AI. CHI
+  continues to explore Wayang kulit and other creative ideas while looking
+  at different ways traditional and digital approaches can work together.
+</p></div></div></section><section aria-labelledby="history-tab-1" class="history-panel" hidden="" id="history-panel-1" role="tabpanel">
+<h2>Virtual Puppet Concepts | Spring 2025</h2>
+<div class="gallery">
+<img alt="Tiger Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Tiger.png"/>
+<img alt="Karna Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Karna%202.0.png"/>
+<img alt="Kunti Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Kunti%202.0.png"/>
+<img alt="Dragon Form" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/NagiKara%20(Dragon%20Form).png"/>
+</div>
+</section><section aria-labelledby="history-tab-2" class="history-panel" hidden="" id="history-panel-2" role="tabpanel">
+<h2>Virtual Puppet Fabrication | Spring 2025</h2>
+<div class="gallery">
+<img alt="Three Puppets" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/3_Puppets.jpg"/>
+<img alt="Karna Puppet" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KarnaPuppet.jpg"/>
+<img alt="Kunti Puppet" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KuntiPuppet.jpg"/>
+<img alt="Proto Tiger" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/ProtoTiger.jpg"/>
+<img alt="Dragon Puppet Heads Attached" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/Dragon%20Puppet%20_%20Heads%20Attached.jpg"/>
+</div>
+</section><section aria-labelledby="history-tab-3" class="history-panel" hidden="" id="history-panel-3" role="tabpanel">
+<h2>
+          The Archer's Journey / New York City Tech Fair /
+          Friday Performance | Spring 2025
+          <br/>
+          Photo Credit:
+          <a href="https://www.citytech.cuny.edu/faculty/MMcaUliffe" target="_blank">
+            Professor Michael McAuliffe
+          </a>
+</h2>
+<div class="gallery">
+<img alt="Audience 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance1.jpg"/>
+<img alt="Audience 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance2.jpg"/>
+<img alt="Audience 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance3.jpg"/>
+<img alt="Audience 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance4.jpg"/>
+<img alt="Audience 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance5.jpg"/>
+<img alt="Audience 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance6.jpg"/>
+<img alt="Audience 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance7.jpg"/>
+<img alt="Audience 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance8.jpg"/>
+<img alt="Audience 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance9.jpg"/>
+<img alt="Audience 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance10.jpg"/>
+</div>
+</section><section aria-labelledby="history-tab-4" class="history-panel" hidden="" id="history-panel-4" role="tabpanel">
+<h2>
+          Stage Screenshots
+          <br/>
+          Photo Credit:
+          <a href="https://www.citytech.cuny.edu/faculty/MMcaUliffe" target="_blank">
+            Professor Michael McAuliffe
+          </a>
+</h2>
+<div class="gallery">
+<img alt="Screen 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%201.jpg"/>
+<img alt="Screen 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%202.jpg"/>
+<img alt="Screen 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%203.jpg"/>
+<img alt="Screen 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%204.jpg"/>
+<img alt="Screen 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%205.jpg"/>
+<img alt="Screen 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%206.jpg"/>
+</div>
+</section><section aria-labelledby="history-tab-5" class="history-panel" hidden="" id="history-panel-5" role="tabpanel">
+<h2>
           CHI WAYANG Spring 2025:
           Animated Backgrounds Case Study
         </h2>
-
-        <div class="iframe-container">
-          <iframe
-            src="../ARCHIVE_GALLERY/Information_Pages/ABOUTCHIBACKGROUNDS.html"
-            title="CHI WAYANG Animated Backgrounds Case Study">
-          </iframe>
-        </div>
-
-      </section>
-
-      <!-- ==================================================
-           SPRING 2024 OPEN LAB
-      ================================================== -->
-      <section>
-
-        <h2>
+<div class="iframe-container">
+<iframe src="../ARCHIVE_GALLERY/Information_Pages/ABOUTCHIBACKGROUNDS.html" title="CHI WAYANG Animated Backgrounds Case Study">
+</iframe>
+</div>
+</section><section aria-labelledby="history-tab-6" class="history-panel" hidden="" id="history-panel-6" role="tabpanel">
+<h2>
           CHI WAYANG Spring 2024:
           Open Lab Archive: Animated Backgrounds
         </h2>
-
-        <div class="iframe-container">
-          <iframe
-            src="../ARCHIVE_GALLERY/Information_Pages/Wayang%202024.html"
-            title="CHI WAYANG Spring 2024 Open Lab Archive">
-          </iframe>
-        </div>
-
-      </section>
-
-      <!-- ==================================================
-           SPRING 2024 PROJECT DEVELOPMENT
-      ================================================== -->
-      <section>
-
-        <h2>
+<div class="iframe-container">
+<iframe src="../ARCHIVE_GALLERY/Information_Pages/Wayang%202024.html" title="CHI WAYANG Spring 2024 Open Lab Archive">
+</iframe>
+</div>
+</section><section aria-labelledby="history-tab-7" class="history-panel" hidden="" id="history-panel-7" role="tabpanel">
+<h2>
           Spring 2024 Project Development | BTS
-          <br>
+          <br/>
           Photo Credit:
-          <a
-            href="https://scmcoding.github.io/ER1-H-STUD10S/Home.html"
-            target="_blank">
+          <a href="https://scmcoding.github.io/ER1-H-STUD10S/Home.html" target="_blank">
             Samuel Cheung
           </a>
-        </h2>
-
-        <div class="gallery">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-1.jpg"
-            alt="Spring 2024 BTS 1">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-2.jpg"
-            alt="Spring 2024 BTS 2">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-3.jpg"
-            alt="Spring 2024 BTS 3">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-4.jpg"
-            alt="Spring 2024 BTS 4">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-5.jpg"
-            alt="Spring 2024 BTS 5">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-6.jpg"
-            alt="Spring 2024 BTS 6">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-7.jpg"
-            alt="Spring 2024 BTS 7">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-8.jpg"
-            alt="Spring 2024 BTS 8">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-9.jpg"
-            alt="Spring 2024 BTS 9">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-10.jpg"
-            alt="Spring 2024 BTS 10">
-
-        </div>
-
-      </section>
-
-      <!-- ==================================================
-           SPRING 2024 PUPPET CONCEPTS
-      ================================================== -->
-      <section>
-
-        <h2>
+</h2>
+<div class="gallery">
+<img alt="Spring 2024 BTS 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-1.jpg"/>
+<img alt="Spring 2024 BTS 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-2.jpg"/>
+<img alt="Spring 2024 BTS 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-3.jpg"/>
+<img alt="Spring 2024 BTS 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-4.jpg"/>
+<img alt="Spring 2024 BTS 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-5.jpg"/>
+<img alt="Spring 2024 BTS 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-6.jpg"/>
+<img alt="Spring 2024 BTS 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-7.jpg"/>
+<img alt="Spring 2024 BTS 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-8.jpg"/>
+<img alt="Spring 2024 BTS 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-9.jpg"/>
+<img alt="Spring 2024 BTS 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-10.jpg"/>
+</div>
+</section><section aria-labelledby="history-tab-8" class="history-panel" hidden="" id="history-panel-8" role="tabpanel">
+<h2>
           The Archer's Journey:
           Puppet Concepts | Spring 2024
         </h2>
-
-        <div class="gallery">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet.png"
-            alt="Spring 2024 Puppet Concept">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Karna.png"
-            alt="Karna Concept">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Kunti.png"
-            alt="Kunti Concept">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_ThePrincess.png"
-            alt="Princess Concept">
-
-          <img
-            src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_GreatArcher.png"
-            alt="Great Archer Concept">
-
-        </div>
-
-      </section>
-
-    </main>
-
-    <!-- ==================================================
+<div class="gallery">
+<img alt="Spring 2024 Puppet Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet.png"/>
+<img alt="Karna Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Karna.png"/>
+<img alt="Kunti Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Kunti.png"/>
+<img alt="Princess Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_ThePrincess.png"/>
+<img alt="Great Archer Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_GreatArcher.png"/>
+</div>
+</section></div><button aria-label="Next history section" class="history-arrow history-next" title="Next section" type="button">›</button></div><div class="history-controls"><span aria-live="polite" id="history-progress">01 / 09</span></div></main>
+<!-- ==================================================
          FOOTER
     ================================================== -->
-    <footer>
-      CHIVISPUPPETS &nbsp;•&nbsp; AN ARCHIVAL SANDBOX OF PUPPETRY
+<footer>
+      CHIVISPUPPETS  •  AN ARCHIVAL SANDBOX OF PUPPETRY
     </footer>
-
-  </div>
-
-  <!-- ==================================================
+</div>
+<!-- ==================================================
        BACKGROUND JAVASCRIPT
   ================================================== -->
-  <script>
+<script>
     document.addEventListener("DOMContentLoaded", () => {
 
       /* ==================================================
@@ -1225,6 +1115,59 @@ footer{background:rgba(6,5,5,.96);border-top-color:rgba(210,138,59,.22)}
 
     });
   </script>
-
-</body>
+<script>
+/* Switch between history categories using tabs, arrows, or keyboard navigation. */
+document.addEventListener('DOMContentLoaded', () => {
+  const tabs = [...document.querySelectorAll('.history-tab')];
+  const panels = [...document.querySelectorAll('.history-panel')];
+  const previous = document.querySelector('.history-prev');
+  const next = document.querySelector('.history-next');
+  const progress = document.getElementById('history-progress');
+  let current = 0;
+  function show(index, focusTab = false) {
+    if (index < 0 || index >= panels.length || index === current) return;
+    const old = current;
+    current = index;
+    panels.forEach((panel, i) => {
+      panel.hidden = i !== current;
+      panel.classList.toggle('active', i === current);
+      panel.classList.toggle('slide-reverse', i === current && current < old);
+    });
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('active', i === current);
+      tab.setAttribute('aria-selected', String(i === current));
+      tab.tabIndex = i === current ? 0 : -1;
+    });
+    previous.disabled = current === 0;
+    next.disabled = current === panels.length - 1;
+    progress.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(panels.length).padStart(2, '0');
+    if (focusTab) tabs[current].focus();
+  }
+  tabs.forEach((tab, i) => {
+    tab.tabIndex = i === 0 ? 0 : -1;
+    tab.addEventListener('click', () => show(i));
+    tab.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        show((current + (e.key === 'ArrowRight' ? 1 : -1) + panels.length) % panels.length, true);
+      } else if (e.key === 'Home') { e.preventDefault(); show(0, true); }
+      else if (e.key === 'End') { e.preventDefault(); show(panels.length - 1, true); }
+    });
+  });
+  previous.addEventListener('click', () => show(current - 1));
+  next.addEventListener('click', () => show(current + 1));
+  previous.disabled = true;
+  // Swipe horizontally on touch screens while keeping vertical scrolling available.
+  let startX = null, startY = null;
+  const viewport = document.querySelector('.history-viewport');
+  viewport.addEventListener('touchstart', e => { if(e.touches.length === 1){startX=e.touches[0].clientX;startY=e.touches[0].clientY;} }, {passive:true});
+  viewport.addEventListener('touchend', e => {
+    if(startX === null) return;
+    const dx=e.changedTouches[0].clientX-startX;
+    const dy=e.changedTouches[0].clientY-startY;
+    if(Math.abs(dx)>65 && Math.abs(dx)>Math.abs(dy)*1.3) show(current+(dx<0?1:-1));
+    startX=startY=null;
+  }, {passive:true});
+});
+</script></body>
 </html>
