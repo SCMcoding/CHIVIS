@@ -1,0 +1,1346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CHI VIS PUPPETS</title>
+
+<link rel="stylesheet" type="text/css" href="./css/mystyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* =========================
+   CHIVISPUPPETS — BASE
+========================= */
+:root {
+  --orange:#d28a3b;
+  --green:#9aa060;
+  --purple:#9b6bd3;
+  --black:#000;
+}
+
+* { box-sizing:border-box; }
+
+html,body {
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+}
+
+body {
+  background:#000;
+  color:var(--orange);
+  font-family:"Courier New",monospace;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+#backgroundEffect {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(210,138,59,.045),
+      transparent 55%
+    ),#000;
+}
+
+.background-word {
+  position:absolute;
+  font-weight:bold;
+  white-space:nowrap;
+  letter-spacing:5px;
+  user-select:none;
+  text-transform:uppercase;
+  animation:
+    floatWords 14s ease-in-out infinite alternate,
+    wordGlow 5s ease-in-out infinite alternate;
+}
+
+.word1 {
+  left:3%;top:9%;font-size:72px;
+  color:rgba(205,101,38,.20);
+}
+.word2 {
+  right:4%;top:23%;font-size:80px;
+  color:rgba(126,138,73,.20);
+  animation-delay:-2s;
+}
+.word3 {
+  left:5%;top:40%;font-size:72px;
+  color:rgba(224,132,49,.20);
+  animation-delay:-4s;
+}
+.word4 {
+  right:3%;top:57%;font-size:75px;
+  color:rgba(137,145,82,.20);
+  animation-delay:-6s;
+}
+.word5 {
+  left:8%;top:73%;font-size:65px;
+  color:rgba(214,145,60,.20);
+  animation-delay:-8s;
+}
+.word6 {
+  right:7%;top:88%;font-size:65px;
+  color:rgba(149,156,94,.20);
+  animation-delay:-10s;
+}
+
+@keyframes floatWords {
+  0% {transform:translate(0,0) rotate(-1deg);}
+  50% {transform:translate(20px,-10px) rotate(1deg);}
+  100% {transform:translate(35px,-20px) rotate(-1deg);}
+}
+
+@keyframes wordGlow {
+  from {opacity:.55;}
+  to {opacity:1;}
+}
+
+#numberLayer {
+  position:absolute;
+  inset:0;
+}
+
+.data-number {
+  position:absolute;
+  font-size:11px;
+  letter-spacing:2px;
+  white-space:nowrap;
+  user-select:none;
+  transition:transform .15s linear;
+}
+
+.data-number:nth-child(odd) {
+  color:rgba(210,138,59,.4);
+}
+
+.data-number:nth-child(even) {
+  color:rgba(154,160,96,.4);
+}
+
+/* =========================
+   MOUSE DATA
+========================= */
+#mouseCoordinates {
+  position:fixed;
+  right:18px;
+  bottom:55px;
+  z-index:20;
+  text-align:left;
+  font-size:11px;
+  line-height:1.7;
+  letter-spacing:2px;
+  color:rgba(194,111,44,.55);
+  pointer-events:none;
+}
+
+.mouse-number {
+  position:fixed;
+  z-index:20;
+  pointer-events:none;
+  font-size:12px;
+  letter-spacing:2px;
+  animation:mouseFade 850ms ease-out forwards;
+}
+
+.mouse-number.orange {
+  color:rgba(203,119,43,.7);
+}
+
+.mouse-number.green {
+  color:rgba(125,128,78,.7);
+}
+
+@keyframes mouseFade {
+  from {
+    opacity:.65;
+    transform:translate(-50%,-50%);
+  }
+  to {
+    opacity:0;
+    transform:translate(-50%,-45px);
+  }
+}
+
+/* =========================
+   MAIN / BANNER
+========================= */
+.page-content {
+  position:relative;
+  z-index:2;
+}
+
+.banner-frame {
+  width:100%;
+  height:300px;
+  overflow:hidden;
+  background:#000;
+  border-bottom:1px solid rgba(190,100,35,.3);
+}
+
+.banner-frame iframe {
+  display:block;
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  border:0;
+  background:#000;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+.navigation {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  list-style:none;
+  margin:0;
+  padding:0;
+  background:linear-gradient(
+    90deg,#0b0a08,#1d160f,#0b0a08
+  );
+  border-top:1px solid rgba(190,100,35,.25);
+  border-bottom:1px solid rgba(190,100,35,.25);
+  font-size:24px;
+}
+
+.navigation li {
+  margin:0 15px;
+}
+
+.navigation a {
+  display:block;
+  padding:12px 20px;
+  color:var(--orange);
+  text-decoration:none;
+  border-radius:4px;
+  transition:.3s ease;
+}
+
+.navigation a:hover {
+  background:rgba(120,112,70,.1);
+  color:var(--green);
+  transform:translateY(-2px);
+}
+
+/* =========================
+   TITLE
+========================= */
+h1 {
+  margin:30px 0 12px;
+  padding:0 15px;
+  color:var(--orange);
+  letter-spacing:2px;
+  text-shadow:0 0 12px rgba(210,138,59,.1);
+}
+
+h1::after {
+  content:"";
+  display:block;
+  width:110px;
+  height:3px;
+  margin:10px auto;
+  background:linear-gradient(
+    90deg,#a84f27,var(--orange),#85875b
+  );
+  border-radius:2px;
+}
+
+/* =========================
+   BIG ORACLE / NARROW CHART
+========================= */
+.oracle-layout {
+  display:grid;
+  grid-template-columns:minmax(0,2.55fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+  width:calc(100% - 40px);
+  max-width:1800px;
+  margin:30px auto 20px;
+}
+
+.oracle-container {
+  position:relative;
+  width:100%;
+  min-width:0;
+  aspect-ratio:16 / 9;
+  margin:0;
+  background:#000;
+  isolation:isolate;
+}
+
+.oracle-window {
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  border:1px solid rgba(210,138,59,.32);
+  border-radius:8px;
+  box-shadow:0 12px 32px rgba(0,0,0,.55);
+}
+
+#oracleStage {
+  position:absolute;
+  top:0;
+  left:0;
+  width:1600px;
+  height:900px;
+  background:#000;
+  transform-origin:top left;
+}
+
+#oracleFrame {
+  display:block;
+  width:1600px;
+  height:900px;
+  margin:0;
+  padding:0;
+  border:0;
+  background:#000;
+}
+
+/* =========================
+   FULLSCREEN BUTTONS
+========================= */
+.fullscreen-button,
+.exit-fullscreen-button {
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border:1px solid rgba(210,138,59,.75);
+  border-radius:4px;
+  background:rgba(0,0,0,.88);
+  color:var(--orange);
+  font:bold 11px "Courier New",monospace;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  backdrop-filter:blur(6px);
+  transition:background .2s,color .2s,transform .2s;
+}
+
+.fullscreen-button:hover,
+.exit-fullscreen-button:hover {
+  background:var(--orange);
+  color:#000;
+}
+
+.fullscreen-button {
+  display:flex;
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  z-index:100;
+}
+
+.exit-fullscreen-button {
+  display:none;
+  position:absolute;
+  top:18px;
+  right:18px;
+  z-index:999999;
+}
+
+/* =========================
+   TRUE FULLSCREEN
+========================= */
+.oracle-container:fullscreen,
+.oracle-container:-webkit-full-screen {
+  position:fixed;
+  inset:0;
+  width:100vw !important;
+  height:100vh !important;
+  max-width:none !important;
+  aspect-ratio:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden;
+  background:#000;
+  border:0;
+  border-radius:0;
+  transform:none !important;
+}
+
+.oracle-container:fullscreen .oracle-window,
+.oracle-container:-webkit-full-screen .oracle-window {
+  position:absolute;
+  inset:0;
+  width:100% !important;
+  height:100% !important;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+}
+
+.oracle-container:fullscreen .fullscreen-button,
+.oracle-container:-webkit-full-screen .fullscreen-button {
+  display:none !important;
+}
+
+.oracle-container:fullscreen .exit-fullscreen-button,
+.oracle-container:-webkit-full-screen .exit-fullscreen-button {
+  display:flex !important;
+}
+
+.oracle-container::backdrop {
+  background:#000;
+}
+
+/* =========================
+   LONGER DESCRIPTION BOX
+========================= */
+.about-me {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  min-width:0;
+  height:650px;
+  aspect-ratio:auto;
+  min-height:0;
+  margin:0;
+  padding:15px;
+  text-align:left;
+  color:var(--green);
+  background:rgba(12,11,10,.94);
+  border:1px solid rgba(154,160,96,.25);
+  border-radius:8px;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+
+.chart-heading {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+  color:var(--orange);
+  border-bottom:1px solid rgba(210,138,59,.2);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1.2px;
+  padding-bottom:10px;
+  margin-bottom:10px;
+}
+
+.chart-heading i {
+  color:var(--green);
+}
+
+.oracle-tabs {
+  display:flex;
+  flex-shrink:0;
+  margin-bottom:10px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(154,160,96,.2);
+  border-radius:4px;
+  overflow:hidden;
+}
+
+.oracle-tab {
+  flex:1;
+  min-width:0;
+  padding:10px 5px;
+  background:transparent;
+  border:0;
+  color:var(--green);
+  font:normal 10px "Courier New",monospace;
+  letter-spacing:.5px;
+  cursor:pointer;
+  transition:.25s ease;
+}
+
+.oracle-tab + .oracle-tab {
+  border-left:1px solid rgba(154,160,96,.18);
+}
+
+.oracle-tab:hover {
+  color:#bd9ce5;
+  background:rgba(155,107,211,.045);
+}
+
+.oracle-tab.active {
+  color:#bd9ce5;
+  background:rgba(155,107,211,.075);
+  box-shadow:inset 0 -2px var(--purple);
+  font-weight:bold;
+}
+
+.chart-content {
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:5px;
+  scrollbar-width:thin;
+  scrollbar-color:#666849 #100f0c;
+}
+
+.chart-content::-webkit-scrollbar {
+  width:5px;
+}
+
+.chart-content::-webkit-scrollbar-track {
+  background:#100f0c;
+}
+
+.chart-content::-webkit-scrollbar-thumb {
+  background:#666849;
+  border-radius:5px;
+}
+
+.oracle-panel {
+  display:none;
+}
+
+.oracle-panel.active {
+  display:block;
+}
+
+.oracle-panel[hidden] {
+  display:none !important;
+}
+
+.oracle-panel h2 {
+  margin:0 0 12px;
+  color:var(--orange);
+  font-size:12px;
+  font-weight:normal;
+  letter-spacing:1px;
+}
+
+.oracle-guide {
+  margin:0 0 9px;
+  padding:11px;
+  background:rgba(154,160,96,.025);
+  border:1px solid rgba(154,160,96,.16);
+  border-radius:3px;
+}
+
+.oracle-info-label {
+  color:var(--orange);
+  font-size:9px;
+  letter-spacing:1px;
+  margin-bottom:7px;
+}
+
+.oracle-info-value,
+.oracle-guide p {
+  color:#a5aa86;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.oracle-guide p {
+  margin:8px 0 0;
+}
+
+.oracle-guide p + p {
+  margin-top:11px;
+}
+
+.oracle-guide strong {
+  color:#c79b61;
+}
+
+.oracle-password {
+  display:inline-block;
+  padding:5px 10px;
+  color:#c4a1eb;
+  font-weight:bold;
+  letter-spacing:1px;
+  background:rgba(155,107,211,.07);
+  border:1px solid rgba(155,107,211,.4);
+}
+
+/* =========================
+   HOW-TO DIAGRAMS
+========================= */
+.how-diagram {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin-top:12px;
+  padding:10px 7px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(154,160,96,.15);
+  border-radius:4px;
+}
+
+.diagram-node {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  min-width:65px;
+  max-width:120px;
+  padding:9px 7px;
+  text-align:center;
+  background:rgba(154,160,96,.045);
+  border:1px solid rgba(154,160,96,.28);
+  border-radius:4px;
+  color:#b7bc8b;
+  font-size:9px;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+
+.diagram-node i {
+  font-size:16px;
+  color:var(--orange);
+}
+
+.diagram-node.purple {
+  background:rgba(155,107,211,.065);
+  border-color:rgba(155,107,211,.4);
+  color:#c4a1eb;
+}
+
+.diagram-node.purple i {
+  color:var(--purple);
+}
+
+.diagram-arrow {
+  flex:0 0 auto;
+  color:rgba(210,138,59,.65);
+  font-size:12px;
+}
+
+.diagram-caption {
+  margin-top:7px;
+  color:rgba(154,160,96,.8);
+  font-size:9px;
+  line-height:1.6;
+  text-align:center;
+}
+
+/* =========================
+   STATUS / FOOTER
+========================= */
+.oracle-status {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:calc(100% - 40px);
+  max-width:1800px;
+  margin:0 auto 40px;
+  color:rgba(196,117,53,.58);
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.status-dot {
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-right:7px;
+  border-radius:50%;
+  background:#88895c;
+  box-shadow:0 0 6px rgba(136,137,92,.45);
+  animation:statusPulse 1.7s ease-in-out infinite alternate;
+}
+
+@keyframes statusPulse {
+  from {opacity:.45;}
+  to {opacity:1;}
+}
+
+footer {
+  position:relative;
+  z-index:3;
+  padding:14px 0;
+  background:rgba(15,13,11,.97);
+  border-top:1px solid rgba(180,92,34,.25);
+  color:rgba(192,118,56,.62);
+  font-size:.875rem;
+  text-align:center;
+}
+
+/* =========================
+   RESPONSIVE LAYOUT
+========================= */
+@media(max-width:1200px) {
+  .oracle-layout {
+    grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+  }
+}
+
+/* Tablet: stack when the chart narrows */
+@media(max-width:900px) {
+  .oracle-layout {
+    grid-template-columns:1fr;
+    max-width:900px;
+  }
+
+  .about-me {
+    height:auto;
+    min-height:450px;
+    max-height:none;
+  }
+
+  .chart-content {
+    max-height:420px;
+    flex:auto;
+  }
+}
+
+@media(max-width:700px) {
+  .banner-frame {height:200px;}
+  .navigation {font-size:17px;}
+  .navigation li {margin:0 4px;}
+  .navigation a {padding:10px 12px;}
+  h1 {font-size:23px;}
+
+  .background-word {
+    font-size:34px !important;
+    letter-spacing:2px;
+    opacity:.12;
+  }
+
+  .oracle-layout {
+    width:calc(100% - 20px);
+    margin:20px auto;
+    gap:15px;
+  }
+
+  .oracle-status {
+    width:calc(100% - 20px);
+    font-size:8px;
+  }
+
+  .fullscreen-button {
+    right:8px;
+    bottom:8px;
+    padding:8px 10px;
+    font-size:9px;
+  }
+
+  .exit-fullscreen-button {
+    top:10px;
+    right:10px;
+    padding:10px 12px;
+    font-size:9px;
+  }
+
+  .about-me {
+    padding:12px;
+    max-height:none;
+  }
+
+  .chart-content {
+    max-height:none;
+    overflow:visible;
+  }
+
+  .diagram-node {
+    min-width:60px;
+    font-size:9px;
+  }
+
+  #mouseCoordinates {
+    display:none;
+  }
+}
+
+@media(max-width:380px) {
+  .banner-frame {height:150px;}
+  h1 {font-size:19px;}
+  .navigation {font-size:14px;}
+  .navigation a {padding:9px 8px;}
+  .oracle-layout {width:calc(100% - 12px);}
+  .about-me {padding:9px;}
+  .diagram-node {min-width:55px;padding:7px 5px;}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .background-word,.status-dot {animation:none;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div id="backgroundEffect">
+  <span class="background-word word1">SANDBOX</span>
+  <span class="background-word word2">SIMULATION</span>
+  <span class="background-word word3">VISUALIZATION</span>
+  <span class="background-word word4">INTERACTION</span>
+  <span class="background-word word5">MOVEMENT</span>
+  <span class="background-word word6">EXPLORE</span>
+  <div id="numberLayer"></div>
+</div>
+
+<div id="mouseCoordinates">
+  X: 0000<br>
+  Y: 0000
+</div>
+
+<div class="page-content">
+
+  <!-- BANNER -->
+  <div class="banner-frame">
+    <iframe
+      src="./Website%20Design/Banner/Banner.html"
+      title="CHI VIS PUPPETS Banner"
+      scrolling="no"
+    ></iframe>
+  </div>
+
+  <!-- NAVIGATION -->
+  <ul class="navigation">
+    <li><a href="./OUR_HISTORY.html">OUR MISSION</a></li>
+    <li><a href="./ArchiveGallery.html">ARCHIVE</a></li>
+  </ul>
+
+  <h1>An Archival Sandbox of Puppetry</h1>
+
+  <div class="oracle-layout">
+
+    <!-- LARGE ORACLE SIMULATOR -->
+    <div class="oracle-container" id="oracleContainer">
+
+      <div class="oracle-window" id="oracleWindow">
+        <div id="oracleStage">
+          <iframe
+            id="oracleFrame"
+            src="./Website%20Design/Oracle/ORACLE.html"
+            title="CHI VIS ORACLE"
+            loading="eager"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            scrolling="no"
+          ></iframe>
+        </div>
+      </div>
+
+      <button
+        class="fullscreen-button"
+        id="fullscreenButton"
+        type="button">
+        <i class="fa-solid fa-expand"></i>
+        FULLSCREEN
+      </button>
+
+      <button
+        class="exit-fullscreen-button"
+        id="exitFullscreenButton"
+        type="button">
+        <i class="fa-solid fa-compress"></i>
+        EXIT FULLSCREEN
+      </button>
+
+    </div>
+
+    <!-- LONGER DESCRIPTION CHART -->
+    <div class="about-me">
+
+      <div class="chart-heading">
+        <i class="fa-solid fa-circle-nodes"></i>
+        ORACLE / INFORMATION
+      </div>
+
+      <div class="oracle-tabs"
+           role="tablist"
+           aria-label="ORACLE Information">
+
+        <button
+          class="oracle-tab active"
+          id="oracleDescriptionTab"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="oracleDescription"
+          data-oracle-panel="oracleDescription">
+          DESCRIPTION
+        </button>
+
+        <button
+          class="oracle-tab"
+          id="oracleInstructionsTab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="oracleInstructions"
+          data-oracle-panel="oracleInstructions">
+          HOW TO USE
+        </button>
+      </div>
+
+      <div class="chart-content">
+
+        <!-- DESCRIPTION -->
+        <div class="oracle-panel active"
+             id="oracleDescription"
+             role="tabpanel"
+             aria-labelledby="oracleDescriptionTab">
+
+          <h2>Description</h2>
+
+          <div class="oracle-guide">
+            <div class="oracle-info-label">SYSTEM NAME</div>
+            <div class="oracle-info-value">
+              Observational Research Archival Cultural Learning Engine (ORACLE)
+            </div>
+          </div>
+
+          <div class="oracle-guide">
+            <div class="oracle-info-label">PURPOSE</div>
+            <p>
+              The <strong>Observational Research Archival Cultural Learning Engine</strong>,
+              also known as <strong>ORACLE</strong>, is an engine specifically designed
+              to research and explore puppet cultures from around the world. It allows
+              anyone to experience and learn about these cultures through a guided
+              tour or through traditional music.
+            </p>
+          </div>
+
+          <div class="oracle-guide">
+            <div class="oracle-info-label">RESEARCH SYSTEM</div>
+            <p>
+              ORACLE relies on existing sources to gather information about puppetry
+              traditions, using keywords to locate relevant history, cultural
+              information, locations, images, time periods, and music. The system
+              was developed through prompt engineering, visual design, and
+              HTML-based programming.
+            </p>
+          </div>
+
+          <div class="oracle-guide">
+            <div class="oracle-info-label">PLEASE NOTE</div>
+            <p>
+              <strong>Please Note:</strong> ORACLE is an experimental program and
+              may occasionally experience bugs, errors, missing information, or
+              unexpected behavior. Because the system relies on external online
+              sources, some content may also change or become temporarily unavailable.
+            </p>
+          </div>
+        </div>
+
+        <!-- HOW TO USE -->
+        <div class="oracle-panel"
+             id="oracleInstructions"
+             role="tabpanel"
+             aria-labelledby="oracleInstructionsTab"
+             hidden>
+
+          <h2>How To Use</h2>
+
+          <div class="oracle-guide">
+            <strong>01 / EXPLORE ORACLE</strong>
+            <p>
+              Explore puppet cultures from around the world. ORACLE presents
+              cultural information, historical references, geographic locations,
+              archival images, and traditional music.
+            </p>
+
+            <div class="how-diagram" aria-label="Start ORACLE, explore a culture, and view its archive">
+              <div class="diagram-node">
+                <i class="fa-solid fa-power-off"></i>
+                <span>POWER ON</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-earth-americas"></i>
+                <span>CULTURE</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-images"></i>
+                <span>ARCHIVE</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-guide">
+            <strong>02 / GUIDED EXPERIENCE</strong>
+            <p>
+              Select SPEAK to hear information about the current culture.
+              Use CURATOR MODE for continuous guided narration, or choose
+              MUSIC ONLY or NARRATOR ONLY to change the audio experience.
+            </p>
+
+            <div class="how-diagram" aria-label="Select speaking or curator mode and listen">
+              <div class="diagram-node">
+                <i class="fa-solid fa-volume-high"></i>
+                <span>SPEAK</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-headphones"></i>
+                <span>LISTEN</span>
+              </div>
+            </div>
+            <div class="diagram-caption">
+              Choose CURATOR MODE for a continuous guided experience.
+            </div>
+          </div>
+
+          <div class="oracle-guide">
+            <strong>03 / INTERACTIVE CONTROLS</strong>
+            <p>
+              Use NEW CULTURE to explore another puppet tradition.
+              Adjust animation speed, interact with the cultural archive,
+              and select FULLSCREEN for a larger experience.
+            </p>
+
+            <div class="how-diagram" aria-label="Choose a new culture and explore it fullscreen">
+              <div class="diagram-node">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                <span>NEW CULTURE</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-expand"></i>
+                <span>FULLSCREEN</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-guide">
+            <strong>04 / ACCESS THE HIDDEN THINKER PROGRAM</strong>
+            <p>
+              THINKER is a hidden research mode within ORACLE.
+              To access it, first turn ORACLE OFF using the power control.
+            </p>
+            <p>
+              While the system is OFF, click inside ORACLE and press the
+              <strong>T</strong> key four times. The first press activates the
+              hidden signal. The next three presses must be completed within
+              five seconds to reveal the password screen.
+            </p>
+
+            <div class="how-diagram" aria-label="Turn ORACLE off, press T four times, then enter the password">
+              <div class="diagram-node">
+                <i class="fa-solid fa-power-off"></i>
+                <span>OFF</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node purple">
+                <i class="fa-solid fa-keyboard"></i>
+                <span>T × 4</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node purple">
+                <i class="fa-solid fa-lock"></i>
+                <span>PASSWORD</span>
+              </div>
+            </div>
+
+            <p>When the access screen appears, enter:</p>
+            <p><span class="oracle-password">im thinking</span></p>
+            <p>Select ENTER to unlock THINKER.</p>
+          </div>
+
+          <div class="oracle-guide">
+            <strong>05 / HOW THINKER WORKS</strong>
+            <p>
+              THINKER provides an interactive research environment for exploring
+              information through web searches, academic research, source
+              references, and visual research tools.
+            </p>
+            <p>
+              Enter a research topic into the search field and select SEARCH.
+              Available research tools organize information and supporting
+              sources for further exploration.
+            </p>
+
+            <div class="how-diagram" aria-label="Enter a topic, search, and explore sources">
+              <div class="diagram-node">
+                <i class="fa-solid fa-keyboard"></i>
+                <span>TOPIC</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>SEARCH</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-book-open"></i>
+                <span>SOURCES</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-guide">
+            <strong>06 / RETURN TO ORACLE</strong>
+            <p>
+              Turn THINKER OFF, then press the central core to restore ORACLE.
+            </p>
+
+            <div class="how-diagram" aria-label="Turn THINKER off and press the central core">
+              <div class="diagram-node purple">
+                <i class="fa-solid fa-power-off"></i>
+                <span>THINKER OFF</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span>CENTRAL CORE</span>
+              </div>
+              <i class="fa-solid fa-arrow-right diagram-arrow"></i>
+              <div class="diagram-node">
+                <i class="fa-solid fa-rotate"></i>
+                <span>ORACLE</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATUS -->
+  <div class="oracle-status">
+    <span><span class="status-dot"></span>ORACLE</span>
+    <span>Interactive Sandbox</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 CHIVISPUPPETS &bull; All rights reserved
+  </footer>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* =========================
+     ORACLE FULLSCREEN / SCALING
+  ========================= */
+  const ORACLE_WIDTH = 1600;
+  const ORACLE_HEIGHT = 900;
+
+  const oracleContainer = document.getElementById("oracleContainer");
+  const oracleWindow = document.getElementById("oracleWindow");
+  const oracleStage = document.getElementById("oracleStage");
+  const fullscreenButton = document.getElementById("fullscreenButton");
+  const exitFullscreenButton = document.getElementById("exitFullscreenButton");
+
+  function isOracleFullscreen() {
+    return (
+      document.fullscreenElement === oracleContainer ||
+      document.webkitFullscreenElement === oracleContainer
+    );
+  }
+
+  function resizeOracle() {
+    const box = isOracleFullscreen() ? oracleContainer : oracleWindow;
+    const width = box.clientWidth;
+    const height = box.clientHeight;
+
+    if (!width || !height) return;
+
+    const scale = Math.min(
+      width / ORACLE_WIDTH,
+      height / ORACLE_HEIGHT
+    );
+
+    oracleStage.style.left =
+      ((width - ORACLE_WIDTH * scale) / 2) + "px";
+
+    oracleStage.style.top =
+      ((height - ORACLE_HEIGHT * scale) / 2) + "px";
+
+    oracleStage.style.transform = "scale(" + scale + ")";
+  }
+
+  fullscreenButton.addEventListener("click", function () {
+    if (isOracleFullscreen()) return;
+
+    try {
+      if (oracleContainer.requestFullscreen) {
+        const result = oracleContainer.requestFullscreen();
+        if (result && typeof result.catch === "function") {
+          result.catch(error => console.error("Fullscreen failed:", error));
+        }
+      } else if (oracleContainer.webkitRequestFullscreen) {
+        oracleContainer.webkitRequestFullscreen();
+      }
+    } catch(error) {
+      console.error("Fullscreen failed:", error);
+    }
+  });
+
+  exitFullscreenButton.addEventListener("click", function () {
+    if (!isOracleFullscreen()) return;
+
+    try {
+      if (document.exitFullscreen) {
+        const result = document.exitFullscreen();
+        if (result && typeof result.catch === "function") {
+          result.catch(error => console.error("Exit fullscreen failed:", error));
+        }
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    } catch(error) {
+      console.error("Exit fullscreen failed:", error);
+    }
+  });
+
+  function handleFullscreenChange() {
+    const fullscreen = isOracleFullscreen();
+
+    fullscreenButton.hidden = fullscreen;
+    exitFullscreenButton.hidden = !fullscreen;
+
+    requestAnimationFrame(resizeOracle);
+    setTimeout(resizeOracle,80);
+    setTimeout(resizeOracle,250);
+  }
+
+  document.addEventListener("fullscreenchange",handleFullscreenChange);
+  document.addEventListener("webkitfullscreenchange",handleFullscreenChange);
+  window.addEventListener("resize",resizeOracle);
+
+  if (window.ResizeObserver) {
+    const observer = new ResizeObserver(() => {
+      requestAnimationFrame(resizeOracle);
+    });
+    observer.observe(oracleContainer);
+    observer.observe(oracleWindow);
+  }
+
+  handleFullscreenChange();
+
+  /* =========================
+     FLOATING BACKGROUND DATA
+  ========================= */
+  const numberLayer = document.getElementById("numberLayer");
+  const numbers = [];
+  const NUMBER_COUNT = 50;
+
+  function randomNumber() {
+    return Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4,"0");
+  }
+
+  for (let i = 0; i < NUMBER_COUNT; i++) {
+    const element = document.createElement("span");
+    element.className = "data-number";
+    element.innerText = randomNumber();
+    element.style.left = Math.random() * 95 + "%";
+    element.style.top = Math.random() * 95 + "%";
+    element.style.opacity = .2 + Math.random() * .2;
+    element.style.fontSize = (9 + Math.random() * 5) + "px";
+    numberLayer.appendChild(element);
+
+    numbers.push({
+      element:element,
+      movement:5 + Math.random() * 30
+    });
+  }
+
+  setInterval(function () {
+    numbers.forEach(item => {
+      item.element.innerText = randomNumber();
+    });
+  },750);
+
+  /* =========================
+     MOUSE EFFECTS
+  ========================= */
+  const coordinateDisplay = document.getElementById("mouseCoordinates");
+  const backgroundWords = document.querySelectorAll(".background-word");
+  let alternate = true;
+  let lastTrailTime = 0;
+
+  document.addEventListener("mousemove",function (event) {
+    const x = event.clientX;
+    const y = event.clientY;
+
+    coordinateDisplay.innerHTML =
+      "X: " + String(x).padStart(4,"0") +
+      "<br>Y: " + String(y).padStart(4,"0");
+
+    const xRatio = x / window.innerWidth - .5;
+    const yRatio = y / window.innerHeight - .5;
+
+    numbers.forEach(function (item) {
+      item.element.style.transform =
+        "translate(" + (xRatio * item.movement) + "px," +
+        (yRatio * item.movement) + "px)";
+    });
+
+    backgroundWords.forEach(function (word,index) {
+      const strength = 4 + index * 1.7;
+      word.style.marginLeft = xRatio * strength + "px";
+      word.style.marginTop = yRatio * strength + "px";
+    });
+
+    const now = performance.now();
+    if (now - lastTrailTime < 70) return;
+    lastTrailTime = now;
+
+    const trail = document.createElement("span");
+    trail.className = "mouse-number " + (alternate ? "orange" : "green");
+    trail.innerText = alternate
+      ? "X:" + String(x).padStart(4,"0")
+      : "Y:" + String(y).padStart(4,"0");
+
+    alternate = !alternate;
+    trail.style.left = x + "px";
+    trail.style.top = y + "px";
+    document.body.appendChild(trail);
+    setTimeout(() => trail.remove(),900);
+  });
+
+  /* =========================
+     INFORMATION TABS
+  ========================= */
+  const tabs = document.querySelectorAll(".oracle-tab");
+  const panels = document.querySelectorAll(".oracle-panel");
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click",function () {
+      tabs.forEach(function (item) {
+        item.classList.remove("active");
+        item.setAttribute("aria-selected","false");
+      });
+
+      panels.forEach(function (panel) {
+        panel.classList.remove("active");
+        panel.hidden = true;
+      });
+
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected","true");
+
+      const panel = document.getElementById(tab.dataset.oraclePanel);
+      panel.hidden = false;
+      panel.classList.add("active");
+
+      document.querySelector(".chart-content").scrollTop = 0;
+    });
+  });
+
+});
+</script>
+
+</body>
+</html>
