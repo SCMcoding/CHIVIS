@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>CHI VIS PUPPETS | Skill Square</title>
+  <title>CHI VIS PUPPETS | Our Mission</title>
 
   <link rel="stylesheet" type="text/css" href="./css/mystyle.css">
 
@@ -423,6 +423,93 @@
       }
     }
 
+
+    /* =========================
+       INTEGRATED HISTORY SECTION
+       Formerly loaded from HISTORY.html.
+       Styling is scoped so the original page stays intact.
+    ========================== */
+    .mission-history {
+      width: calc(100% - 40px);
+      max-width: 1400px;
+      margin: 30px auto 50px;
+      padding: 46px 50px 24px;
+      background: rgba(8,9,6,.84);
+      border: 1px solid rgba(133,145,82,.50);
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.85),0 0 24px rgba(137,145,82,.10);
+      backdrop-filter: blur(7px);
+    }
+    /* PAGE CONTENT: history HTML and writing appear side by side */
+    .mission-history .history-layout {
+      display: grid;
+      grid-template-columns: minmax(0,1.15fr) minmax(0,1fr);
+      align-items: center;
+      gap: 38px;
+    }
+    /* LEFT COLUMN: the original interactive HTML presentation */
+    .mission-history .html-window {
+      min-width: 0;
+      width: 100%;
+      overflow: hidden;
+      background: rgba(0,0,0,.78);
+      border: 1px solid rgba(201,120,43,.45);
+      border-radius: 7px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.72),0 0 18px rgba(201,120,43,.08);
+    }
+    .mission-history .html-window-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 12px;
+      color: rgba(210,138,59,.78);
+      background: rgba(20,15,10,.88);
+      border-bottom: 1px solid rgba(137,145,82,.25);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .mission-history .html-window iframe {
+      display: block;
+      width: 100%;
+      height: 500px;
+      border: 0;
+      background: #000;
+    }
+    /* RIGHT COLUMN: original CHIVIS introduction/history wording */
+    .mission-history .description { min-width: 0; }
+    .mission-history .description p {
+      margin: 0 0 24px;
+      color: #a3aa6a;
+      font-size: 16px;
+      line-height: 1.85;
+      letter-spacing: .15px;
+    }
+    .mission-history .description p:last-child { margin-bottom: 0; }
+    .mission-history .description strong { color: #d18436; }
+    .mission-system-label {
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(137,145,82,.24);
+      color: rgba(145,153,91,.60);
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    /* RESPONSIVE: stack the HTML display above the history text */
+    @media (max-width: 900px) {
+      .mission-history .history-layout { grid-template-columns: 1fr; gap: 28px; }
+      .mission-history .html-window { max-width: 760px; margin: 0 auto; }
+      .mission-history .html-window iframe { height: 430px; }
+    }
+    @media (max-width: 700px) {
+      .mission-history { width: calc(100% - 20px); padding: 28px 20px 20px; }
+      .mission-history .html-window iframe { height: 360px; }
+      .mission-history .description p { font-size: 14px; line-height: 1.7; }
+    }
+
   </style>
 </head>
 
@@ -498,46 +585,45 @@
     </h1>
 
 
-    <!-- =========================
-         SKILL SQUARE
+<!-- =========================
+         OUR MISSION / HISTORY
+         Integrated directly into this page.
+         No separate HISTORY.html file is required.
     ========================== -->
+    <section class="mission-history" aria-label="CHIVIS history and introduction">
+      <!-- LEFT: EMBEDDED INTERACTIVE HTML / RIGHT: HISTORY TEXT -->
+      <div class="history-layout">
+<!-- COLUMN 1: EMBEDDED HTML PAGE -->
+<div class="html-window">
+<div class="html-window-header">
+<span><span class="status-dot"></span>INTERACTIVE ARCHIVE</span>
+<span>CHIVISPUPPETS</span>
+</div>
+<!-- Change the src below to the HTML page you want to display -->
+<iframe allow="fullscreen" allowfullscreen="" loading="lazy" src="./ARCHIVE_GALLERY/Animated%20Html%20Posters/SpaceStation.html" title="CHIVISPUPPETS Interactive Page">
+</iframe>
+</div>
+<!-- COLUMN 2: DESCRIPTION / WORDS -->
+<div class="description">
+<p>
+         Welcome to <strong>CHIVIS</strong>, an interactive digital space where puppetry, culture, technology, and science come together. Explore a growing virtual puppet archive, interactive projects, digital experiments, and an educational lab with science-based simulations.
 
-    <section>
+        </p>
+<p>
+          CHIVIS grew from earlier work with City Tech’s Center for Holistic Integration (CHI), including a Wayang kulit shadow-puppet performance that combined traditional puppetry with digital technology. CHIVIS is a separate project that builds on those ideas in a new direction.
 
-      <div class="iframe-container">
-
-        <iframe
-          src="./ARCHIVE_GALLERY/Information_Pages/HISTORY.html"
-          title="CHI VIS PUPPETS Skill Square"
-          loading="eager"
-          allow="fullscreen"
-          allowfullscreen
-        ></iframe>
-
-      </div>
-
+        </p>
+<p>
+          The site is designed as a place to explore, experiment, and discover. Through HTML coding, prompt engineering, visual design, and interactive media, CHIVIS brings traditional forms of puppetry into a digital space while also opening the door to new creative and educational experiences.
+        </p>
+</div>
+</div>
+      <!-- BOTTOM: ORIGINAL HISTORY STATUS LABEL -->
+      <div class="mission-system-label"><span class="status-dot"></span>CHIVISPUPPETS / VIRTUAL PUPPET ARCHIVE</div>
     </section>
 
 
-    <!-- =========================
-         STATUS
-    ========================== -->
-
-    <div class="frame-status">
-
-      <span>
-        <span class="status-dot"></span>
-        Skill Square
-      </span>
-
-      <span>
-        CHIVISPUPPETS
-      </span>
-
-    </div>
-
-
-    <!-- =========================
+<!-- =========================
          FOOTER
     ========================== -->
 

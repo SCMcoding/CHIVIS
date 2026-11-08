@@ -773,6 +773,83 @@ footer {
 @media(prefers-reduced-motion:reduce) {
   .background-word,.status-dot {animation:none;}
 }
+
+/* =========================
+   TWO-PAGE SLIDING SHOWCASE NAVIGATION
+   Page 1: unnamed HTML display | Page 2: ORACLE + description
+========================= */
+.showcase-navigation {
+  position:relative; z-index:3; display:flex; align-items:center;
+  justify-content:center; gap:15px; margin:16px auto 0;
+  padding:0 12px;
+}
+.showcase-tab, .showcase-arrow {
+  font: bold 11px "Courier New",monospace; letter-spacing:1.5px;
+  color:var(--green); background:rgba(12,11,10,.88);
+  border:1px solid rgba(154,160,96,.32); cursor:pointer;
+  padding:12px 17px; transition:background .2s,color .2s,border-color .2s;
+}
+.showcase-tab:hover, .showcase-arrow:hover {color:var(--orange);border-color:var(--orange);}
+.showcase-tab[data-showcase-page="0"] {min-width:52px;}
+.showcase-tab.active {color:var(--orange);border-color:var(--orange);box-shadow:inset 0 -2px var(--orange);}
+.showcase-arrow:disabled {opacity:.25;cursor:default;}
+.showcase-viewport {width:100%;overflow:hidden;position:relative;z-index:2;touch-action:pan-y;}
+.showcase-track {display:flex;width:200%;align-items:flex-start;transform:translateX(0);transition:transform .6s cubic-bezier(.22,1,.36,1);}
+.showcase-track.show-oracle {transform:translateX(-50%);}
+.showcase-page {width:50%;flex:0 0 50%;min-width:0;}
+/* ============================================================
+   PAGE 1 — CENTERED HTML DISPLAY (NO DESCRIPTION)
+   Keep the HTML display the same size as ORACLE's left panel.
+   This page uses a centered single display instead of a grid.
+============================================================ */
+.background-page-layout {
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  width:calc(100% - 40px);
+  max-width:1800px;
+  margin:30px auto 20px;
+}
+.background-html-host {
+  position:relative;
+  flex:0 0 auto;
+  width:calc((100% - 18px) * 2.55 / 3.55);
+  min-width:0;
+  aspect-ratio:16 / 9;
+  overflow:hidden;
+  background:#000;
+  border:1px solid rgba(210,138,59,.32);
+  border-radius:8px;
+  box-shadow:0 12px 32px rgba(0,0,0,.55);
+}
+.background-html-host iframe {
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#000;
+}
+/* Match the responsive widths of the original ORACLE layout. */
+@media(max-width:1200px) {
+  .background-html-host {width:calc((100% - 18px) * 2 / 3);}
+}
+@media(max-width:900px) {
+  .background-html-host {width:100%;}
+}
+@media(max-width:700px) {
+  .showcase-navigation {gap:5px;}
+  .showcase-tab, .showcase-arrow {padding:10px 8px;font-size:9px;letter-spacing:.3px;}
+  .background-page-layout {width:calc(100% - 20px);margin:20px auto;}
+}
+@media(max-width:380px) {
+  .background-page-layout {width:calc(100% - 12px);}
+}
+
+/* ============================================================
+   PAGE 2 — ORACLE AND DESCRIPTION
+   Uses the existing .oracle-layout / .oracle-container / .about-me
+   styles above. No ORACLE styling or sizing was changed.
+============================================================ */
 </style>
 </head>
 
@@ -813,6 +890,34 @@ footer {
 
   <h1>An Archival Sandbox of Puppetry</h1>
 
+  <!-- MAIN SLIDING PAGES: the HTML background comes before ORACLE -->
+  <nav class="showcase-navigation" aria-label="Showcase pages">
+    <button class="showcase-arrow" id="showcasePrevious" type="button" aria-label="Previous page" disabled>&#10094;</button>
+    <button class="showcase-tab active" type="button" data-showcase-page="0" aria-current="page" aria-label="First page"></button>
+    <button class="showcase-tab" type="button" data-showcase-page="1">THE ORACLE ARCHIVAL ENGINE</button>
+    <button class="showcase-arrow" id="showcaseNext" type="button" aria-label="Next page">&#10095;</button>
+  </nav>
+  <div class="showcase-viewport" id="showcaseViewport">
+    <div class="showcase-track" id="showcaseTrack">
+      <!-- =======================================================
+           PAGE 1 — HTML DISPLAY (CENTERED / NO DESCRIPTION)
+           Replace the iframe src to display a different HTML file.
+           The first navigation tab intentionally has no visible name.
+      ======================================================== -->
+      <section class="showcase-page" aria-label="HTML background page">
+        <div class="background-page-layout">
+          <div class="background-html-host">
+            <iframe src="../CHIVIS/website Design/KOISYM/CHI_VIS_KOISYM.html" title="CHIVIS HTML Background" loading="eager"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+           PAGE 2 — THE ORACLE ARCHIVAL ENGINE
+           ORACLE stays on the left, description and instructions
+           stay on the right. Existing functionality is preserved.
+      ======================================================== -->
+      <section class="showcase-page" aria-label="ORACLE and description">
   <div class="oracle-layout">
 
     <!-- LARGE ORACLE SIMULATOR -->
@@ -822,7 +927,7 @@ footer {
         <div id="oracleStage">
           <iframe
             id="oracleFrame"
-            src="./Website%20Design/Oracle/ORACLE.html"
+            src="../CHIVIS/Website Design/Oracle/ORACLE.html"
             title="CHI VIS ORACLE"
             loading="eager"
             allow="autoplay; fullscreen"
@@ -1112,6 +1217,10 @@ footer {
 
   </div>
 
+      </section> <!-- END PAGE 2 -->
+    </div> <!-- END SLIDING TRACK -->
+  </div> <!-- END SHOWCASE VIEWPORT -->
+
   <!-- STATUS -->
   <div class="oracle-status">
     <span><span class="status-dot"></span>ORACLE</span>
@@ -1226,6 +1335,50 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   handleFullscreenChange();
+
+
+  /* =========================
+     SHOWCASE PAGE SLIDER
+     Use the buttons, keyboard arrows, or a touch swipe.
+  ========================= */
+  const showcaseTrack = document.getElementById("showcaseTrack");
+  const showcaseViewport = document.getElementById("showcaseViewport");
+  const showcaseTabs = [...document.querySelectorAll("[data-showcase-page]")];
+  const showcasePrevious = document.getElementById("showcasePrevious");
+  const showcaseNext = document.getElementById("showcaseNext");
+  let showcasePage = 0;
+  function setShowcasePage(index) {
+    showcasePage = Math.max(0, Math.min(1, index));
+    showcaseTrack.classList.toggle("show-oracle", showcasePage === 1);
+    showcaseTabs.forEach((tab, i) => {
+      tab.classList.toggle("active", i === showcasePage);
+      if (i === showcasePage) tab.setAttribute("aria-current", "page");
+      else tab.removeAttribute("aria-current");
+    });
+    showcasePrevious.disabled = showcasePage === 0;
+    showcaseNext.disabled = showcasePage === 1;
+    if (showcasePage === 1) {
+      requestAnimationFrame(resizeOracle);
+      setTimeout(resizeOracle, 650);
+    }
+  }
+  showcaseTabs.forEach(tab => tab.addEventListener("click", () => setShowcasePage(Number(tab.dataset.showcasePage))));
+  showcasePrevious.addEventListener("click", () => setShowcasePage(showcasePage - 1));
+  showcaseNext.addEventListener("click", () => setShowcasePage(showcasePage + 1));
+  document.addEventListener("keydown", event => {
+    if (event.target.closest("input, textarea, select, [contenteditable=true]")) return;
+    if (document.fullscreenElement) return;
+    if (event.key === "ArrowRight" && showcasePage === 0) setShowcasePage(1);
+    if (event.key === "ArrowLeft" && showcasePage === 1) setShowcasePage(0);
+  });
+  let swipeStartX = null;
+  showcaseViewport.addEventListener("touchstart", e => { swipeStartX = e.changedTouches[0].screenX; }, {passive:true});
+  showcaseViewport.addEventListener("touchend", e => {
+    if (swipeStartX === null) return;
+    const dx = e.changedTouches[0].screenX - swipeStartX;
+    swipeStartX = null;
+    if (Math.abs(dx) > 85) setShowcasePage(showcasePage + (dx < 0 ? 1 : -1));
+  }, {passive:true});
 
   /* =========================
      FLOATING BACKGROUND DATA
