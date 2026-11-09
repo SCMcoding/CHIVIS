@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRIS — Color Library / CHIVIS</title>
+<style>
+/* 01 / THEME — edit these variables to change the interface */
+:root{--paper:#f6f5f1;--ink:#202124;--muted:#6c6b70;--line:#d9d8d5;--white:#ffffff;--dark:#17191f;--accent:#6559de}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--paper);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #6559de;outline-offset:3px}
+.top{border-bottom:1px solid var(--line);padding:19px clamp(18px,4vw,58px);display:flex;align-items:center;justify-content:space-between;gap:15px;background:#fafaf8}.wordmark{font-size:23px;font-weight:800;letter-spacing:.23em}.tagline{font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:5px}.mark{font-size:10px;letter-spacing:.12em;color:var(--muted);text-align:right}.mark b{color:var(--ink)}
+.shell{max-width:1510px;margin:auto;padding:0 clamp(16px,4vw,58px) 80px}.hero{position:relative;border-bottom:1px solid var(--line);padding:22px 0 0}.hero-head{display:flex;justify-content:space-between;align-items:center;gap:20px}.mini{font-size:10px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}.hero-head strong{font-size:11px;letter-spacing:.08em;font-weight:600}.wave-container{height:230px;position:relative;overflow:hidden}.wave-container canvas{width:100%;height:100%;display:block;cursor:crosshair}.wave-note{position:absolute;right:0;bottom:15px;color:var(--muted);font-size:10px;letter-spacing:.1em}
+.nav{display:flex;gap:0;overflow:auto;border-bottom:1px solid var(--line);scrollbar-width:thin}.tab{border:0;border-bottom:3px solid transparent;background:transparent;color:#77767a;padding:18px 24px 15px 0;margin-right:28px;white-space:nowrap;text-transform:uppercase;letter-spacing:.12em;font-size:11px;font-weight:700}.tab.active{color:var(--ink);border-color:var(--ink)}.tab:hover{color:#25252c}.page{display:none;padding-top:27px}.page.active{display:block}
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px}.input-wrap{display:flex;flex:1;min-width:250px;align-items:center;border:1px solid #c7c7c4;background:var(--white);height:45px}.input-wrap .search-icon{font-size:19px;color:#939397;padding-left:15px}.input-wrap input{border:0;background:transparent;outline:0;flex:1;min-width:0;height:100%;padding:0 14px;font-size:13px}.select,.text-input{height:45px;border:1px solid #c7c7c4;background:white;padding:0 13px;color:var(--ink);font-size:12px}.action{height:44px;border:1px solid var(--ink);padding:0 17px;background:var(--ink);color:white;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;transition:background .15s}.action:hover{background:#414149}.action.light{background:transparent;color:var(--ink);border-color:#aaa9a6}.action.light:hover{background:#e7e6e2}.action:disabled{opacity:.45;cursor:not-allowed}.row-between{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.count{font-size:11px;color:var(--muted);letter-spacing:.08em}.section-title{font-size:23px;font-weight:700;letter-spacing:-.04em;margin:0 0 5px}.section-sub{font-size:12px;color:var(--muted);margin:0 0 22px;line-height:1.6}
+.swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}.swatch{min-width:0;border:1px solid #deddd9;background:#fff;transition:transform .18s,border-color .18s}.swatch:hover{transform:translateY(-3px);border-color:#a4a3a0}.swatch-color{height:143px;position:relative;cursor:pointer}.swatch-color:before{content:"COPY HEX";position:absolute;bottom:10px;left:10px;padding:6px 8px;background:rgba(0,0,0,.68);color:white;font-size:9px;letter-spacing:.07em;opacity:0;transition:opacity .15s}.swatch-color:hover:before{opacity:1}.swatch-info{padding:12px 12px 9px}.swatch-title{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.swatch-code{font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:.05em}.swatch-actions{border-top:1px solid #efefed;display:flex}.swatch-actions button{flex:1;background:white;color:#65646a;border:0;border-right:1px solid #efefed;padding:9px;font-size:10px}.swatch-actions button:last-child{border-right:0}.swatch-actions button:hover{background:#f1f0ef;color:#17171b}
+.split{display:grid;grid-template-columns:minmax(0,1.38fr) minmax(300px,.7fr);gap:26px}.workpanel{background:#fff;border:1px solid #dcdad7;padding:21px}.panelcap{font-size:10px;text-transform:uppercase;color:#77767b;letter-spacing:.13em;margin-bottom:15px}.palette-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.palette-item{background:white;border:1px solid var(--line);overflow:hidden}.palette-strip{height:125px;display:flex}.palette-strip button{border:0;flex:1;min-width:0;position:relative}.palette-strip button:hover:after{content:"COPY";position:absolute;inset:auto 0 10px;font-size:10px;color:white;text-shadow:0 1px 4px #000;background:rgba(0,0,0,.15);padding:5px}.palette-caption{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px}.palette-caption b{font-size:13px}.palette-caption small{display:block;font-size:10px;color:var(--muted);margin-top:5px}.small-btn{border:1px solid #c9c8c5;background:transparent;padding:7px 9px;font-size:10px;color:#45444a;white-space:nowrap}.small-btn:hover{background:#f1f0ed}
+.gradients{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.grad-card{border:1px solid var(--line);background:white}.grad-example{height:190px;cursor:pointer}.grad-footer{display:flex;justify-content:space-between;align-items:center;padding:14px;gap:8px}.grad-footer strong{font-size:12px}.grad-footer span{display:block;font-size:10px;color:var(--muted);margin-top:5px}
+.kv{display:grid;grid-template-columns:115px 1fr;gap:13px;align-items:center;margin:16px 0}.kv label{font-size:11px;color:#65646a;letter-spacing:.06em}.kv input[type=color]{width:100%;height:43px;cursor:pointer;border:1px solid #c9c8c5;padding:3px;background:white}.kv input[type=range]{width:100%;accent-color:#6559de}.value{font-size:12px;color:#55555e}.preview{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;transition:background-color .2s,color .2s}.preview h3{font-size:27px;margin:0;letter-spacing:-.05em}.preview p{margin:0;font-size:13px;max-width:380px;line-height:1.6}.preview button{padding:10px 17px;border:1px solid currentColor;background:transparent;color:inherit;font-size:12px}.readout{background:#f5f5f2;border-top:1px solid #ddd;padding:15px;font-size:12px;line-height:1.9}.readout b{font-size:16px}.readout .pass{color:#1c7557}.readout .fail{color:#b44343}.code{background:#181921;color:#e4e4f1;padding:20px;overflow:auto;font:12px/1.85 Consolas,monospace;white-space:pre-wrap;word-break:break-word;min-height:135px}.color-preview{height:95px;border:1px solid #d3d2ce;margin:15px 0}.custom-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.custom-row input[type=text]{min-width:130px;flex:1}.empty{padding:44px 20px;color:#7d7b80;border:1px dashed #c3c1bf;text-align:center;font-size:12px}.foot{padding-top:25px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#86848a;text-transform:uppercase;font-size:10px;letter-spacing:.11em}.toast{position:fixed;right:25px;bottom:25px;background:#212127;color:white;padding:13px 18px;font-size:12px;z-index:50;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1100px){.swatches{grid-template-columns:repeat(4,minmax(0,1fr))}.gradients{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:740px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}.palette-grid,.gradients,.split{grid-template-columns:1fr}.wave-container{height:155px}.swatch-color{height:120px}.top{padding:16px}.mark{display:none}.tab{font-size:10px;padding-right:0;margin-right:17px}.kv{grid-template-columns:85px 1fr}.hero-head strong{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* 16 / SPECTRUM CATEGORY TABS + HISTORICAL ARCHIVE */
+.family-tabs{display:flex;gap:0;overflow-x:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 19px;scrollbar-width:thin}
+.family-tab{flex:1;min-width:118px;white-space:nowrap;background:transparent;border:0;border-bottom:3px solid transparent;padding:16px 12px 13px;font-size:11px;letter-spacing:.08em;font-weight:700;color:#69676b;text-align:center;transition:background .2s,color .2s}
+.family-tab .family-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--hue);vertical-align:middle;margin-right:8px}
+.family-tab:hover{background:#eceae7;color:var(--ink)}
+.family-tab.active{color:#202124;border-bottom-color:var(--hue);background:#fff}
+.family-intro{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:24px;align-items:center;border-bottom:1px solid var(--line);padding:7px 0 22px;margin-bottom:23px}
+.family-intro h2{font-size:clamp(22px,3vw,36px);margin:0 0 8px;letter-spacing:-.04em;font-weight:700}.family-intro p{margin:0;max-width:820px;font-size:13px;line-height:1.75;color:#5c5b60}
+.family-intro .family-art{height:92px;border:1px solid rgba(0,0,0,.1);background:var(--grad)}
+.family-intro .family-source{font-size:10px;margin-top:8px;line-height:1.7}
+.family-source a,.history-links a{color:#5042a0;text-decoration:underline;text-underline-offset:2px}
+.swatch-history{padding:10px 12px 12px;font-size:11px;color:#5b5961;line-height:1.5;min-height:57px;border-top:1px solid #eee}
+.swatch-actions button[data-history]{font-weight:700;color:#5145aa}
+.history-overlay{position:fixed;inset:0;z-index:90;background:rgba(19,18,23,.65);opacity:0;visibility:hidden;transition:opacity .24s,visibility .24s;display:flex;justify-content:flex-end}
+.history-overlay.open{opacity:1;visibility:visible}
+.history-sheet{background:#faf9f6;width:min(100%,520px);height:100%;overflow-y:auto;padding:clamp(22px,4vw,42px);transform:translateX(20px);transition:transform .3s;box-shadow:-10px 0 45px rgba(0,0,0,.16)}
+.history-overlay.open .history-sheet{transform:translateX(0)}
+.history-sheet .close{float:right;border:1px solid #c7c5c2;background:transparent;width:39px;height:39px;font-size:20px}
+.history-banner{width:100%;height:145px;border:1px solid #dedbd5;margin:23px 0 19px}
+.history-sheet h2{font-size:34px;letter-spacing:-.035em;margin:8px 0}
+.history-sheet h3{font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin:30px 0 10px}
+.history-sheet p{font-size:13px;line-height:1.85;color:#535259}
+.history-meta{font-size:12px;color:#7a747a}
+.history-links{display:grid;gap:10px;font-size:12px;line-height:1.5}
+.history-warning{font-size:11px!important;border-top:1px solid #ddd9d5;padding-top:15px;margin-top:23px}
+@media(max-width:740px){.family-intro{grid-template-columns:1fr}.family-art{height:45px!important}.family-tab{flex:0 0 auto;min-width:124px}}
+
+
+/* 17 / TOP-LEVEL COLOR SEARCH + SLIDING CHIVIS-STYLE CATEGORIES */
+.global-search{display:flex;align-items:center;gap:13px;padding:22px 0 18px;border-bottom:1px solid var(--line)}
+.global-search>.mini{white-space:nowrap}
+.global-search .input-wrap{flex:1;height:52px;min-width:120px;border:1px solid #b9b7b8;transition:border-color .2s,box-shadow .2s}
+.global-search .input-wrap:focus-within{border-color:#6d59cc;box-shadow:0 0 0 3px rgba(117,82,202,.09)}
+.global-search input{font-size:15px}
+.search-clear{background:transparent;color:#5e5866;border:1px solid var(--line);height:52px;padding:0 17px;font-size:11px;letter-spacing:.08em}
+.search-clear:hover{background:#edeae6}
+.family-slider{display:flex;align-items:stretch;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 19px;background:#f9f8f6}
+.family-slider .family-tabs{flex:1;min-width:0;display:flex;gap:5px;overflow-x:auto;margin:0;border:0;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-behavior:smooth}
+.family-slider .family-tabs::-webkit-scrollbar{display:none}
+.family-slider .family-tab{min-width:168px;flex:0 0 auto;padding:17px 18px 15px;scroll-snap-align:start;text-align:left}
+.family-slider .family-arrow{width:45px;flex:0 0 45px;border:0;background:transparent;font-size:26px;font-weight:300;color:#555059}
+.family-slider .family-arrow:first-child{border-right:1px solid var(--line)}
+.family-slider .family-arrow:last-child{border-left:1px solid var(--line)}
+.family-slider .family-arrow:hover{background:#eceae8}
+.family-slider .family-arrow:disabled{color:#c9c7c4;cursor:default;background:transparent}
+@media(max-width:740px){.global-search{gap:8px;flex-wrap:wrap}.global-search>.mini:first-child{width:100%}.global-search #searchCoverage{display:none}.global-search .search-clear{height:48px;padding:0 9px}.global-search .input-wrap{height:48px}.family-slider .family-tab{min-width:150px}.family-slider .family-arrow{width:36px;flex-basis:36px}}
+
+
+/* 07D / HUE FINDER — continuous color wheel filter */
+.hue-finder{padding:18px 20px 16px;margin:0 0 18px;border:1px solid #dad7d3;background:#fff}
+.hue-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.hue-head strong{font-size:13px;letter-spacing:.03em}.hue-head small{font-size:11px;color:#6d6a72}
+.hue-track{display:flex;gap:12px;align-items:center}.hue-track input{flex:1;min-width:100px;appearance:none;height:17px;border-radius:10px;border:1px solid rgba(0,0,0,.12);background:linear-gradient(90deg,#ff5c5c,#ffc05c,#f6ef58,#78d65e,#50daba,#59b5f5,#6861e8,#c65de8,#ff5c8d,#ff5c5c);cursor:pointer}
+.hue-track input::-webkit-slider-thumb{appearance:none;width:23px;height:23px;border:3px solid white;border-radius:50%;background:var(--picked,#ff5c5c);box-shadow:0 0 0 2px #34313b,0 2px 8px #888}
+.hue-track input::-moz-range-thumb{width:18px;height:18px;border:3px solid white;border-radius:50%;background:var(--picked,#ff5c5c);box-shadow:0 0 0 2px #34313b}
+.hue-preview{width:39px;height:39px;border:1px solid #bbb;border-radius:50%;background:var(--picked,#ff5c5c);flex-shrink:0}
+.hue-options{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:11px;color:#605e64}
+.hue-options label{display:flex;align-items:center;gap:6px}.hue-options input[type=checkbox]{accent-color:#6559de}
+.hue-readout{font-size:12px;font-weight:700;color:#37323f}.history-badge{font-size:9px;color:#6b6174;letter-spacing:.04em}
+@media(max-width:740px){.hue-finder{padding:14px}.hue-track{gap:8px}.hue-head{align-items:flex-start}}
+
+
+/* 18 / INTERACTIVE FAMILY GRADIENT — a real shade slider, not decoration */
+.family-intro{grid-template-columns:minmax(0,1fr) minmax(240px,340px)}
+.family-art-control{min-width:0}
+.family-art-control .family-art{height:92px;position:relative;overflow:visible;cursor:crosshair}
+.family-art-control .family-art input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:3}
+.family-art-pin{position:absolute;top:-7px;bottom:-7px;width:3px;background:#fff;border:1px solid rgba(0,0,0,.7);box-shadow:0 0 0 2px rgba(255,255,255,.75),0 1px 9px rgba(0,0,0,.4);left:50%;pointer-events:none;z-index:2;transition:left .08s linear}
+.family-art-pin:after{content:'';position:absolute;bottom:-7px;left:50%;width:9px;height:9px;background:#202124;border:2px solid #fff;transform:translateX(-50%) rotate(45deg)}
+.family-art-caption{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;font-size:10px;color:#59565e;letter-spacing:.04em;min-height:27px}
+.family-art-caption strong{font-size:11px;color:#26252a}
+.family-art-caption .small-btn{padding:5px 9px}
+@media(max-width:740px){.family-intro{grid-template-columns:1fr}.family-art-control .family-art{height:55px!important}}
+
+
+/* 16 / COLOR ATLAS — graphite, ink violet and soft spectral light */
+:root{--paper:#151520;--ink:#f2f0f7;--muted:#b5b3c6;--line:rgba(215,210,245,.17);--white:#252433;--dark:#11121b;--accent:#c9a3ff}
+html{background:#141521}
+body{color:var(--ink);background:radial-gradient(ellipse 850px 540px at 4% 4%,rgba(237,108,166,.16),transparent 72%),radial-gradient(ellipse 980px 630px at 98% 19%,rgba(102,164,247,.15),transparent 70%),radial-gradient(ellipse 740px 550px at 27% 65%,rgba(137,213,163,.10),transparent 72%),radial-gradient(ellipse 790px 520px at 87% 86%,rgba(171,118,237,.14),transparent 72%),linear-gradient(145deg,#171420,#1b202a 55%,#191720);background-attachment:fixed}
+.top{background:rgba(26,24,38,.74);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.wordmark{background:linear-gradient(90deg,#f7aac3,#f7d99b,#a6e6ca,#afc9fb,#dbb9fa);color:transparent;background-clip:text}
+.mark b,.tab.active,.tab:hover,.section-title,.family-intro h2,.swatch-title,.palette-caption b,.grad-footer strong,.panelcap,.family-art-caption strong{color:#f5f1fa}
+.hero{border-color:var(--line)}.wave-note,.mini,.tagline,.mark,.count,.section-sub,.family-intro p,.family-art-caption,.swatch-code,.palette-caption small,.grad-footer span,.swatch-history,.small-btn,.kv label,.value,.panelcap{color:#b7b5ca}
+.nav,.family-nav{border-color:var(--line)}.tab{color:#a9a6b9}.tab.active{border-image:linear-gradient(90deg,#f78eb0,#f9cd85,#94dcbe,#9ab7ff,#cba0f0) 1}
+.swatch,.workpanel,.palette-item,.grad-card{background:rgba(32,32,46,.86);border-color:rgba(223,213,254,.16);box-shadow:0 6px 20px rgba(9,7,22,.08)}
+.swatch:hover{border-color:rgba(240,198,255,.54);box-shadow:0 10px 28px rgba(10,7,25,.33)}
+.swatch-actions{border-top-color:rgba(224,218,255,.12)}.swatch-actions button{background:rgba(28,27,40,.94);color:#cbc6db;border-right-color:rgba(222,213,255,.12)}.swatch-actions button:hover{background:#393348;color:#fff}
+.input-wrap,.select,.text-input{background:#242434;border-color:rgba(212,209,242,.25);color:#f4f0fa}.input-wrap input{color:#f4f0fa}.input-wrap input::placeholder{color:#9994ab}.input-wrap .search-icon{color:#c2b4de}
+.action{background:#ded5f4;color:#1d1a2a;border-color:#ded5f4}.action:hover{background:#f1e7ff}.action.light,.small-btn{color:#eee7f9;border-color:rgba(212,203,242,.35);background:rgba(255,255,255,.03)}.action.light:hover,.small-btn:hover{background:rgba(211,184,246,.15)}
+.family-intro{border-color:rgba(222,215,250,.21)}.family-intro .family-source a,.history-links a{color:#bfb5ff}.family-art-caption strong{color:#f2edf8}.family-art-pin:after{background:#211d2c}
+.family-tab{background:rgba(255,255,255,.035);color:#c8c4d7;border-color:rgba(215,207,246,.2)}.family-tab.active{background:rgba(196,160,255,.18);border-color:#c8adf6;color:#fff}
+.kv input[type=color],.readout,.color-preview{border-color:rgba(219,207,248,.2);background:#242433}.readout{color:#e4dff2}.readout .pass{color:#85e9af}.readout .fail{color:#ffa7a7}
+.preview{border-radius:3px}.code{background:#10121d;border:1px solid rgba(222,213,255,.13)}.empty{color:#b5b2c5;border-color:rgba(229,220,255,.25)}.foot{border-color:var(--line);color:#aaa6bd}
+.history-sheet{background:#222131;color:#f1edfa}.history-meta,.history-warning{color:#bab5ce}.history-sheet h2,.history-sheet h3{color:#faf7ff}.history-sheet p{color:#d1cadf}.close{color:#faf5ff}
+.show-more{grid-column:1/-1;text-align:center;padding:18px 0 28px}.show-more .action{min-width:270px}
+@media(max-width:740px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* IRIS / 21 — SPECTRUM ATLAS, REFINED EDITORIAL WORKSPACE */
+:root{--paper:#121117;--ink:#f7f4fb;--muted:#b7b0bf;--line:rgba(231,222,248,.15);--white:#201e28;--accent:#cba5fb}
+body{background:#14121a;background-image:radial-gradient(ellipse at 12% 7%,rgba(224,112,162,.09),transparent 29%),radial-gradient(ellipse at 88% 26%,rgba(130,112,237,.09),transparent 30%),radial-gradient(ellipse at 52% 78%,rgba(103,201,177,.055),transparent 40%);background-attachment:fixed}
+.top{background:rgba(19,17,24,.95);border-bottom:1px solid rgba(237,222,255,.15);position:relative}
+.top:after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,#ee728d,#f7bb72,#e0d37b,#7cdeb4,#7daff4,#c795e8);opacity:.6}
+.wordmark{letter-spacing:.31em;font-size:24px;font-weight:750}.top .tagline{color:#aaa1b4}
+.shell{max-width:1600px}.hero{margin-bottom:5px}.wave-container{height:198px}
+.nav{gap:30px;scrollbar-width:none}.nav .tab{margin:0;padding:17px 0 15px;font-size:10px;letter-spacing:.12em;color:#bcb3c9}.nav .tab.active{color:#fff;border-bottom:2px solid #e2b3e7}
+.global-search{border:1px solid rgba(235,215,255,.15);background:rgba(255,255,255,.025);padding:12px 17px;margin-top:20px}
+.global-search .input-wrap{background:rgba(9,9,17,.45);border-color:rgba(237,225,254,.17)}
+.swatches{grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}.swatch{overflow:hidden;border-radius:2px;background:rgba(29,27,36,.78);border-color:rgba(229,217,246,.11);box-shadow:none}.swatch:hover{transform:translateY(-2px);border-color:rgba(235,197,255,.55);box-shadow:0 15px 36px rgba(0,0,0,.24)}
+.swatch-color{height:152px}.swatch-info{padding:12px 11px 10px}.swatch-title{font-size:12px;font-weight:600;color:#faf7ff}.swatch-code{font-size:10px;color:#b4adbe;letter-spacing:.07em}.swatch-history{font-size:10px;min-height:45px;padding:9px 11px;border-color:rgba(226,218,244,.1)}
+.swatch-actions button{font-size:9px;letter-spacing:.03em;padding:10px 2px;background:rgba(23,21,30,.7)}
+.family-intro{padding:24px 0 27px;margin-bottom:23px}.family-intro h2{font-family:Georgia,serif;font-size:clamp(30px,3.8vw,49px);font-weight:400;letter-spacing:-.04em}.family-intro p{max-width:760px;line-height:1.8}
+.family-slider,.hue-finder{background:rgba(255,255,255,.02);border-color:rgba(239,225,249,.15)}
+.family-tab{border-radius:0}.family-tab.active{background:rgba(222,172,241,.09);border-color:#e3addb}.family-art-control .family-art{height:105px}
+/* Color Atlas */
+.atlas-heading{display:flex;justify-content:space-between;align-items:end;gap:25px;margin:6px 0 28px;border-bottom:1px solid var(--line);padding-bottom:25px}
+.atlas-heading h2{font:400 clamp(32px,4.2vw,60px)/1.1 Georgia,serif;margin:10px 0 7px;letter-spacing:-.045em;color:#f5eff8}.atlas-point{color:#ed9abd}.atlas-heading p{font-size:13px;color:#bcb4c8;margin:0}.atlas-counter{font-size:clamp(22px,3vw,36px);color:#faf4ff;letter-spacing:-.05em;text-align:right;white-space:nowrap}.atlas-counter small{display:block;letter-spacing:.13em;font-size:9px;color:#aea7ba;margin-top:7px}
+.atlas-layout{display:grid;grid-template-columns:minmax(260px,345px) minmax(0,1fr);gap:26px;align-items:start}.atlas-controls{border:1px solid rgba(228,214,246,.17);background:rgba(33,29,41,.55);padding:24px;position:sticky;top:18px}
+.atlas-control-title{font-size:11px;letter-spacing:.1em;color:#f1e9fa;display:flex;justify-content:space-between;padding-bottom:19px;border-bottom:1px solid var(--line);margin-bottom:23px}.atlas-control-title span{color:#ab9bb8;font-size:9px}
+.atlas-label{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.1em;color:#c5bbc9;margin:25px 0 14px}.atlas-label output{color:#faf2fd;font-weight:700}.atlas-range{appearance:none;width:100%;height:10px;cursor:pointer;background:linear-gradient(90deg,#555,#aaa);border:0;border-radius:0}.atlas-rainbow{background:linear-gradient(90deg,red,#ff0,lime,cyan,blue,magenta,red)}.atlas-range::-webkit-slider-thumb{appearance:none;width:13px;height:23px;background:#fff;border:2px solid #26212c;box-shadow:0 0 0 1px #fff;cursor:ew-resize}.atlas-range::-moz-range-thumb{width:12px;height:22px;background:#fff;border:1px solid #231d2c;border-radius:0;cursor:ew-resize}
+.atlas-pick{display:grid;grid-template-columns:1fr 58px;gap:8px;margin:28px 0 15px}.atlas-pick label{grid-column:1/-1;color:#bab0c2;font-size:10px;letter-spacing:.1em}.atlas-pick input[type=text],#atlasHex{background:#13111a;border:1px solid rgba(231,215,245,.2);color:#fff;padding:11px 13px;width:100%;font:13px 'Courier New',monospace}.atlas-pick input[type=color]{width:100%;height:43px;border:1px solid rgba(231,215,245,.3);padding:0;background:transparent;cursor:pointer}
+.atlas-selected{height:105px;border:1px solid rgba(255,255,255,.2);margin:15px 0 14px;display:flex;align-items:end;padding:13px;font-size:11px;letter-spacing:.1em}.atlas-controls>.action{width:100%;padding:14px}.atlas-provenance{color:#aaa1b4;font-size:10px;line-height:1.7;margin-top:21px}
+.atlas-display{min-width:0;border-top:1px solid rgba(233,215,246,.2);padding-top:17px}.atlas-display-head{display:flex;justify-content:space-between;gap:15px;align-items:end;margin-bottom:15px}.atlas-display-head strong{display:block;font-size:14px;color:#f2eaf7;font-weight:500;margin-top:7px;letter-spacing:.04em}.atlas-grid{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}.atlas-chip{display:block;width:100%;aspect-ratio:1/.98;padding:0;border:1px solid rgba(255,255,255,.06);cursor:crosshair;transition:transform .12s;min-height:22px}.atlas-chip:hover,.atlas-chip:focus-visible{transform:scale(1.14);z-index:2;border:2px solid #fff;box-shadow:0 0 0 2px #15131a}.atlas-chip.selected{outline:2px solid #fff;outline-offset:-3px}
+.atlas-axis,.atlas-strip-head{display:flex;justify-content:space-between;font-size:9px;color:#aba1b8;letter-spacing:.12em;margin-top:10px}.atlas-strip-head{border-top:1px solid var(--line);padding:24px 0 12px;margin-top:27px}.atlas-neighbors{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:2px}.atlas-neighbors button{height:49px;border:0;cursor:pointer}.atlas-neighbors button:hover{outline:2px solid white;outline-offset:-2px}
+@media(max-width:1300px){.swatches{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:900px){.atlas-layout{grid-template-columns:1fr}.atlas-controls{position:static}.swatches{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:600px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}.atlas-heading{align-items:start;flex-direction:column}.atlas-counter{text-align:left}.atlas-grid{grid-template-columns:repeat(12,minmax(0,1fr))}.atlas-display-head>.mini{display:none}.atlas-neighbors{grid-template-columns:repeat(12,minmax(0,1fr))}}
+
+
+/* 22 / IRIS — CHROMATIC ARCHIVE / ATMOSPHERIC GALLERY */
+:root{--paper:#211b21;--white:#2d2630;--line:rgba(255,237,221,.19);--muted:#c7b8c4;--ink:#fff4ec;--accent:#ffd2a9}
+html{background:#221c24}
+body{
+  background-color:#251f28;
+  background-image:
+    radial-gradient(ellipse 47vw 46vw at 4% 4%,rgba(255,169,100,.23),transparent 74%),
+    radial-gradient(ellipse 48vw 46vw at 99% 2%,rgba(246,119,166,.21),transparent 72%),
+    radial-gradient(ellipse 44vw 43vw at 90% 48%,rgba(140,112,222,.18),transparent 73%),
+    radial-gradient(ellipse 46vw 48vw at 0% 66%,rgba(87,188,178,.16),transparent 76%),
+    radial-gradient(ellipse 52vw 45vw at 66% 98%,rgba(255,192,104,.14),transparent 72%),
+    linear-gradient(145deg,#30242a 0%,#27222e 43%,#24262e 70%,#2b222c 100%);
+  background-attachment:fixed;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.22;background-image:repeating-linear-gradient(90deg,rgba(255,248,232,.038) 0 1px,transparent 1px 88px),repeating-linear-gradient(0deg,rgba(255,248,232,.028) 0 1px,transparent 1px 88px);mask-image:linear-gradient(to bottom,#000 0%,transparent 90%)}
+.top,.shell,.foot{position:relative;z-index:1}
+.top{background:rgba(40,31,41,.88);border-bottom:1px solid rgba(255,229,215,.23);backdrop-filter:blur(18px)}
+.top:after{height:3px;opacity:.85;background:linear-gradient(90deg,#ee7d91,#fcb979,#ffe4a1,#85d4b5,#91c6fb,#d7a4f1)}
+.wordmark{background:linear-gradient(100deg,#ffd0ae,#ffb7a9,#f3d29d,#b4e3c4,#b8c9ff,#edb8ed);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero{background:linear-gradient(130deg,rgba(255,206,164,.045),rgba(255,255,255,.009) 49%,rgba(181,148,255,.036));border-bottom-color:rgba(255,230,215,.18)}
+.nav{border-bottom-color:rgba(255,236,216,.22)}
+.nav .tab{color:#d0c0cb}.nav .tab.active{border-bottom-color:#ffcb9c;color:#fff7f1}
+.global-search{background:linear-gradient(95deg,rgba(253,206,177,.09),rgba(219,172,233,.04) 55%,rgba(142,216,204,.06));border:1px solid rgba(255,229,208,.22)}
+.global-search .input-wrap{background:rgba(22,18,25,.55);border-color:rgba(255,236,222,.23)}
+.family-intro{background:linear-gradient(90deg,rgba(255,218,176,.035),transparent 68%)}
+.family-slider,.hue-finder,.atlas-controls{background:rgba(42,34,44,.68);border:1px solid rgba(255,224,206,.22)}
+.swatch{background:rgba(43,35,45,.86);border:1px solid rgba(255,223,204,.17);box-shadow:0 7px 22px rgba(17,9,15,.15)}
+.swatch:hover{box-shadow:0 16px 38px rgba(9,5,15,.3);border-color:rgba(255,224,187,.63)}
+.swatch-actions button{background:rgba(35,26,37,.92);color:#e0cdd5}
+.workpanel,.palette-item,.grad-card{background:rgba(43,35,46,.76);border-color:rgba(255,226,211,.18)}
+.section-title,.family-intro h2{color:#fff4ea}
+.mini,.section-sub,.family-intro p,.tagline,.mark,.count,.wave-note{color:#d2c1c9}
+.action{background:#f6d9bf;color:#30212c;border-color:#f6d9bf}.action:hover{background:#ffe9d5}
+.action.light,.small-btn{color:#fff0e5;border-color:rgba(255,222,203,.31);background:rgba(255,222,203,.05)}
+.action.light:hover,.small-btn:hover{background:rgba(255,205,165,.14)}
+.atlas-chip:hover{box-shadow:0 0 0 2px #352933}
+@media(prefers-reduced-motion:reduce){.swatch,.atlas-chip{transition:none}}
+
+
+/* 25 / SPECTRUM GALLERY — sharper hierarchy, sculptural canvas, quieter instruments */
+:root{--paper:#19191d;--white:#28272e;--line:rgba(239,231,246,.15);--muted:#bdb9c5;--ink:#f7f4fb;--accent:#d9b7ff}
+body{
+ background-color:#19191e;
+ background-image:
+ radial-gradient(ellipse 64vw 48vw at 3% 2%,rgba(235,112,159,.16),transparent 76%),
+ radial-gradient(ellipse 54vw 45vw at 98% 14%,rgba(125,111,228,.16),transparent 78%),
+ radial-gradient(ellipse 46vw 48vw at 88% 64%,rgba(84,184,167,.11),transparent 77%),
+ radial-gradient(ellipse 55vw 45vw at 7% 78%,rgba(240,169,96,.11),transparent 76%),
+ linear-gradient(120deg,#1c1c22,#202027 45%,#1c1e24);
+}
+body::before{opacity:.10;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:96px 96px}
+.top{background:rgba(23,23,29,.85);padding-top:23px;padding-bottom:23px}
+.top:after{height:2px}
+.wordmark{font-size:26px;letter-spacing:.21em;font-weight:750}
+.hero{padding-top:24px;border-bottom:0;background:none;overflow:visible}
+.hero-head{padding:0 2px}
+.wave-container{height:clamp(210px,23vw,325px);margin:8px -18px 2px;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 45% 43% at 50% 53%,rgba(246,182,202,.075),transparent 95%)}
+.wave-container:before,.wave-container:after{content:"";position:absolute;pointer-events:none;left:4%;right:4%;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent)}
+.wave-container:after{top:18%;left:20%;right:20%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.045),transparent)}
+.wave-note{right:22px;bottom:13px;letter-spacing:.19em;font-size:9px;opacity:.76}
+.global-search{margin:0 auto 23px;padding:11px 13px 11px 16px;max-width:1000px;display:flex;gap:13px;align-items:center;border:1px solid rgba(250,230,246,.21);background:rgba(28,27,35,.75);box-shadow:0 8px 35px rgba(0,0,0,.10);backdrop-filter:blur(14px)}
+.global-search .mini{white-space:nowrap;font-weight:700;color:#e5dcea}
+.global-search .input-wrap{flex:1;border:0;border-left:1px solid rgba(238,219,242,.2);background:transparent;height:48px}
+.global-search .input-wrap input{font-size:14px;color:#fff}
+.global-search .input-wrap input::placeholder{color:#9a96a6}
+.global-search #searchCoverage{font-size:9px;white-space:normal;max-width:205px;line-height:1.6;opacity:.7}
+.nav{gap:23px;margin-top:7px}
+.nav .tab{font-size:10px;letter-spacing:.10em;padding:18px 0 16px;margin:0;border-bottom-width:2px}
+.nav .tab.active{border-color:#eab4ca}
+.page{padding-top:32px}
+.swatches{grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.swatch{border:1px solid rgba(239,225,247,.15);background:#27252d;box-shadow:none;border-radius:0;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.swatch:hover{transform:translateY(-4px);border-color:rgba(252,222,248,.50);box-shadow:0 18px 35px rgba(0,0,0,.23)}
+.swatch-color{height:160px}
+.swatch-color:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.045),transparent 45%,rgba(0,0,0,.045));pointer-events:none}
+.swatch-info{padding:15px 13px 11px}
+.swatch-title{font-size:12px;color:#fffafc;font-weight:650}
+.swatch-code{color:#bdb3c3;font-family:'Courier New',monospace}
+.swatch-history{min-height:46px;color:#c5bbc9;font-size:10px}
+.swatch-actions{border-top:1px solid rgba(239,229,248,.11)}
+.swatch-actions button{background:#222029;color:#e4dbe7;border-right:1px solid rgba(239,229,248,.11)}
+.swatch-actions button:hover{background:#3c3442;color:#fff}
+.family-slider,.hue-finder{background:rgba(30,29,38,.63);border-color:rgba(239,225,247,.16)}
+.family-tab.active{background:rgba(236,196,230,.08)}
+.family-intro h2{font-family:Georgia,serif;font-weight:400}
+.family-intro .family-art{border:1px solid rgba(255,255,255,.14)}
+.workpanel,.palette-item,.grad-card,.atlas-controls{background:rgba(34,32,41,.81);border-color:rgba(245,230,250,.17)}
+@media(max-width:1200px){.swatches{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:940px){.swatches{grid-template-columns:repeat(4,minmax(0,1fr))}.global-search{flex-wrap:wrap}.global-search #searchCoverage{display:none}}
+@media(max-width:650px){.wave-container{height:190px;margin:8px -10px 0}.swatches{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.global-search{flex-wrap:wrap;margin-bottom:14px}.global-search>.mini{width:100%}.global-search .input-wrap{border-left:0}.nav{gap:16px}.swatch-color{height:132px}}
+
+
+.code-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;mix-blend-mode:screen;opacity:.34}
+.code-line{position:absolute;left:0;right:0;font-family:"Courier New",monospace;font-size:11px;letter-spacing:.06em;white-space:nowrap;color:rgba(255,244,250,.12);text-shadow:0 0 12px rgba(196,160,255,.06);animation:codeFloat 18s linear infinite}
+.code-line:nth-child(2n){color:rgba(197,238,255,.10)}
+.code-line:nth-child(3n){color:rgba(255,224,179,.11)}
+@keyframes codeFloat{0%{transform:translate3d(-2%,0,0);opacity:.05}20%{opacity:.18}50%{transform:translate3d(2%,0,0);opacity:.13}100%{transform:translate3d(-1%,0,0);opacity:.05}}
+.wave-container canvas{position:relative;z-index:1}
+.wave-note{z-index:2}
+
+
+/* 21 / THE STICKY COLOR CONSOLE */
+html{scroll-padding-top:280px}
+.shell{position:relative;z-index:1}
+.sticky-dashboard{
+ position:sticky;top:0;z-index:35;
+ margin:0 calc(-1 * clamp(16px,4vw,58px));
+ padding:0 clamp(16px,4vw,58px) 1px;
+ background:linear-gradient(180deg,rgba(20,17,27,.985),rgba(25,22,33,.965));
+ border-bottom:1px solid rgba(255,225,241,.22);
+ box-shadow:0 12px 38px rgba(9,7,16,.34);
+ backdrop-filter:blur(22px);
+ transition:background .35s,box-shadow .35s;
+}
+.sticky-dashboard .top{
+ padding:12px 0 8px;background:transparent;border:0;
+ transition:padding .35s;
+}
+.sticky-dashboard .wordmark{font-size:21px}
+.sticky-dashboard .tagline,.sticky-dashboard .mark{font-size:9px}
+.sticky-dashboard .hero{padding-top:6px;margin:0;transition:padding .35s}
+.sticky-dashboard .hero-head{height:19px}
+.sticky-dashboard .wave-container{
+ height:clamp(135px,15vw,205px);margin:1px 0 0;
+ transition:height .45s cubic-bezier(.2,.8,.2,1);
+}
+.sticky-dashboard .global-search{
+ margin:3px auto 7px;max-width:none;padding:5px 11px;min-height:51px;
+}
+.sticky-dashboard .global-search .input-wrap{height:37px}
+.sticky-dashboard .nav{margin:0;min-height:39px}
+.sticky-dashboard .nav .tab{padding:11px 0 10px}
+/* More content remains visible after scrolling, while the wave stays on screen. */
+body.is-scrolled .sticky-dashboard .top{padding:6px 0 3px}
+body.is-scrolled .sticky-dashboard .wordmark{font-size:17px}
+body.is-scrolled .sticky-dashboard .tagline,
+body.is-scrolled .sticky-dashboard .mark{display:none}
+body.is-scrolled .sticky-dashboard .hero{padding-top:1px}
+body.is-scrolled .sticky-dashboard .hero-head{height:16px}
+body.is-scrolled .sticky-dashboard .wave-container{height:95px}
+body.is-scrolled .sticky-dashboard .global-search{min-height:43px;padding:3px 10px;margin:2px auto 4px}
+body.is-scrolled .sticky-dashboard .global-search .input-wrap{height:34px}
+body.is-scrolled .sticky-dashboard .nav .tab{padding:8px 0}
+body.is-scrolled .sticky-dashboard .wave-note{font-size:8px;bottom:4px}
+body.is-scrolled .sticky-dashboard .wave-container canvas{filter:drop-shadow(0 0 15px rgba(255,160,255,.5))}
+.page{scroll-margin-top:260px}
+
+/* 22 / VISIBLE CODE FIELD: architectural code behind the whole library */
+.ambient-code{
+ position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+ opacity:.72;mask-image:linear-gradient(180deg,transparent,black 13%,black 86%,transparent);
+}
+.ambient-code-line{
+ position:absolute;left:-20%;width:140%;white-space:nowrap;
+ font:10px/1.6 'Courier New',monospace;letter-spacing:.12em;
+ color:rgba(220,196,247,.14);
+ text-shadow:0 0 12px rgba(205,126,230,.16);
+ animation:ambient-drift 35s linear infinite alternate;
+}
+.ambient-code-line:nth-child(3n){color:rgba(130,229,226,.13);animation-duration:47s}
+.ambient-code-line:nth-child(4n){color:rgba(255,195,154,.13);animation-duration:39s}
+@keyframes ambient-drift{from{transform:translateX(-4%)}to{transform:translateX(6%)}}
+.code-bg{opacity:.8!important;mix-blend-mode:screen}
+.code-line{color:rgba(240,216,255,.30)!important;font-size:12px!important;text-shadow:0 0 8px rgba(209,127,250,.2)!important}
+/* 23 / WAVE BLOOM */
+.wave-container{background:radial-gradient(ellipse 55% 52% at 50% 51%,rgba(185,114,242,.14),transparent 88%)!important}
+.wave-container canvas{
+ filter:drop-shadow(0 0 15px rgba(238,169,246,.50))
+        drop-shadow(0 0 27px rgba(118,159,255,.26));
+ transition:filter .35s;
+}
+.wave-container:hover canvas{
+ filter:drop-shadow(0 0 24px rgba(236,154,255,.67))
+        drop-shadow(0 0 45px rgba(118,159,255,.42));
+}
+@media(max-width:740px){
+ .sticky-dashboard .wave-container{height:122px}
+ body.is-scrolled .sticky-dashboard .wave-container{height:74px}
+ .sticky-dashboard .wordmark{font-size:18px}
+ .sticky-dashboard .global-search{flex-wrap:nowrap}
+ .sticky-dashboard .global-search .mini:first-child{display:none}
+ .sticky-dashboard #searchCoverage{display:none}
+ .sticky-dashboard .nav{gap:14px}
+ .sticky-dashboard .nav .tab{font-size:9px}
+ .ambient-code-line{font-size:8px}
+}
+
+
+/* PERFORMANCE / visual effects retained without repeated full-screen compositing */
+.sticky-dashboard{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transition:none!important}
+.sticky-dashboard .wave-container{transition:height .22s ease!important}
+.wave-container canvas,.wave-container:hover canvas,body.is-scrolled .sticky-dashboard .wave-container canvas{
+ filter:none!important;transition:none!important;
+}
+.ambient-code{mask-image:none!important;opacity:.45!important}
+.ambient-code-line{animation:none!important;text-shadow:none!important}
+.code-bg{mix-blend-mode:normal!important;opacity:.40!important}
+.code-line{animation:none!important;text-shadow:none!important}
+@media(prefers-reduced-motion:reduce){.ambient-code-line,.code-line{animation:none!important}}
+
+
+/* SCROLL STABILITY PATCH: sticky bar keeps a fixed geometry as the document scrolls.
+   Prevents a scroll-position/layout feedback loop and canvas reallocations. */
+.sticky-dashboard,.sticky-dashboard .top,.sticky-dashboard .hero,.sticky-dashboard .wave-container{
+ transition:none!important;
+}
+.sticky-dashboard .top,body.is-scrolled .sticky-dashboard .top{padding:8px 0 5px!important}
+.sticky-dashboard .wordmark,body.is-scrolled .sticky-dashboard .wordmark{font-size:19px!important}
+.sticky-dashboard .tagline,body.is-scrolled .sticky-dashboard .tagline,
+.sticky-dashboard .mark,body.is-scrolled .sticky-dashboard .mark{display:block!important}
+.sticky-dashboard .hero,body.is-scrolled .sticky-dashboard .hero{padding-top:3px!important}
+.sticky-dashboard .hero-head,body.is-scrolled .sticky-dashboard .hero-head{height:18px!important}
+.sticky-dashboard .wave-container,body.is-scrolled .sticky-dashboard .wave-container{
+ height:145px!important;
+}
+.sticky-dashboard .global-search,body.is-scrolled .sticky-dashboard .global-search{
+ min-height:47px!important;padding:4px 10px!important;margin:3px auto 5px!important;
+}
+.sticky-dashboard .global-search .input-wrap,body.is-scrolled .sticky-dashboard .global-search .input-wrap{height:36px!important}
+.sticky-dashboard .nav .tab,body.is-scrolled .sticky-dashboard .nav .tab{padding:9px 0!important}
+.sticky-dashboard .wave-note,body.is-scrolled .sticky-dashboard .wave-note{font-size:9px!important;bottom:7px!important}
+@media(max-width:740px){
+ .sticky-dashboard .wave-container,body.is-scrolled .sticky-dashboard .wave-container{height:100px!important}
+ .sticky-dashboard .tagline,.sticky-dashboard .mark{display:none!important}
+}
+
+
+
+/* 25 / LOWER LIBRARY BACKGROUND: static code field + light scatterplot glow.
+   No continuous animation here, to avoid lag. */
+main{position:relative;isolation:isolate}
+main>.page{position:relative;z-index:1}
+.main-ambient{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.main-ambient:before{content:"";position:absolute;inset:0;background:
+ radial-gradient(circle at 14% 16%, rgba(255,128,176,.05), transparent 24%),
+ radial-gradient(circle at 86% 24%, rgba(255,201,107,.05), transparent 25%),
+ radial-gradient(circle at 18% 78%, rgba(115,213,255,.05), transparent 28%),
+ radial-gradient(circle at 82% 82%, rgba(176,136,255,.05), transparent 28%)}
+.main-code{position:absolute;inset:0;opacity:.34}
+.main-code-line{position:absolute;left:-8%;width:116%;white-space:nowrap;font:10px/1.9 "Courier New",monospace;letter-spacing:.12em;color:rgba(240,222,255,.10);text-shadow:0 0 8px rgba(196,132,230,.10)}
+.main-code-line:nth-child(3n){color:rgba(122,216,255,.09)}
+.main-code-line:nth-child(4n){color:rgba(255,214,170,.09)}
+.main-dots{position:absolute;inset:0;width:100%;height:100%}
+@media(max-width:740px){.main-code-line{font-size:8px;line-height:1.8}.main-code{opacity:.26}}
+
+
+/* 26 / LOWER CODE VISIBILITY FIX — higher contrast, zero extra animation.
+   Canvas dots sit below the code; interactive content stays above both. */
+main{isolation:isolate}
+main>.page{z-index:3}
+.main-ambient{z-index:1}
+.main-dots{z-index:1;opacity:.70}
+.main-code{z-index:2;opacity:1!important}
+.main-code-line{
+ color:rgba(246,218,255,.48)!important;
+ font-size:12px;
+ letter-spacing:.08em;
+ font-weight:500;
+ text-shadow:0 0 7px rgba(213,144,255,.18);
+}
+.main-code-line:nth-child(3n){color:rgba(139,226,255,.43)!important}
+.main-code-line:nth-child(4n){color:rgba(255,201,151,.42)!important}
+.main-code-line:nth-child(5n){color:rgba(169,249,207,.40)!important}
+@media(max-width:740px){.main-code-line{font-size:10px}}
+
+
+/* 27 / READABILITY PANELS FOR THE FIVE TOOLS
+   A smoked-glass layer keeps white text legible over the code and dots.
+   Scoped to tools; Named Archive and hero remain unchanged. */
+main > .page:is(#atlas,#palettes,#gradients,#contrast,#css).active{
+  background:rgba(8,8,13,.77);
+  border:1px solid rgba(240,213,247,.14);
+  box-shadow:0 14px 45px rgba(0,0,0,.19);
+  padding:clamp(17px,2.6vw,34px);
+  margin-top:15px;
+  margin-bottom:32px;
+  border-radius:8px;
+}
+main > .page:is(#atlas,#palettes,#gradients,#contrast,#css) .section-title,
+main > .page:is(#atlas,#palettes,#gradients,#contrast,#css) .atlas-heading h2{
+  color:#fff9ff;
+}
+main > .page:is(#atlas,#palettes,#gradients,#contrast,#css) .section-sub,
+main > .page:is(#atlas,#palettes,#gradients,#contrast,#css) .atlas-heading p{
+  color:#d4cbdc;
+}
+@media(max-width:740px){
+ main > .page:is(#atlas,#palettes,#gradients,#contrast,#css).active{padding:16px;margin-top:9px}
+}
+
+</style>
+</head>
+<body>
+<div id="ambientCode" class="ambient-code" aria-hidden="true"></div>
+<div class="shell"><div class="sticky-dashboard" id="stickyDashboard"><header class="top"><div><div class="wordmark">IRIS</div><div class="tagline">CHIVIS / HTML COLOR LIBRARY</div></div><div class="mark"><b>SPECTRUM SYSTEM</b><div style="margin-top:7px">COLORS · PALETTES · GRADIENTS · CSS</div></div></header>
+<section class="hero"><div class="hero-head"><span class="mini">Interactive RGB & Iridescence Studio</span><strong id="heroReadout">RGB · HSL · HEX</strong></div><div class="wave-container"><div class="code-bg" id="codeBg" aria-hidden="true"></div><canvas id="spectrum" aria-label="Animated rainbow spectrum of colored points"></canvas><div class="wave-note" id="waveNote">MOVE THROUGH THE WAVE · CLICK TO COPY</div></div></section>
+<!-- Main color search directly below the rainbow wave -->
+<div class="global-search"><div class="mini">FIND A COLOR</div><label class="input-wrap"><span class="search-icon">⌕</span><input id="search" placeholder="Search named shades, HEX codes, or color families…" aria-label="Search colors"></label><button type="button" id="clearSearch" class="search-clear" aria-label="Clear color search">CLEAR</button><span id="searchCoverage" class="mini">CSS COLORS + NAMED SHADES</span></div>
+<nav class="nav" aria-label="Color library sections"><button class="tab active" data-tab="library">01 / Named Archive</button><button class="tab" data-tab="atlas">02 / Spectrum Atlas</button><button class="tab" data-tab="palettes">03 / Palettes</button><button class="tab" data-tab="gradients">04 / Gradients</button><button class="tab" data-tab="contrast">05 / Contrast</button><button class="tab" data-tab="css">06 / CSS Lab</button></nav>
+</div>
+<main>
+<div id="mainAmbient" class="main-ambient" aria-hidden="true"><div id="mainCode" class="main-code"></div><canvas id="mainDots" class="main-dots"></canvas></div>
+<!-- 02 / SEARCHABLE COLOR LIBRARY -->
+<section class="page active" id="library"><div class="toolbar"><select class="select" id="sort" aria-label="Sort colors"><option value="spectrum">Spectrum</option><option value="name">Name A–Z</option><option value="light">Light → Dark</option><option value="dark">Dark → Light</option></select><button class="action light" id="favoritesOnly">☆ Saved</button></div><div class="hue-finder" id="hueFinder"><div class="hue-head"><div><strong>COLOR SPECTRUM FINDER</strong><br><small>Slide across the spectrum to locate matching colors and their section.</small></div><span class="hue-readout" id="hueReadout">ALL COLORS</span></div><div class="hue-track"><input type="range" id="hueSlider" min="0" max="359" value="0" aria-label="Color hue, from 0 to 359 degrees"><span class="hue-preview" id="huePreview" aria-hidden="true"></span></div><div class="hue-options"><label><input type="checkbox" id="hueEnabled"> Filter by selected hue</label><label><input type="checkbox" id="hueExact" checked> Nearby shades only (±22°)</label><button type="button" class="small-btn" id="hueReset">Show all colors</button><span id="hueFamilyName">Choose a hue to find its family</span></div></div>
+<div class="family-slider"><button type="button" class="family-arrow" id="familyPrev" aria-label="Previous color categories">‹</button><nav class="family-tabs" id="familyTrack" aria-label="Slide through color families">
+<button class="family-tab active" data-family="all" style="--hue:#8c78d8"><span class="family-dot"></span>All colors</button>
+<button class="family-tab" data-family="red" style="--hue:#e64a63"><span class="family-dot"></span>Reds & pinks</button>
+<button class="family-tab" data-family="orange" style="--hue:#efad3a"><span class="family-dot"></span>Yellows & oranges</button>
+<button class="family-tab" data-family="green" style="--hue:#3ca36d"><span class="family-dot"></span>Greens</button>
+<button class="family-tab" data-family="blue" style="--hue:#3696d4"><span class="family-dot"></span>Blues & cyans</button>
+<button class="family-tab" data-family="purple" style="--hue:#9c71d7"><span class="family-dot"></span>Purples</button>
+<button class="family-tab" data-family="neutral" style="--hue:#77767a"><span class="family-dot"></span>Neutrals</button>
+</nav><button type="button" class="family-arrow" id="familyNext" aria-label="Next color categories">›</button></div>
+<div class="family-intro" id="familyIntro" aria-live="polite"></div>
+<div class="row-between" style="margin-bottom:15px"><span class="count" id="colorCount"></span><span class="mini">CLICK A COLOR TO COPY ITS HEX</span></div><div class="swatches" id="swatches"></div></section>
+<!-- SPECTRUM ATLAS / Every 24-bit RGB shade is reachable, not just named swatches -->
+<section class="page" id="atlas">
+  <div class="atlas-heading"><div><div class="mini">02 / THE COMPLETE COLOR SPACE</div><h2>THE SPECTRUM ATLAS<span class="atlas-point">.</span></h2><p>Move through color itself. Explore the complete 24-bit sRGB space of 16,777,216 possible colors. Each is selectable by exact HEX value, even if it has no established name.</p></div><div class="atlas-counter">16,777,216 <small>RGB COLORS AVAILABLE</small></div></div>
+  <div class="atlas-layout">
+    <div class="atlas-controls">
+      <div class="atlas-control-title">COLOR COORDINATES <span>HSL / 360°</span></div>
+      <label class="atlas-label" for="atlasHue">HUE <output id="atlasHueVal">220°</output></label>
+      <input id="atlasHue" class="atlas-range atlas-rainbow" type="range" min="0" max="359" step="1" value="220">
+      <label class="atlas-label" for="atlasSat">SATURATION <output id="atlasSatVal">75%</output></label>
+      <input id="atlasSat" class="atlas-range" type="range" min="0" max="100" value="75">
+      <label class="atlas-label" for="atlasLight">LIGHTNESS <output id="atlasLightVal">55%</output></label>
+      <input id="atlasLight" class="atlas-range" type="range" min="0" max="100" value="55">
+      <div class="atlas-pick"><label for="atlasNative">EXACT HEX / COLOR PICKER</label><input id="atlasHex" maxlength="7" spellcheck="false" value="#426DDA" aria-label="Exact hexadecimal color"><input type="color" id="atlasNative" value="#426dda" aria-label="Choose any RGB color"></div>
+      <div class="atlas-selected" id="atlasSelected"></div>
+      <button class="action" id="atlasCopy" type="button">COPY SELECTED HEX</button>
+      <p class="atlas-provenance">Atlas shades are generated digital RGB colors. They do not have individual historical pigment origins. Named colors and documented color histories remain in the Named Archive.</p>
+    </div>
+    <div class="atlas-display">
+      <div class="atlas-display-head"><div><div class="mini">COLOR FIELD / SELECT TO COPY</div><strong id="atlasGridTitle">HUE 220° · COLOR NEIGHBORHOOD</strong></div><span class="mini">SATURATION → · LIGHTNESS ↓</span></div>
+      <div class="atlas-grid" id="atlasGrid" aria-label="Interactive matrix of nearby digital colors"></div>
+      <div class="atlas-axis"><span>DULLER</span><span>MORE SATURATED</span></div>
+      <div class="atlas-strip-head"><span>ADJACENT HUES</span><span>CLICK TO SELECT</span></div>
+      <div class="atlas-neighbors" id="atlasNeighbors"></div>
+    </div>
+  </div>
+</section>
+<!-- 03 / CURATED PALETTES -->
+<section class="page" id="palettes"><div class="row-between"><div><h2 class="section-title">Color palettes</h2><p class="section-sub">Curated combinations for websites, illustrations and data visualizations.</p></div><button class="action" id="generate">Generate palette</button></div><div class="palette-grid" id="paletteGrid"></div></section>
+<!-- 04 / CSS GRADIENTS -->
+<section class="page" id="gradients"><h2 class="section-title">Gradient archive</h2><p class="section-sub">Click any gradient to copy its complete CSS declaration.</p><div class="gradients" id="gradientGrid"></div></section>
+<!-- 05 / ACCESSIBILITY CONTRAST -->
+<section class="page" id="contrast"><h2 class="section-title">Contrast studio</h2><p class="section-sub">Check foreground and background colors against WCAG contrast ratios.</p><div class="split"><div class="workpanel"><div class="panelcap">Live typography preview</div><div class="preview" id="contrastPreview"><h3>Color makes meaning.</h3><p>Good contrast keeps information readable for everyone. See how your colors work together in real time.</p><button>Sample action</button></div><div class="readout" id="contrastReadout"></div></div><div class="workpanel"><div class="panelcap">Choose foreground and background</div><div class="kv"><label for="fg">Text color</label><input id="fg" type="color" value="#202124"></div><div class="kv"><label for="bg">Background</label><input id="bg" type="color" value="#f6f5f1"></div><div class="kv"><label>Foreground HEX</label><span class="value" id="fgValue"></span></div><div class="kv"><label>Background HEX</label><span class="value" id="bgValue"></span></div><button class="action light" id="swap">Swap colors</button><button class="action" id="copyContrast">Copy CSS</button><p class="section-sub" style="margin-top:18px">WCAG AA: 4.5:1 for normal text; 3:1 for large text. AAA: 7:1 for normal text.</p></div></div></section>
+<!-- 06 / CSS COLOR WORKBENCH -->
+<section class="page" id="css"><h2 class="section-title">CSS color lab</h2><p class="section-sub">Create colors, inspect their values, and build gradients for your HTML.</p><div class="split"><div class="workpanel"><div class="panelcap">Color inspector</div><div class="custom-row"><input class="text-input" type="text" id="hexInput" value="#8A64F5" aria-label="Color hex value"><input type="color" id="cssPicker" value="#8a64f5" style="height:45px;width:64px;background:white;border:1px solid #ccc;cursor:pointer"><button class="action light" id="randomColor">Random</button></div><div class="color-preview" id="cssPreview"></div><div class="code" id="cssCode"></div><div style="margin-top:12px"><button class="action" id="copyColorCode">Copy values</button></div></div><div class="workpanel"><div class="panelcap">Gradient maker</div><div class="kv"><label for="grad1">Start</label><input type="color" id="grad1" value="#fa617e"></div><div class="kv"><label for="grad2">End</label><input type="color" id="grad2" value="#6879eb"></div><div class="kv"><label for="angle">Angle</label><div><input type="range" id="angle" min="0" max="360" value="120"><span class="value" id="angleValue">120°</span></div></div><div class="color-preview" id="gradientPreview"></div><div class="code" id="gradientCode"></div><div style="margin-top:12px"><button class="action" id="copyGradientCode">Copy gradient CSS</button></div></div></div></section>
+</main>
+<footer class="foot"><span>CHIVIS / IRIS · COLOR SYSTEM</span><span>OFFLINE LIBRARY · EXTERNAL HISTORY REFERENCES</span></footer>
+</div><div class="history-overlay" id="historyOverlay" role="presentation"><aside class="history-sheet" role="dialog" aria-modal="true" aria-labelledby="historyTitle" tabindex="-1"><button class="close" id="historyClose" aria-label="Close history">×</button><div class="mini">IRIS / COLOR ARCHIVE</div><div id="historyBody"></div></aside></div><div id="toast" class="toast" role="status" aria-live="polite">Copied</div>
+<script>
+/* 07 / COLOR DATABASE — extend this array with your own colors */
+const colorData=[
+['Crimson','#D7263D','red'],['Scarlet','#FF3B30','red'],['Coral','#FF6B6B','red'],['Rose','#F45B8B','red'],['Blush','#FFA6B8','red'],['Burgundy','#802A43','red'],['Ruby','#B71E49','red'],['Watermelon','#FC6271','red'],['Magenta','#D64AA8','red'],['Fuchsia','#E44EC0','red'],
+['Tangerine','#F77F36','orange'],['Apricot','#F6A66B','orange'],['Amber','#FFBF47','orange'],['Gold','#E5AF34','orange'],['Saffron','#F2C14E','orange'],['Sunflower','#F9D65C','orange'],['Ochre','#C58A37','orange'],['Peach','#FFBD9E','orange'],['Marigold','#F2A900','orange'],['Butter','#FFF0A9','orange'],
+['Lime','#B6D957','green'],['Chartreuse','#9BE44D','green'],['Emerald','#2DBA83','green'],['Mint','#8FE2C2','green'],['Jade','#258B76','green'],['Moss','#727F51','green'],['Forest','#24614A','green'],['Sage','#9DAE91','green'],['Seafoam','#6CD8B9','green'],['Olive','#949B53','green'],
+['Teal','#2AA8A5','blue'],['Turquoise','#42C9C8','blue'],['Cyan','#35D8EA','blue'],['Sky','#75BFF5','blue'],['Azure','#328DE6','blue'],['Cobalt','#315CD6','blue'],['Ultramarine','#3944BC','blue'],['Denim','#4978AB','blue'],['Midnight Blue','#22375E','blue'],['Ice Blue','#C2EAF2','blue'],
+['Periwinkle','#8C94F4','purple'],['Iris','#7162E8','purple'],['Violet','#8C57C9','purple'],['Lavender','#BAA5ED','purple'],['Lilac','#CEAAE3','purple'],['Plum','#694679','purple'],['Orchid','#B469CF','purple'],['Amethyst','#9367C9','purple'],['Indigo','#5149A2','purple'],['Wisteria','#A7A0E8','purple'],
+['Ink','#202124','neutral'],['Charcoal','#42444B','neutral'],['Slate','#647280','neutral'],['Stone','#97938D','neutral'],['Ash','#B5B4B1','neutral'],['Silver','#D5D7DC','neutral'],['Cloud','#E9EAF0','neutral'],['Cream','#F5EAD2','neutral'],['Ivory','#F9F5E7','neutral'],['White','#FFFFFF','neutral']
+];
+/* 07A / CSS COLOR NAMES (W3C named colors, additional to CHIVIS shades).
+   RGB values are browser standard colors, not claims of historical pigment origin. */
+const cssNamedColors=[["Aliceblue","#F0F8FF","blue"],["Antiquewhite","#FAEBD7","orange"],["Aqua","#00FFFF","blue"],["Aquamarine","#7FFFD4","green"],["Azure","#F0FFFF","blue"],["Beige","#F5F5DC","orange"],["Bisque","#FFE4C4","orange"],["Black","#000000","neutral"],["Blanchedalmond","#FFEBCD","orange"],["Blue","#0000FF","blue"],["Blueviolet","#8A2BE2","purple"],["Brown","#A52A2A","red"],["Burlywood","#DEB887","orange"],["Cadetblue","#5F9EA0","blue"],["Chartreuse","#7FFF00","green"],["Chocolate","#D2691E","orange"],["Coral","#FF7F50","orange"],["Cornflowerblue","#6495ED","blue"],["Cornsilk","#FFF8DC","orange"],["Crimson","#DC143C","red"],["Cyan","#00FFFF","blue"],["Darkblue","#00008B","blue"],["Darkcyan","#008B8B","blue"],["Darkgoldenrod","#B8860B","orange"],["Darkgray","#A9A9A9","red"],["Darkgreen","#006400","green"],["Darkgrey","#A9A9A9","red"],["Darkkhaki","#BDB76B","orange"],["Darkmagenta","#8B008B","purple"],["Darkolivegreen","#556B2F","green"],["Darkorange","#FF8C00","orange"],["Darkorchid","#9932CC","purple"],["Darkred","#8B0000","red"],["Darksalmon","#E9967A","orange"],["Darkseagreen","#8FBC8F","green"],["Darkslateblue","#483D8B","blue"],["Darkslategray","#2F4F4F","blue"],["Darkslategrey","#2F4F4F","blue"],["Darkturquoise","#00CED1","blue"],["Darkviolet","#9400D3","purple"],["Deeppink","#FF1493","purple"],["Deepskyblue","#00BFFF","blue"],["Dimgray","#696969","red"],["Dimgrey","#696969","red"],["Dodgerblue","#1E90FF","blue"],["Firebrick","#B22222","red"],["Floralwhite","#FFFAF0","orange"],["Forestgreen","#228B22","green"],["Fuchsia","#FF00FF","purple"],["Gainsboro","#DCDCDC","red"],["Ghostwhite","#F8F8FF","blue"],["Gold","#FFD700","orange"],["Goldenrod","#DAA520","orange"],["Gray","#808080","red"],["Green","#008000","green"],["Greenyellow","#ADFF2F","green"],["Grey","#808080","red"],["Honeydew","#F0FFF0","green"],["Hotpink","#FF69B4","purple"],["Indianred","#CD5C5C","red"],["Indigo","#4B0082","purple"],["Ivory","#FFFFF0","orange"],["Khaki","#F0E68C","orange"],["Lavender","#E6E6FA","blue"],["Lavenderblush","#FFF0F5","purple"],["Lawngreen","#7CFC00","green"],["Lemonchiffon","#FFFACD","orange"],["Lightblue","#ADD8E6","blue"],["Lightcoral","#F08080","red"],["Lightcyan","#E0FFFF","blue"],["Lightgoldenrodyellow","#FAFAD2","orange"],["Lightgray","#D3D3D3","red"],["Lightgreen","#90EE90","green"],["Lightgrey","#D3D3D3","red"],["Lightpink","#FFB6C1","red"],["Lightsalmon","#FFA07A","orange"],["Lightseagreen","#20B2AA","blue"],["Lightskyblue","#87CEFA","blue"],["Lightslategray","#778899","blue"],["Lightslategrey","#778899","blue"],["Lightsteelblue","#B0C4DE","blue"],["Lightyellow","#FFFFE0","orange"],["Lime","#00FF00","green"],["Limegreen","#32CD32","green"],["Linen","#FAF0E6","orange"],["Magenta","#FF00FF","purple"],["Maroon","#800000","red"],["Mediumaquamarine","#66CDAA","green"],["Mediumblue","#0000CD","blue"],["Mediumorchid","#BA55D3","purple"],["Mediumpurple","#9370DB","purple"],["Mediumseagreen","#3CB371","green"],["Mediumslateblue","#7B68EE","blue"],["Mediumspringgreen","#00FA9A","green"],["Mediumturquoise","#48D1CC","blue"],["Mediumvioletred","#C71585","purple"],["Midnightblue","#191970","blue"],["Mintcream","#F5FFFA","green"],["Mistyrose","#FFE4E1","red"],["Moccasin","#FFE4B5","orange"],["Navajowhite","#FFDEAD","orange"],["Navy","#000080","blue"],["Oldlace","#FDF5E6","orange"],["Olive","#808000","orange"],["Olivedrab","#6B8E23","green"],["Orange","#FFA500","orange"],["Orangered","#FF4500","orange"],["Orchid","#DA70D6","purple"],["Palegoldenrod","#EEE8AA","orange"],["Palegreen","#98FB98","green"],["Paleturquoise","#AFEEEE","blue"],["Palevioletred","#DB7093","red"],["Papayawhip","#FFEFD5","orange"],["Peachpuff","#FFDAB9","orange"],["Peru","#CD853F","orange"],["Pink","#FFC0CB","red"],["Plum","#DDA0DD","purple"],["Powderblue","#B0E0E6","blue"],["Purple","#800080","purple"],["Rebeccapurple","#663399","purple"],["Red","#FF0000","red"],["Rosybrown","#BC8F8F","red"],["Royalblue","#4169E1","blue"],["Saddlebrown","#8B4513","orange"],["Salmon","#FA8072","red"],["Sandybrown","#F4A460","orange"],["Seagreen","#2E8B57","green"],["Seashell","#FFF5EE","orange"],["Sienna","#A0522D","orange"],["Silver","#C0C0C0","red"],["Skyblue","#87CEEB","blue"],["Slateblue","#6A5ACD","blue"],["Slategray","#708090","blue"],["Slategrey","#708090","blue"],["Snow","#FFFAFA","red"],["Springgreen","#00FF7F","green"],["Steelblue","#4682B4","blue"],["Tan","#D2B48C","orange"],["Teal","#008080","blue"],["Thistle","#D8BFD8","purple"],["Tomato","#FF6347","red"],["Turquoise","#40E0D0","blue"],["Violet","#EE82EE","purple"],["Wheat","#F5DEB3","orange"],["White","#FFFFFF","red"],["Whitesmoke","#F5F5F5","red"],["Yellow","#FFFF00","orange"],["Yellowgreen","#9ACD32","green"]];
+const existingNames=new Set(colorData.map(c=>c[0].replace(/\s+/g,'').toLowerCase()));
+for(const item of cssNamedColors){if(!existingNames.has(item[0].replace(/\s+/g,'').toLowerCase())){colorData.push(item);existingNames.add(item[0].replace(/\s+/g,'').toLowerCase())}}
+/* 07C / Additional survey names from the 2010 xkcd color naming survey.
+   These are survey-reported screen colors, NOT authenticated historical pigments. */
+const surveyColors=[["Survey \u00b7 Cloudy Blue","#ACC2D9","blue"],["Survey \u00b7 Dark Pastel Green","#56AE57","green"],["Survey \u00b7 Dust","#B2996E","orange"],["Survey \u00b7 Electric Lime","#A8FF04","green"],["Survey \u00b7 Fresh Green","#69D84F","green"],["Survey \u00b7 Light Eggplant","#894585","purple"],["Survey \u00b7 Really Light Blue","#D4FFFF","blue"],["Survey \u00b7 Tea","#65AB7C","green"],["Survey \u00b7 Warm Purple","#952E8F","purple"],["Survey \u00b7 Yellowish Tan","#FCFC81","orange"],["Survey \u00b7 Cement","#A5A391","orange"],["Survey \u00b7 Dark Grass Green","#388004","green"],["Survey \u00b7 Dusty Teal","#4C9085","blue"],["Survey \u00b7 Grey Teal","#5E9B8A","green"],["Survey \u00b7 Macaroni And Cheese","#EFB435","orange"],["Survey \u00b7 Pinkish Tan","#D99B82","orange"],["Survey \u00b7 Spruce","#0A5F38","green"],["Survey \u00b7 Strong Blue","#0C06F7","blue"],["Survey \u00b7 Windows Blue","#3778BF","blue"],["Survey \u00b7 Blue Blue","#2242C7","blue"],["Survey \u00b7 Blue With A Hint Of Purple","#533CC6","blue"],["Survey \u00b7 Bright Sea Green","#05FFA6","green"],["Survey \u00b7 Dark Green Blue","#1F6357","green"],["Survey \u00b7 Deep Turquoise","#017374","blue"],["Survey \u00b7 Green Teal","#0CB577","green"],["Survey \u00b7 Strong Pink","#FF0789","purple"],["Survey \u00b7 Bland","#AFA88B","orange"],["Survey \u00b7 Deep Aqua","#08787F","blue"],["Survey \u00b7 Lavender Pink","#DD85D7","purple"],["Survey \u00b7 Light Moss Green","#A6C875","green"],["Survey \u00b7 Light Seafoam Green","#A7FFB5","green"],["Survey \u00b7 Olive Yellow","#C2B709","orange"],["Survey \u00b7 Pig Pink","#E78EA5","purple"],["Survey \u00b7 Deep Lilac","#966EBD","purple"],["Survey \u00b7 Desert","#CCAD60","orange"],["Survey \u00b7 Dusty Lavender","#AC86A8","purple"],["Survey \u00b7 Purpley Grey","#947E94","neutral"],["Survey \u00b7 Purply","#983FB2","purple"],["Survey \u00b7 Candy Pink","#FF63E9","purple"],["Survey \u00b7 Light Pastel Green","#B2FBA5","green"],["Survey \u00b7 Boring Green","#63B365","green"],["Survey \u00b7 Kiwi Green","#8EE53F","green"],["Survey \u00b7 Light Grey Green","#B7E1A1","green"],["Survey \u00b7 Orange Pink","#FF6F52","red"],["Survey \u00b7 Tea Green","#BDF8A3","green"],["Survey \u00b7 Very Light Brown","#D3B683","orange"],["Survey \u00b7 Egg Shell","#FFFCC4","orange"],["Survey \u00b7 Eggplant Purple","#430541","purple"],["Survey \u00b7 Powder Pink","#FFB2D0","purple"],["Survey \u00b7 Reddish Grey","#997570","red"],["Survey \u00b7 Liliac","#C48EFD","purple"],["Survey \u00b7 Stormy Blue","#507B9C","blue"],["Survey \u00b7 Custard","#FFFD78","orange"],["Survey \u00b7 Darkish Pink","#DA467D","purple"],["Survey \u00b7 Deep Brown","#410200","red"],["Survey \u00b7 Greenish Beige","#C9D179","orange"],["Survey \u00b7 Manilla","#FFFA86","orange"],["Survey \u00b7 Off Blue","#5684AE","blue"],["Survey \u00b7 Battleship Grey","#6B7C85","blue"],["Survey \u00b7 Browny Green","#6F6C0A","orange"],["Survey \u00b7 Bruise","#7E4071","purple"],["Survey \u00b7 Kelley Green","#009337","green"],["Survey \u00b7 Sickly Yellow","#D0E429","orange"],["Survey \u00b7 Sunny Yellow","#FFF917","orange"],["Survey \u00b7 Azul","#1D5DEC","blue"],["Survey \u00b7 Darkgreen","#054907","green"],["Survey \u00b7 Lichen","#8FB67B","green"],["Survey \u00b7 Light Light Green","#C8FFB0","green"],["Survey \u00b7 Pale Gold","#FDDE6C","orange"],["Survey \u00b7 Sun Yellow","#FFDF22","orange"],["Survey \u00b7 Tan Green","#A9BE70","green"],["Survey \u00b7 Burple","#6832E3","purple"],["Survey \u00b7 Butterscotch","#FDB147","orange"],["Survey \u00b7 Toupe","#C7AC7D","orange"],["Survey \u00b7 Dark Cream","#FFF39A","orange"],["Survey \u00b7 Indian Red","#850E04","red"],["Survey \u00b7 Light Lavendar","#EFC0FE","purple"],["Survey \u00b7 Poison Green","#40FD14","green"],["Survey \u00b7 Bright Yellow Green","#9DFF00","green"],["Survey \u00b7 Charcoal Grey","#3C4142","neutral"],["Survey \u00b7 Squash","#F2AB15","orange"],["Survey \u00b7 Cinnamon","#AC4F06","orange"],["Survey \u00b7 Light Pea Green","#C4FE82","green"],["Survey \u00b7 Radioactive Green","#2CFA1F","green"],["Survey \u00b7 Raw Sienna","#9A6200","orange"],["Survey \u00b7 Cocoa","#875F42","orange"],["Survey \u00b7 Light Royal Blue","#3A2EFE","blue"],["Survey \u00b7 Orangeish","#FD8D49","orange"],["Survey \u00b7 Rust Brown","#8B3103","orange"],["Survey \u00b7 Sand Brown","#CBA560","orange"],["Survey \u00b7 Swamp","#698339","green"],["Survey \u00b7 Tealish Green","#0CDC73","green"],["Survey \u00b7 Burnt Siena","#B75203","orange"],["Survey \u00b7 Camo","#7F8F4E","green"],["Survey \u00b7 Dusk Blue","#26538D","blue"],["Survey \u00b7 Fern","#63A950","green"],["Survey \u00b7 Old Rose","#C87F89","red"],["Survey \u00b7 Pale Light Green","#B1FC99","green"],["Survey \u00b7 Peachy Pink","#FF9A8A","red"],["Survey \u00b7 Rosy Pink","#F6688E","purple"],["Survey \u00b7 Light Bluish Green","#76FDA8","green"],["Survey \u00b7 Light Bright Green","#53FE5C","green"],["Survey \u00b7 Light Neon Green","#4EFD54","green"],["Survey \u00b7 Light Seafoam","#A0FEBF","green"],["Survey \u00b7 Tiffany Blue","#7BF2DA","green"],["Survey \u00b7 Washed Out Green","#BCF5A6","green"],["Survey \u00b7 Browny Orange","#CA6B02","orange"],["Survey \u00b7 Nice Blue","#107AB0","blue"],["Survey \u00b7 Sapphire","#2138AB","blue"],["Survey \u00b7 Greyish Teal","#719F91","green"],["Survey \u00b7 Orangey Yellow","#FDB915","orange"],["Survey \u00b7 Parchment","#FEFCAF","orange"],["Survey \u00b7 Straw","#FCF679","orange"],["Survey \u00b7 Very Dark Brown","#1D0200","red"],["Survey \u00b7 Terracota","#CB6843","red"],["Survey \u00b7 Clear Blue","#247AFD","blue"],["Survey \u00b7 Creme","#FFFFB6","orange"],["Survey \u00b7 Foam Green","#90FDA9","green"],["Survey \u00b7 Light Gold","#FDDC5C","orange"],["Survey \u00b7 Seafoam Blue","#78D1B6","green"],["Survey \u00b7 Topaz","#13BBAF","blue"],["Survey \u00b7 Violet Pink","#FB5FFC","purple"],["Survey \u00b7 Wintergreen","#20F986","green"],["Survey \u00b7 Yellow Tan","#FFE36E","orange"],["Survey \u00b7 Dark Fuchsia","#9D0759","purple"],["Survey \u00b7 Indigo Blue","#3A18B1","blue"],["Survey \u00b7 Light Yellowish Green","#C2FF89","green"],["Survey \u00b7 Pale Magenta","#D767AD","purple"],["Survey \u00b7 Rich Purple","#720058","purple"],["Survey \u00b7 Sunflower Yellow","#FFDA03","orange"],["Survey \u00b7 Leather","#AC7434","orange"],["Survey \u00b7 Racing Green","#014600","green"],["Survey \u00b7 Vivid Purple","#9900FA","purple"],["Survey \u00b7 Dark Royal Blue","#02066F","blue"],["Survey \u00b7 Hazel","#8E7618","orange"],["Survey \u00b7 Muted Pink","#D1768F","purple"],["Survey \u00b7 Canary","#FDFF63","orange"],["Survey \u00b7 Cool Grey","#95A3A6","neutral"],["Survey \u00b7 Dark Taupe","#7F684E","orange"],["Survey \u00b7 Darkish Purple","#751973","purple"],["Survey \u00b7 True Green","#089404","green"],["Survey \u00b7 Coral Pink","#FF6163","red"],["Survey \u00b7 Dark Sage","#598556","green"],["Survey \u00b7 Dark Slate Blue","#214761","blue"],["Survey \u00b7 Flat Blue","#3C73A8","blue"],["Survey \u00b7 Mushroom","#BA9E88","orange"],["Survey \u00b7 Rich Blue","#021BF9","blue"],["Survey \u00b7 Greenblue","#23C48B","green"],["Survey \u00b7 Icky Green","#8FAE22","green"],["Survey \u00b7 Light Khaki","#E6F2A2","orange"],["Survey \u00b7 Warm Blue","#4B57DB","blue"],["Survey \u00b7 Dark Hot Pink","#D90166","purple"],["Survey \u00b7 Deep Sea Blue","#015482","blue"],["Survey \u00b7 Carmine","#9D0216","red"],["Survey \u00b7 Dark Yellow Green","#728F02","green"],["Survey \u00b7 Pale Peach","#FFE5AD","orange"],["Survey \u00b7 Plum Purple","#4E0550","purple"],["Survey \u00b7 Golden Rod","#F9BC08","orange"],["Survey \u00b7 Neon Red","#FF073A","red"],["Survey \u00b7 Old Pink","#C77986","red"],["Survey \u00b7 Very Pale Blue","#D6FFFE","blue"],["Survey \u00b7 Grapefruit","#FD5956","red"],["Survey \u00b7 Sand Yellow","#FCE166","orange"],["Survey \u00b7 Clay Brown","#B2713D","orange"],["Survey \u00b7 Dark Blue Grey","#1F3B4D","blue"],["Survey \u00b7 Flat Green","#699D4C","green"],["Survey \u00b7 Light Green Blue","#56FCA2","green"],["Survey \u00b7 Warm Pink","#FB5581","purple"],["Survey \u00b7 Dodger Blue","#3E82FC","blue"],["Survey \u00b7 Gross Green","#A0BF16","green"],["Survey \u00b7 Ice","#D6FFFA","blue"],["Survey \u00b7 Metallic Blue","#4F738E","blue"],["Survey \u00b7 Pale Salmon","#FFB19A","red"],["Survey \u00b7 Sap Green","#5C8B15","green"],["Survey \u00b7 Algae","#54AC68","green"],["Survey \u00b7 Bluey Grey","#89A0B0","blue"],["Survey \u00b7 Greeny Grey","#7EA07A","green"],["Survey \u00b7 Highlighter Green","#1BFC06","green"],["Survey \u00b7 Light Light Blue","#CAFFFB","blue"],["Survey \u00b7 Light Mint","#B6FFBB","green"],["Survey \u00b7 Raw Umber","#A75E09","orange"],["Survey \u00b7 Vivid Blue","#152EFF","blue"],["Survey \u00b7 Deep Lavender","#8D5EB7","purple"],["Survey \u00b7 Dull Teal","#5F9E8F","green"],["Survey \u00b7 Light Greenish Blue","#63F7B4","green"],["Survey \u00b7 Mud Green","#606602","orange"],["Survey \u00b7 Pinky","#FC86AA","purple"],["Survey \u00b7 Red Wine","#8C0034","purple"],["Survey \u00b7 Tan Brown","#AB7E4C","orange"],["Survey \u00b7 Darkblue","#030764","blue"],["Survey \u00b7 Rosa","#FE86A4","red"],["Survey \u00b7 Lipstick","#D5174E","purple"],["Survey \u00b7 Pale Mauve","#FED0FC","purple"],["Survey \u00b7 Claret","#680018","red"],["Survey \u00b7 Dandelion","#FEDF08","orange"],["Survey \u00b7 Orangered","#FE420F","red"],["Survey \u00b7 Ruby","#CA0147","purple"],["Survey \u00b7 Dark","#1B2431","blue"],["Survey \u00b7 Greenish Turquoise","#00FBB0","green"],["Survey \u00b7 Pastel Red","#DB5856","red"],["Survey \u00b7 Bright Cyan","#41FDFE","blue"],["Survey \u00b7 Dark Coral","#CF524E","red"],["Survey \u00b7 Algae Green","#21C36F","green"],["Survey \u00b7 Darkish Red","#A90308","red"],["Survey \u00b7 Reddy Brown","#6E1005","red"],["Survey \u00b7 Blush Pink","#FE828C","red"],["Survey \u00b7 Camouflage Green","#4B6113","green"],["Survey \u00b7 Lawn Green","#4DA409","green"],["Survey \u00b7 Putty","#BEAE8A","orange"],["Survey \u00b7 Vibrant Blue","#0339F8","blue"],["Survey \u00b7 Dark Sand","#A88F59","orange"],["Survey \u00b7 Saffron","#FEB209","orange"],["Survey \u00b7 Twilight","#4E518B","blue"],["Survey \u00b7 Warm Brown","#964E02","orange"],["Survey \u00b7 Bluegrey","#85A3B2","blue"],["Survey \u00b7 Bubble Gum Pink","#FF69AF","purple"],["Survey \u00b7 Duck Egg Blue","#C3FBF4","blue"],["Survey \u00b7 Greenish Cyan","#2AFEB7","green"],["Survey \u00b7 Petrol","#005F6A","blue"],["Survey \u00b7 Royal","#0C1793","blue"],["Survey \u00b7 Butter","#FFFF81","orange"],["Survey \u00b7 Dusty Orange","#F0833A","orange"],["Survey \u00b7 Off Yellow","#F1F33F","orange"],["Survey \u00b7 Pale Olive Green","#B1D27B","green"],["Survey \u00b7 Orangish","#FC824A","orange"],["Survey \u00b7 Leaf","#71AA34","green"],["Survey \u00b7 Light Blue Grey","#B7C9E2","blue"],["Survey \u00b7 Lightish Purple","#A552E6","purple"],["Survey \u00b7 Rusty Red","#AF2F0D","red"],["Survey \u00b7 Lavender Blue","#8B88F8","blue"],["Survey \u00b7 Light Grass Green","#9AF764","green"],["Survey \u00b7 Light Mint Green","#A6FBB2","green"],["Survey \u00b7 Sunflower","#FFC512","orange"],["Survey \u00b7 Velvet","#750851","purple"],["Survey \u00b7 Brick Orange","#C14A09","orange"],["Survey \u00b7 Lightish Red","#FE2F4A","red"],["Survey \u00b7 Pure Blue","#0203E2","blue"],["Survey \u00b7 Twilight Blue","#0A437A","blue"],["Survey \u00b7 Violet Red","#A50055","purple"],["Survey \u00b7 Yellowy Brown","#AE8B0C","orange"],["Survey \u00b7 Carnation","#FD798F","red"],["Survey \u00b7 Muddy Yellow","#BFAC05","orange"],["Survey \u00b7 Dark Seafoam Green","#3EAF76","green"],["Survey \u00b7 Deep Rose","#C74767","red"],["Survey \u00b7 Dusty Red","#B9484E","red"],["Survey \u00b7 Lemon Lime","#BFFE28","green"],["Survey \u00b7 Brown Yellow","#B29705","orange"],["Survey \u00b7 Purple Brown","#673A3F","red"],["Survey \u00b7 Wisteria","#A87DC2","purple"],["Survey \u00b7 Banana Yellow","#FAFE4B","orange"],["Survey \u00b7 Lipstick Red","#C0022F","red"],["Survey \u00b7 Water Blue","#0E87CC","blue"],["Survey \u00b7 Brown Grey","#8D8468","orange"],["Survey \u00b7 Vibrant Purple","#AD03DE","purple"],["Survey \u00b7 Barf Green","#94AC02","orange"],["Survey \u00b7 Eggshell Blue","#C4FFF7","blue"],["Survey \u00b7 Sandy Yellow","#FDEE73","orange"],["Survey \u00b7 Cool Green","#33B864","green"],["Survey \u00b7 Pale","#FFF9D0","orange"],["Survey \u00b7 Hot Magenta","#F504C9","purple"],["Survey \u00b7 Greyblue","#77A1B5","blue"],["Survey \u00b7 Purpley","#8756E4","purple"],["Survey \u00b7 Brownish Pink","#C27E79","red"],["Survey \u00b7 Dark Aquamarine","#017371","blue"],["Survey \u00b7 Diarrhea","#9F8303","orange"],["Survey \u00b7 Light Mustard","#F7D560","orange"],["Survey \u00b7 Pale Sky Blue","#BDF6FE","blue"],["Survey \u00b7 Turtle Green","#75B84F","green"],["Survey \u00b7 Bright Olive","#9CBB04","green"],["Survey \u00b7 Dark Grey Blue","#29465B","blue"],["Survey \u00b7 Greeny Brown","#696006","orange"],["Survey \u00b7 Lemon Green","#ADF802","green"],["Survey \u00b7 Light Periwinkle","#C1C6FC","blue"],["Survey \u00b7 Seaweed Green","#35AD6B","green"],["Survey \u00b7 Sunshine Yellow","#FFFD37","orange"],["Survey \u00b7 Medium Pink","#F36196","purple"],["Survey \u00b7 Very Light Pink","#FFF4F2","red"],["Survey \u00b7 Viridian","#1E9167","green"],["Survey \u00b7 Bile","#B5C306","orange"],["Survey \u00b7 Faded Yellow","#FEFF7F","orange"],["Survey \u00b7 Very Pale Green","#CFFDBC","green"],["Survey \u00b7 Vibrant Green","#0ADD08","green"],["Survey \u00b7 Bright Lime","#87FD05","green"],["Survey \u00b7 Spearmint","#1EF876","green"],["Survey \u00b7 Light Aquamarine","#7BFDC7","green"],["Survey \u00b7 Light Sage","#BCECAC","green"],["Survey \u00b7 Yellowgreen","#BBF90F","green"],["Survey \u00b7 Dark Seafoam","#1FB57A","green"],["Survey \u00b7 Deep Teal","#00555A","blue"],["Survey \u00b7 Heather","#A484AC","purple"],["Survey \u00b7 Rust Orange","#C45508","orange"],["Survey \u00b7 Fern Green","#548D44","green"],["Survey \u00b7 Bright Lilac","#C95EFB","purple"],["Survey \u00b7 Weird Green","#3AE57F","green"],["Survey \u00b7 Peacock Blue","#016795","blue"],["Survey \u00b7 Avocado Green","#87A922","green"],["Survey \u00b7 Faded Orange","#F0944D","orange"],["Survey \u00b7 Grape Purple","#5D1451","purple"],["Survey \u00b7 Hot Green","#25FF29","green"],["Survey \u00b7 Lime Yellow","#D0FE1D","green"],["Survey \u00b7 Mango","#FFA62B","orange"],["Survey \u00b7 Shamrock","#01B44C","green"],["Survey \u00b7 Bubblegum","#FF6CB5","purple"],["Survey \u00b7 Purplish Brown","#6B4247","red"],["Survey \u00b7 Pale Cyan","#B7FFFA","blue"],["Survey \u00b7 Key Lime","#AEFF6E","green"],["Survey \u00b7 Tomato Red","#EC2D01","red"],["Survey \u00b7 Lightgreen","#76FF7B","green"],["Survey \u00b7 Merlot","#730039","purple"],["Survey \u00b7 Night Blue","#040348","blue"],["Survey \u00b7 Purpleish Pink","#DF4EC8","purple"],["Survey \u00b7 Apple","#6ECB3C","green"],["Survey \u00b7 Green Apple","#5EDC1F","green"],["Survey \u00b7 Heliotrope","#D94FF5","purple"],["Survey \u00b7 Almost Black","#070D0D","blue"],["Survey \u00b7 Cool Blue","#4984B8","blue"],["Survey \u00b7 Leafy Green","#51B73B","green"],["Survey \u00b7 Mustard Brown","#AC7E04","orange"],["Survey \u00b7 Dusk","#4E5481","blue"],["Survey \u00b7 Dull Brown","#876E4B","orange"],["Survey \u00b7 Frog Green","#58BC08","green"],["Survey \u00b7 Vivid Green","#2FEF10","green"],["Survey \u00b7 Bright Light Green","#2DFE54","green"],["Survey \u00b7 Fluro Green","#0AFF02","green"],["Survey \u00b7 Kiwi","#9CEF43","green"],["Survey \u00b7 Seaweed","#18D17B","green"],["Survey \u00b7 Navy Green","#35530A","green"],["Survey \u00b7 Ultramarine Blue","#1805DB","blue"],["Survey \u00b7 Iris","#6258C4","blue"],["Survey \u00b7 Pastel Orange","#FF964F","orange"],["Survey \u00b7 Yellowish Orange","#FFAB0F","orange"],["Survey \u00b7 Perrywinkle","#8F8CE7","blue"],["Survey \u00b7 Tealish","#24BCA8","blue"],["Survey \u00b7 Dark Plum","#3F012C","purple"],["Survey \u00b7 Pear","#CBF85F","green"],["Survey \u00b7 Pinkish Orange","#FF724C","red"],["Survey \u00b7 Midnight Purple","#280137","purple"],["Survey \u00b7 Light Urple","#B36FF6","purple"],["Survey \u00b7 Dark Mint","#48C072","green"],["Survey \u00b7 Greenish Tan","#BCCB7A","green"],["Survey \u00b7 Light Burgundy","#A8415B","purple"],["Survey \u00b7 Turquoise Blue","#06B1C4","blue"],["Survey \u00b7 Sandy","#F1DA7A","orange"],["Survey \u00b7 Electric Pink","#FF0490","purple"],["Survey \u00b7 Muted Purple","#805B87","purple"],["Survey \u00b7 Mid Green","#50A747","green"],["Survey \u00b7 Greyish","#A8A495","neutral"],["Survey \u00b7 Neon Yellow","#CFFF04","green"],["Survey \u00b7 Banana","#FFFF7E","orange"],["Survey \u00b7 Carnation Pink","#FF7FA7","purple"],["Survey \u00b7 Tomato","#EF4026","red"],["Survey \u00b7 Sea","#3C9992","blue"],["Survey \u00b7 Muddy Brown","#886806","orange"],["Survey \u00b7 Turquoise Green","#04F489","green"],["Survey \u00b7 Buff","#FEF69E","orange"],["Survey \u00b7 Fawn","#CFAF7B","orange"],["Survey \u00b7 Muted Blue","#3B719F","blue"],["Survey \u00b7 Pale Rose","#FDC1C5","red"],["Survey \u00b7 Dark Mint Green","#20C073","green"],["Survey \u00b7 Amethyst","#9B5FC0","purple"],["Survey \u00b7 Chestnut","#742802","orange"],["Survey \u00b7 Sick Green","#9DB92C","green"],["Survey \u00b7 Pea","#A4BF20","green"],["Survey \u00b7 Rusty Orange","#CD5909","orange"],["Survey \u00b7 Stone","#ADA587","orange"],["Survey \u00b7 Rose Red","#BE013C","purple"],["Survey \u00b7 Pale Aqua","#B8FFEB","green"],["Survey \u00b7 Deep Orange","#DC4D01","orange"],["Survey \u00b7 Earth","#A2653E","orange"],["Survey \u00b7 Mossy Green","#638B27","green"],["Survey \u00b7 Grassy Green","#419C03","green"],["Survey \u00b7 Pale Lime Green","#B1FF65","green"],["Survey \u00b7 Light Grey Blue","#9DBCD4","blue"],["Survey \u00b7 Pale Grey","#FDFDFE","blue"],["Survey \u00b7 Asparagus","#77AB56","green"],["Survey \u00b7 Blueberry","#464196","blue"],["Survey \u00b7 Purple Red","#990147","purple"],["Survey \u00b7 Pale Lime","#BEFD73","green"],["Survey \u00b7 Greenish Teal","#32BF84","green"],["Survey \u00b7 Caramel","#AF6F09","orange"],["Survey \u00b7 Deep Magenta","#A0025C","purple"],["Survey \u00b7 Light Peach","#FFD8B1","orange"],["Survey \u00b7 Milk Chocolate","#7F4E1E","orange"],["Survey \u00b7 Ocher","#BF9B0C","orange"],["Survey \u00b7 Off Green","#6BA353","green"],["Survey \u00b7 Purply Pink","#F075E6","purple"],["Survey \u00b7 Lightblue","#7BC8F6","blue"],["Survey \u00b7 Dusky Blue","#475F94","blue"],["Survey \u00b7 Golden","#F5BF03","orange"],["Survey \u00b7 Light Beige","#FFFEB6","orange"],["Survey \u00b7 Butter Yellow","#FFFD74","orange"],["Survey \u00b7 Dusky Purple","#895B7B","purple"],["Survey \u00b7 French Blue","#436BAD","blue"],["Survey \u00b7 Greeny Yellow","#C6F808","green"],["Survey \u00b7 Orangish Red","#F43605","red"],["Survey \u00b7 Shamrock Green","#02C14D","green"],["Survey \u00b7 Orangish Brown","#B25F03","orange"],["Survey \u00b7 Tree Green","#2A7E19","green"],["Survey \u00b7 Deep Violet","#490648","purple"],["Survey \u00b7 Gunmetal","#536267","blue"],["Survey \u00b7 Cherry","#CF0234","red"],["Survey \u00b7 Sandy Brown","#C4A661","orange"],["Survey \u00b7 Warm Grey","#978A84","neutral"],["Survey \u00b7 Dark Indigo","#1F0954","purple"],["Survey \u00b7 Midnight","#03012D","blue"],["Survey \u00b7 Bluey Green","#2BB179","green"],["Survey \u00b7 Grey Pink","#C3909B","red"],["Survey \u00b7 Soft Purple","#A66FB5","purple"],["Survey \u00b7 Brown Red","#922B05","red"],["Survey \u00b7 Medium Grey","#7D7F7C","neutral"],["Survey \u00b7 Berry","#990F4B","purple"],["Survey \u00b7 Poo","#8F7303","orange"],["Survey \u00b7 Purpley Pink","#C83CB9","purple"],["Survey \u00b7 Light Salmon","#FEA993","red"],["Survey \u00b7 Easter Purple","#C071FE","purple"],["Survey \u00b7 Light Yellow Green","#CCFD7F","green"],["Survey \u00b7 Dark Navy Blue","#00022E","blue"],["Survey \u00b7 Drab","#828344","orange"],["Survey \u00b7 Light Rose","#FFC5CB","red"],["Survey \u00b7 Rouge","#AB1239","purple"],["Survey \u00b7 Purplish Red","#B0054B","purple"],["Survey \u00b7 Slime Green","#99CC04","green"],["Survey \u00b7 Irish Green","#019529","green"],["Survey \u00b7 Dark Navy","#000435","blue"],["Survey \u00b7 Greeny Blue","#42B395","green"],["Survey \u00b7 Light Plum","#9D5783","purple"],["Survey \u00b7 Pinkish Grey","#C8ACA9","red"],["Survey \u00b7 Rust Red","#AA2704","red"],["Survey \u00b7 Pale Lilac","#E4CBFF","purple"],["Survey \u00b7 Orangey Red","#FA4224","red"],["Survey \u00b7 Primary Blue","#0804F9","blue"],["Survey \u00b7 Kermit Green","#5CB200","green"],["Survey \u00b7 Brownish Purple","#76424E","red"],["Survey \u00b7 Murky Green","#6C7A0E","orange"],["Survey \u00b7 Wheat","#FBDD7E","orange"],["Survey \u00b7 Very Dark Purple","#2A0134","purple"],["Survey \u00b7 Bottle Green","#044A05","green"],["Survey \u00b7 Watermelon","#FD4659","red"],["Survey \u00b7 Deep Sky Blue","#0D75F8","blue"],["Survey \u00b7 Fire Engine Red","#FE0002","red"],["Survey \u00b7 Yellow Ochre","#CB9D06","orange"],["Survey \u00b7 Pumpkin Orange","#FB7D07","orange"],["Survey \u00b7 Pale Olive","#B9CC81","green"],["Survey \u00b7 Light Lilac","#EDC8FF","purple"],["Survey \u00b7 Lightish Green","#61E160","green"],["Survey \u00b7 Carolina Blue","#8AB8FE","blue"],["Survey \u00b7 Mulberry","#920A4E","purple"],["Survey \u00b7 Shocking Pink","#FE02A2","purple"],["Survey \u00b7 Auburn","#9A3001","orange"],["Survey \u00b7 Bright Lime Green","#65FE08","green"],["Survey \u00b7 Celadon","#BEFDB7","green"],["Survey \u00b7 Pinkish Brown","#B17261","red"],["Survey \u00b7 Poo Brown","#885F01","orange"],["Survey \u00b7 Bright Sky Blue","#02CCFE","blue"],["Survey \u00b7 Celery","#C1FD95","green"],["Survey \u00b7 Dirt Brown","#836539","orange"],["Survey \u00b7 Strawberry","#FB2943","red"],["Survey \u00b7 Dark Lime","#84B701","green"],["Survey \u00b7 Copper","#B66325","orange"],["Survey \u00b7 Medium Brown","#7F5112","orange"],["Survey \u00b7 Muted Green","#5FA052","green"],["Survey \u00b7 Bright Aqua","#0BF9EA","blue"],["Survey \u00b7 Bright Lavender","#C760FF","purple"],["Survey \u00b7 Ivory","#FFFFCB","orange"],["Survey \u00b7 Very Light Purple","#F6CEFC","purple"],["Survey \u00b7 Light Navy","#155084","blue"],["Survey \u00b7 Pink Red","#F5054F","purple"],["Survey \u00b7 Olive Brown","#645403","orange"],["Survey \u00b7 Mustard Green","#A8B504","orange"],["Survey \u00b7 Ocean Green","#3D9973","green"],["Survey \u00b7 Very Dark Blue","#000133","blue"],["Survey \u00b7 Dusty Green","#76A973","green"],["Survey \u00b7 Light Navy Blue","#2E5A88","blue"],["Survey \u00b7 Minty Green","#0BF77D","green"],["Survey \u00b7 Adobe","#BD6C48","orange"],["Survey \u00b7 Barney","#AC1DB8","purple"],["Survey \u00b7 Jade Green","#2BAF6A","green"],["Survey \u00b7 Bright Light Blue","#26F7FD","blue"],["Survey \u00b7 Light Lime","#AEFD6C","green"],["Survey \u00b7 Dark Khaki","#9B8F55","orange"],["Survey \u00b7 Orange Yellow","#FFAD01","orange"],["Survey \u00b7 Ocre","#C69C04","orange"],["Survey \u00b7 Maize","#F4D054","orange"],["Survey \u00b7 Faded Pink","#DE9DAC","red"],["Survey \u00b7 British Racing Green","#05480D","green"],["Survey \u00b7 Sandstone","#C9AE74","orange"],["Survey \u00b7 Mud Brown","#60460F","orange"],["Survey \u00b7 Light Sea Green","#98F6B0","green"],["Survey \u00b7 Robin Egg Blue","#8AF1FE","blue"],["Survey \u00b7 Aqua Marine","#2EE8BB","green"],["Survey \u00b7 Dark Sea Green","#11875D","green"],["Survey \u00b7 Soft Pink","#FDB0C0","red"],["Survey \u00b7 Orangey Brown","#B16002","orange"],["Survey \u00b7 Cherry Red","#F7022A","red"],["Survey \u00b7 Burnt Yellow","#D5AB09","orange"],["Survey \u00b7 Brownish Grey","#86775F","orange"],["Survey \u00b7 Camel","#C69F59","orange"],["Survey \u00b7 Purplish Grey","#7A687F","neutral"],["Survey \u00b7 Marine","#042E60","blue"],["Survey \u00b7 Greyish Pink","#C88D94","red"],["Survey \u00b7 Pale Turquoise","#A5FBD5","green"],["Survey \u00b7 Pastel Yellow","#FFFE71","orange"],["Survey \u00b7 Bluey Purple","#6241C7","blue"],["Survey \u00b7 Canary Yellow","#FFFE40","orange"],["Survey \u00b7 Faded Red","#D3494E","red"],["Survey \u00b7 Sepia","#985E2B","orange"],["Survey \u00b7 Coffee","#A6814C","orange"],["Survey \u00b7 Bright Magenta","#FF08E8","purple"],["Survey \u00b7 Mocha","#9D7651","orange"],["Survey \u00b7 Ecru","#FEFFCA","orange"],["Survey \u00b7 Purpleish","#98568D","purple"],["Survey \u00b7 Cranberry","#9E003A","purple"],["Survey \u00b7 Darkish Green","#287C37","green"],["Survey \u00b7 Brown Orange","#B96902","orange"],["Survey \u00b7 Dusky Rose","#BA6873","red"],["Survey \u00b7 Melon","#FF7855","red"],["Survey \u00b7 Sickly Green","#94B21C","green"],["Survey \u00b7 Silver","#C5C9C7","neutral"],["Survey \u00b7 Purply Blue","#661AEE","purple"],["Survey \u00b7 Purpleish Blue","#6140EF","blue"],["Survey \u00b7 Hospital Green","#9BE5AA","green"],["Survey \u00b7 Mid Blue","#276AB3","blue"],["Survey \u00b7 Amber","#FEB308","orange"],["Survey \u00b7 Easter Green","#8CFD7E","green"],["Survey \u00b7 Soft Blue","#6488EA","blue"],["Survey \u00b7 Cerulean Blue","#056EEE","blue"],["Survey \u00b7 Golden Brown","#B27A01","orange"],["Survey \u00b7 Bright Turquoise","#0FFEF9","blue"],["Survey \u00b7 Red Pink","#FA2A55","red"],["Survey \u00b7 Red Purple","#820747","purple"],["Survey \u00b7 Greyish Brown","#7A6A4F","orange"],["Survey \u00b7 Vermillion","#F4320C","red"],["Survey \u00b7 Russet","#A13905","orange"],["Survey \u00b7 Steel Grey","#6F828A","blue"],["Survey \u00b7 Lighter Purple","#A55AF4","purple"],["Survey \u00b7 Bright Violet","#AD0AFD","purple"],["Survey \u00b7 Prussian Blue","#004577","blue"],["Survey \u00b7 Slate Green","#658D6D","green"],["Survey \u00b7 Dark Blue Green","#005249","blue"],["Survey \u00b7 Pine","#2B5D34","green"],["Survey \u00b7 Yellowy Green","#BFF128","green"],["Survey \u00b7 Dark Gold","#B59410","orange"],["Survey \u00b7 Bluish","#2976BB","blue"],["Survey \u00b7 Darkish Blue","#014182","blue"],["Survey \u00b7 Dull Red","#BB3F3F","red"],["Survey \u00b7 Pinky Red","#FC2647","red"],["Survey \u00b7 Bronze","#A87900","orange"],["Survey \u00b7 Pale Teal","#82CBB2","green"],["Survey \u00b7 Military Green","#667C3E","green"],["Survey \u00b7 Barbie Pink","#FE46A5","purple"],["Survey \u00b7 Bubblegum Pink","#FE83CC","purple"],["Survey \u00b7 Pea Soup Green","#94A617","orange"],["Survey \u00b7 Dark Mustard","#A88905","orange"],["Survey \u00b7 Medium Purple","#9E43A2","purple"],["Survey \u00b7 Very Dark Green","#062E03","green"],["Survey \u00b7 Dirt","#8A6E45","orange"],["Survey \u00b7 Dusky Pink","#CC7A8B","red"],["Survey \u00b7 Red Violet","#9E0168","purple"],["Survey \u00b7 Lemon Yellow","#FDFF38","orange"],["Survey \u00b7 Pistachio","#C0FA8B","green"],["Survey \u00b7 Dull Yellow","#EEDC5B","orange"],["Survey \u00b7 Dark Lime Green","#7EBD01","green"],["Survey \u00b7 Denim Blue","#3B5B92","blue"],["Survey \u00b7 Teal Blue","#01889F","blue"],["Survey \u00b7 Lightish Blue","#3D7AFD","blue"],["Survey \u00b7 Purpley Blue","#5F34E7","blue"],["Survey \u00b7 Light Indigo","#6D5ACF","blue"],["Survey \u00b7 Swamp Green","#748500","orange"],["Survey \u00b7 Brown Green","#706C11","orange"],["Survey \u00b7 Dark Maroon","#3C0008","red"],["Survey \u00b7 Hot Purple","#CB00F5","purple"],["Survey \u00b7 Dark Forest Green","#002D04","green"],["Survey \u00b7 Faded Blue","#658CBB","blue"],["Survey \u00b7 Drab Green","#749551","green"],["Survey \u00b7 Light Lime Green","#B9FF66","green"],["Survey \u00b7 Yellowish","#FAEE66","orange"],["Survey \u00b7 Light Blue Green","#7EFBB3","green"],["Survey \u00b7 Bordeaux","#7B002C","purple"],["Survey \u00b7 Light Mauve","#C292A1","purple"],["Survey \u00b7 Ocean","#017B92","blue"],["Survey \u00b7 Marigold","#FCC006","orange"],["Survey \u00b7 Muddy Green","#657432","green"],["Survey \u00b7 Dull Orange","#D8863B","orange"],["Survey \u00b7 Steel","#738595","blue"],["Survey \u00b7 Electric Purple","#AA23FF","purple"],["Survey \u00b7 Fluorescent Green","#08FF08","green"],["Survey \u00b7 Yellowish Brown","#9B7A01","orange"],["Survey \u00b7 Blush","#F29E8E","red"],["Survey \u00b7 Soft Green","#6FC276","green"],["Survey \u00b7 Bright Orange","#FF5B00","orange"],["Survey \u00b7 Lemon","#FDFF52","orange"],["Survey \u00b7 Purple Grey","#866F85","neutral"],["Survey \u00b7 Acid Green","#8FFE09","green"],["Survey \u00b7 Pale Lavender","#EECFFE","purple"],["Survey \u00b7 Violet Blue","#510AC9","purple"],["Survey \u00b7 Light Forest Green","#4F9153","green"],["Survey \u00b7 Burnt Red","#9F2305","red"],["Survey \u00b7 Khaki Green","#728639","green"],["Survey \u00b7 Cerise","#DE0C62","purple"],["Survey \u00b7 Faded Purple","#916E99","purple"],["Survey \u00b7 Apricot","#FFB16D","orange"],["Survey \u00b7 Dark Olive Green","#3C4D03","green"],["Survey \u00b7 Grey Brown","#7F7053","orange"],["Survey \u00b7 Green Grey","#77926F","green"],["Survey \u00b7 True Blue","#010FCC","blue"],["Survey \u00b7 Pale Violet","#CEAEFA","purple"],["Survey \u00b7 Periwinkle Blue","#8F99FB","blue"],["Survey \u00b7 Light Sky Blue","#C6FCFF","blue"],["Survey \u00b7 Blurple","#5539CC","blue"],["Survey \u00b7 Green Brown","#544E03","orange"],["Survey \u00b7 Bluegreen","#017A79","blue"],["Survey \u00b7 Bright Teal","#01F9C6","green"],["Survey \u00b7 Brownish Yellow","#C9B003","orange"],["Survey \u00b7 Pea Soup","#929901","orange"],["Survey \u00b7 Forest","#0B5509","green"],["Survey \u00b7 Barney Purple","#A00498","purple"],["Survey \u00b7 Ultramarine","#2000B1","blue"],["Survey \u00b7 Purplish","#94568C","purple"],["Survey \u00b7 Bluish Grey","#748B97","blue"],["Survey \u00b7 Dark Periwinkle","#665FD1","blue"],["Survey \u00b7 Dark Lilac","#9C6DA5","purple"],["Survey \u00b7 Reddish","#C44240","red"],["Survey \u00b7 Light Maroon","#A24857","red"],["Survey \u00b7 Dusty Purple","#825F87","purple"],["Survey \u00b7 Terra Cotta","#C9643B","orange"],["Survey \u00b7 Avocado","#90B134","green"],["Survey \u00b7 Marine Blue","#01386A","blue"],["Survey \u00b7 Teal Green","#25A36F","green"],["Survey \u00b7 Slate Grey","#59656D","blue"],["Survey \u00b7 Lighter Green","#75FD63","green"],["Survey \u00b7 Electric Green","#21FC0D","green"],["Survey \u00b7 Dusty Blue","#5A86AD","blue"],["Survey \u00b7 Golden Yellow","#FEC615","orange"],["Survey \u00b7 Bright Yellow","#FFFD01","orange"],["Survey \u00b7 Light Lavender","#DFC5FE","purple"],["Survey \u00b7 Umber","#B26400","orange"],["Survey \u00b7 Dark Peach","#DE7E5D","red"],["Survey \u00b7 Jungle Green","#048243","green"],["Survey \u00b7 Eggshell","#FFFFD4","orange"],["Survey \u00b7 Denim","#3B638C","blue"],["Survey \u00b7 Yellow Brown","#B79400","orange"],["Survey \u00b7 Dull Purple","#84597E","purple"],["Survey \u00b7 Chocolate Brown","#411900","orange"],["Survey \u00b7 Wine Red","#7B0323","purple"],["Survey \u00b7 Neon Blue","#04D9FF","blue"],["Survey \u00b7 Light Tan","#FBEEAC","orange"],["Survey \u00b7 Ice Blue","#D7FFFE","blue"],["Survey \u00b7 Cadet Blue","#4E7496","blue"],["Survey \u00b7 Dark Mauve","#874C62","purple"],["Survey \u00b7 Very Light Blue","#D5FFFF","blue"],["Survey \u00b7 Grey Purple","#826D8C","purple"],["Survey \u00b7 Pastel Pink","#FFBACD","purple"],["Survey \u00b7 Very Light Green","#D1FFBD","green"],["Survey \u00b7 Dark Sky Blue","#448EE4","blue"],["Survey \u00b7 Evergreen","#05472A","green"],["Survey \u00b7 Dull Pink","#D5869D","purple"],["Survey \u00b7 Aubergine","#3D0734","purple"],["Survey \u00b7 Mahogany","#4A0100","red"],["Survey \u00b7 Reddish Orange","#F8481C","red"],["Survey \u00b7 Deep Green","#02590F","green"],["Survey \u00b7 Purple Pink","#E03FD8","purple"],["Survey \u00b7 Dusty Pink","#D58A94","red"],["Survey \u00b7 Faded Green","#7BB274","green"],["Survey \u00b7 Camo Green","#526525","green"],["Survey \u00b7 Pinky Purple","#C94CBE","purple"],["Survey \u00b7 Pink Purple","#DB4BDA","purple"],["Survey \u00b7 Brownish Red","#9E3623","red"],["Survey \u00b7 Dark Rose","#B5485D","red"],["Survey \u00b7 Mud","#735C12","orange"],["Survey \u00b7 Brownish","#9C6D57","orange"],["Survey \u00b7 Emerald Green","#028F1E","green"],["Survey \u00b7 Pale Brown","#B1916E","orange"],["Survey \u00b7 Dull Blue","#49759C","blue"],["Survey \u00b7 Burnt Umber","#A0450E","orange"],["Survey \u00b7 Medium Green","#39AD48","green"],["Survey \u00b7 Clay","#B66A50","red"],["Survey \u00b7 Light Aqua","#8CFFDB","green"],["Survey \u00b7 Light Olive Green","#A4BE5C","green"],["Survey \u00b7 Brownish Orange","#CB7723","orange"],["Survey \u00b7 Dark Aqua","#05696B","blue"],["Survey \u00b7 Purplish Pink","#CE5DAE","purple"],["Survey \u00b7 Dark Salmon","#C85A53","red"],["Survey \u00b7 Greenish Grey","#96AE8D","green"],["Survey \u00b7 Jade","#1FA774","green"],["Survey \u00b7 Dark Beige","#AC9362","orange"],["Survey \u00b7 Emerald","#01A049","green"],["Survey \u00b7 Pale Red","#D9544D","red"],["Survey \u00b7 Light Magenta","#FA5FF7","purple"],["Survey \u00b7 Sky","#82CAFC","blue"],["Survey \u00b7 Light Cyan","#ACFFFC","blue"],["Survey \u00b7 Yellow Orange","#FCB001","orange"],["Survey \u00b7 Reddish Purple","#910951","purple"],["Survey \u00b7 Reddish Pink","#FE2C54","red"],["Survey \u00b7 Orchid","#C875C4","purple"],["Survey \u00b7 Orange Red","#FD411E","red"],["Survey \u00b7 Deep Red","#9A0200","red"],["Survey \u00b7 Orange Brown","#BE6400","orange"],["Survey \u00b7 Cobalt Blue","#030AA7","blue"],["Survey \u00b7 Neon Pink","#FE019A","purple"],["Survey \u00b7 Rose Pink","#F7879A","red"],["Survey \u00b7 Greyish Purple","#887191","purple"],["Survey \u00b7 Raspberry","#B00149","purple"],["Survey \u00b7 Aqua Green","#12E193","green"],["Survey \u00b7 Salmon Pink","#FE7B7C","red"],["Survey \u00b7 Tangerine","#FF9408","orange"],["Survey \u00b7 Brownish Green","#6A6E09","orange"],["Survey \u00b7 Red Brown","#8B2E16","red"],["Survey \u00b7 Greenish Brown","#696112","orange"],["Survey \u00b7 Pumpkin","#E17701","orange"],["Survey \u00b7 Pine Green","#0A481E","green"],["Survey \u00b7 Charcoal","#343837","neutral"],["Survey \u00b7 Cornflower","#6A79F7","blue"],["Survey \u00b7 Blue Violet","#5D06E9","purple"],["Survey \u00b7 Chocolate","#3D1C02","orange"],["Survey \u00b7 Greyish Green","#82A67D","green"],["Survey \u00b7 Scarlet","#BE0119","red"],["Survey \u00b7 Green Yellow","#C9FF27","green"],["Survey \u00b7 Dark Olive","#373E02","orange"],["Survey \u00b7 Sienna","#A9561E","orange"],["Survey \u00b7 Pastel Purple","#CAA0FF","purple"],["Survey \u00b7 Terracotta","#CA6641","red"],["Survey \u00b7 Aqua Blue","#02D8E9","blue"],["Survey \u00b7 Sage Green","#88B378","green"],["Survey \u00b7 Deep Pink","#CB0162","purple"],["Survey \u00b7 Grass","#5CAC2D","green"],["Survey \u00b7 Moss","#769958","green"],["Survey \u00b7 Pastel Blue","#A2BFFE","blue"],["Survey \u00b7 Bluish Green","#10A674","green"],["Survey \u00b7 Green Blue","#06B48B","green"],["Survey \u00b7 Dark Tan","#AF884A","orange"],["Survey \u00b7 Greenish Blue","#0B8B87","blue"],["Survey \u00b7 Pale Orange","#FFA756","orange"],["Survey \u00b7 Forrest Green","#154406","green"],["Survey \u00b7 Dark Lavender","#856798","purple"],["Survey \u00b7 Dark Violet","#34013F","purple"],["Survey \u00b7 Purple Blue","#632DE9","purple"],["Survey \u00b7 Dark Cyan","#0A888A","blue"],["Survey \u00b7 Olive Drab","#6F7632","orange"],["Survey \u00b7 Pinkish","#D46A7E","red"],["Survey \u00b7 Cobalt","#1E488F","blue"],["Survey \u00b7 Neon Purple","#BC13FE","purple"],["Survey \u00b7 Light Turquoise","#7EF4CC","green"],["Survey \u00b7 Apple Green","#76CD26","green"],["Survey \u00b7 Dull Green","#74A662","green"],["Survey \u00b7 Wine","#80013F","purple"],["Survey \u00b7 Powder Blue","#B1D1FC","blue"],["Survey \u00b7 Off White","#FFFFE4","orange"],["Survey \u00b7 Electric Blue","#0652FF","blue"],["Survey \u00b7 Dark Turquoise","#045C5A","blue"],["Survey \u00b7 Blue Purple","#5729CE","purple"],["Survey \u00b7 Azure","#069AF3","blue"],["Survey \u00b7 Bright Red","#FF000D","red"],["Survey \u00b7 Pinkish Red","#F10C45","red"],["Survey \u00b7 Cornflower Blue","#5170D7","blue"],["Survey \u00b7 Light Olive","#ACBF69","green"],["Survey \u00b7 Grape","#6C3461","purple"],["Survey \u00b7 Greyish Blue","#5E819D","blue"],["Survey \u00b7 Purplish Blue","#601EF9","purple"],["Survey \u00b7 Yellowish Green","#B0DD16","green"],["Survey \u00b7 Greenish Yellow","#CDFD02","green"],["Survey \u00b7 Medium Blue","#2C6FBB","blue"],["Survey \u00b7 Dusty Rose","#C0737A","red"],["Survey \u00b7 Light Violet","#D6B4FC","purple"],["Survey \u00b7 Midnight Blue","#020035","blue"],["Survey \u00b7 Bluish Purple","#703BE7","purple"],["Survey \u00b7 Red Orange","#FD3C06","red"],["Survey \u00b7 Dark Magenta","#960056","purple"],["Survey \u00b7 Greenish","#40A368","green"],["Survey \u00b7 Ocean Blue","#03719C","blue"],["Survey \u00b7 Coral","#FC5A50","red"],["Survey \u00b7 Cream","#FFFFC2","orange"],["Survey \u00b7 Reddish Brown","#7F2B0A","red"],["Survey \u00b7 Burnt Sienna","#B04E0F","orange"],["Survey \u00b7 Brick","#A03623","red"],["Survey \u00b7 Sage","#87AE73","green"],["Survey \u00b7 Grey Green","#789B73","green"],["Survey \u00b7 White","#FFFFFF","neutral"],["Survey \u00b7 Moss Green","#658B38","green"],["Survey \u00b7 Steel Blue","#5A7D9A","blue"],["Survey \u00b7 Eggplant","#380835","purple"],["Survey \u00b7 Light Yellow","#FFFE7A","orange"],["Survey \u00b7 Leaf Green","#5CA904","green"],["Survey \u00b7 Light Grey","#D8DCD6","neutral"],["Survey \u00b7 Pinkish Purple","#D648D7","purple"],["Survey \u00b7 Sea Blue","#047495","blue"],["Survey \u00b7 Pale Purple","#B790D4","purple"],["Survey \u00b7 Slate Blue","#5B7C99","blue"],["Survey \u00b7 Blue Grey","#607C8E","blue"],["Survey \u00b7 Hunter Green","#0B4008","green"],["Survey \u00b7 Fuchsia","#ED0DD9","purple"],["Survey \u00b7 Crimson","#8C000F","red"],["Survey \u00b7 Pale Yellow","#FFFF84","orange"],["Survey \u00b7 Ochre","#BF9005","orange"],["Survey \u00b7 Mustard Yellow","#D2BD0A","orange"],["Survey \u00b7 Light Red","#FF474C","red"],["Survey \u00b7 Cerulean","#0485D1","blue"],["Survey \u00b7 Pale Pink","#FFCFDC","purple"],["Survey \u00b7 Deep Blue","#040273","blue"],["Survey \u00b7 Rust","#A83C09","orange"],["Survey \u00b7 Light Teal","#90E4C1","green"],["Survey \u00b7 Slate","#516572","blue"],["Survey \u00b7 Goldenrod","#FAC205","orange"],["Survey \u00b7 Dark Yellow","#D5B60A","orange"],["Survey \u00b7 Dark Grey","#363737","neutral"],["Survey \u00b7 Army Green","#4B5D16","green"],["Survey \u00b7 Grey Blue","#6B8BA4","blue"],["Survey \u00b7 Seafoam","#80F9AD","green"],["Survey \u00b7 Puce","#A57E52","orange"],["Survey \u00b7 Spring Green","#A9F971","green"],["Survey \u00b7 Dark Orange","#C65102","orange"],["Survey \u00b7 Sand","#E2CA76","orange"],["Survey \u00b7 Pastel Green","#B0FF9D","green"],["Survey \u00b7 Mint","#9FFEB0","green"],["Survey \u00b7 Light Orange","#FDAA48","orange"],["Survey \u00b7 Bright Pink","#FE01B1","purple"],["Survey \u00b7 Chartreuse","#C1F80A","green"],["Survey \u00b7 Deep Purple","#36013F","purple"],["Survey \u00b7 Dark Brown","#341C02","orange"],["Survey \u00b7 Taupe","#B9A281","orange"],["Survey \u00b7 Pea Green","#8EAB12","green"],["Survey \u00b7 Kelly Green","#02AB2E","green"],["Survey \u00b7 Seafoam Green","#7AF9AB","green"],["Survey \u00b7 Blue Green","#137E6D","blue"],["Survey \u00b7 Khaki","#AAA662","orange"],["Survey \u00b7 Burgundy","#610023","purple"],["Survey \u00b7 Dark Teal","#014D4E","blue"],["Survey \u00b7 Brick Red","#8F1402","red"],["Survey \u00b7 Royal Purple","#4B006E","purple"],["Survey \u00b7 Plum","#580F41","purple"],["Survey \u00b7 Mint Green","#8FFF9F","green"],["Survey \u00b7 Gold","#DBB40C","orange"],["Survey \u00b7 Yellow Green","#C0FB2D","green"],["Survey \u00b7 Bright Purple","#BE03FD","purple"],["Survey \u00b7 Dark Red","#840000","red"],["Survey \u00b7 Pale Blue","#D0FEFE","blue"],["Survey \u00b7 Grass Green","#3F9B0B","green"],["Survey \u00b7 Navy","#01153E","blue"],["Survey \u00b7 Aquamarine","#04D8B2","green"],["Survey \u00b7 Burnt Orange","#C04E01","orange"],["Survey \u00b7 Neon Green","#0CFF0C","green"],["Survey \u00b7 Bright Blue","#0165FC","blue"],["Survey \u00b7 Rose","#CF6275","red"],["Survey \u00b7 Light Pink","#FFD1DF","purple"],["Survey \u00b7 Mustard","#CEB301","orange"],["Survey \u00b7 Indigo","#380282","purple"],["Survey \u00b7 Lime","#AAFF32","green"],["Survey \u00b7 Sea Green","#53FCA1","green"],["Survey \u00b7 Periwinkle","#8E82FE","blue"],["Survey \u00b7 Dark Pink","#CB416B","purple"],["Survey \u00b7 Olive Green","#677A04","orange"],["Survey \u00b7 Peach","#FFB07C","orange"],["Survey \u00b7 Pale Green","#C7FDB5","green"],["Survey \u00b7 Light Brown","#AD8150","orange"],["Survey \u00b7 Hot Pink","#FF028D","purple"],["Survey \u00b7 Black","#000000","neutral"],["Survey \u00b7 Lilac","#CEA2FD","purple"],["Survey \u00b7 Navy Blue","#001146","blue"],["Survey \u00b7 Royal Blue","#0504AA","blue"],["Survey \u00b7 Beige","#E6DAA6","orange"],["Survey \u00b7 Salmon","#FF796C","red"],["Survey \u00b7 Olive","#6E750E","orange"],["Survey \u00b7 Maroon","#650021","purple"],["Survey \u00b7 Bright Green","#01FF07","green"],["Survey \u00b7 Dark Purple","#35063E","purple"],["Survey \u00b7 Mauve","#AE7181","purple"],["Survey \u00b7 Forest Green","#06470C","green"],["Survey \u00b7 Aqua","#13EAC9","blue"],["Survey \u00b7 Cyan","#00FFFF","blue"],["Survey \u00b7 Tan","#D1B26F","orange"],["Survey \u00b7 Dark Blue","#00035B","blue"],["Survey \u00b7 Lavender","#C79FEF","purple"],["Survey \u00b7 Turquoise","#06C2AC","blue"],["Survey \u00b7 Dark Green","#033500","green"],["Survey \u00b7 Violet","#9A0EEA","purple"],["Survey \u00b7 Light Purple","#BF77F6","purple"],["Survey \u00b7 Lime Green","#89FE05","green"],["Survey \u00b7 Grey","#929591","neutral"],["Survey \u00b7 Sky Blue","#75BBFD","blue"],["Survey \u00b7 Yellow","#FFFF14","orange"],["Survey \u00b7 Magenta","#C20078","purple"],["Survey \u00b7 Light Green","#96F97B","green"],["Survey \u00b7 Orange","#F97306","orange"],["Survey \u00b7 Teal","#029386","blue"],["Survey \u00b7 Light Blue","#95D0FC","blue"],["Survey \u00b7 Red","#E50000","red"],["Survey \u00b7 Brown","#653700","orange"],["Survey \u00b7 Pink","#FF81C0","purple"],["Survey \u00b7 Blue","#0343DF","blue"],["Survey \u00b7 Green","#15B01A","green"],["Survey \u00b7 Purple","#7E1E9C","purple"]];
+colorData.push(...surveyColors);
+/* 07C / EXPANDED CHROMATIC REGISTER
+   2,592 systematically generated sRGB swatches: 72 hue positions,
+   six saturation levels, six lightness levels. These are modern digital
+   coordinates, NOT established historical pigment or color names.
+   Color Atlas permits finer-grained selection beyond this register.
+*/
+function chromaticHex(h,s,l){
+  const a=s*Math.min(l,1-l);
+  const f=n=>{const k=(n+h/30)%12;return l-a*Math.max(-1,Math.min(k-3,9-k,1))};
+  return '#'+[f(0),f(8),f(4)].map(v=>Math.round(v*255).toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+const chromaticFamily=h=> h<16||h>=346?'red':h<68?'orange':h<166?'green':h<257?'blue':h<346?'purple':'neutral';
+const chromaSeen=new Set(colorData.map(v=>v[1].toUpperCase()));
+for(let hue=0;hue<360;hue+=5){
+  for(const sat of [30,42,54,66,78,90]){
+    for(const light of [20,32,44,56,68,80]){
+      const hex=chromaticHex(hue,sat/100,light/100);
+      if(chromaSeen.has(hex))continue;
+      chromaSeen.add(hex);
+      colorData.push([`Hue ${String(hue).padStart(3,'0')}° · ${sat}% saturation · ${light}% lightness`,hex,chromaticFamily(hue)]);
+    }
+  }
+}
+
+/* 07D / COMPLETE PUBLISHED XKCD COLOR-NAME LIST
+   matplotlib's bundled XKCD_COLORS collection: 949 named digital shades.
+   Each is sourced to the 2010 xkcd color naming survey, not a pigment.
+*/
+const allXkcdNames=[["XKCD · Acid Green","#8FFE09"],["XKCD · Adobe","#BD6C48"],["XKCD · Algae","#54AC68"],["XKCD · Algae Green","#21C36F"],["XKCD · Almost Black","#070D0D"],["XKCD · Amber","#FEB308"],["XKCD · Amethyst","#9B5FC0"],["XKCD · Apple","#6ECB3C"],["XKCD · Apple Green","#76CD26"],["XKCD · Apricot","#FFB16D"],["XKCD · Aqua","#13EAC9"],["XKCD · Aqua Blue","#02D8E9"],["XKCD · Aqua Green","#12E193"],["XKCD · Aqua Marine","#2EE8BB"],["XKCD · Aquamarine","#04D8B2"],["XKCD · Army Green","#4B5D16"],["XKCD · Asparagus","#77AB56"],["XKCD · Aubergine","#3D0734"],["XKCD · Auburn","#9A3001"],["XKCD · Avocado","#90B134"],["XKCD · Avocado Green","#87A922"],["XKCD · Azul","#1D5DEC"],["XKCD · Azure","#069AF3"],["XKCD · Baby Blue","#A2CFFE"],["XKCD · Baby Green","#8CFF9E"],["XKCD · Baby Pink","#FFB7CE"],["XKCD · Baby Poo","#AB9004"],["XKCD · Baby Poop","#937C00"],["XKCD · Baby Poop Green","#8F9805"],["XKCD · Baby Puke Green","#B6C406"],["XKCD · Baby Purple","#CA9BF7"],["XKCD · Baby Shit Brown","#AD900D"],["XKCD · Baby Shit Green","#889717"],["XKCD · Banana","#FFFF7E"],["XKCD · Banana Yellow","#FAFE4B"],["XKCD · Barbie Pink","#FE46A5"],["XKCD · Barf Green","#94AC02"],["XKCD · Barney","#AC1DB8"],["XKCD · Barney Purple","#A00498"],["XKCD · Battleship Grey","#6B7C85"],["XKCD · Beige","#E6DAA6"],["XKCD · Berry","#990F4B"],["XKCD · Bile","#B5C306"],["XKCD · Black","#000000"],["XKCD · Bland","#AFA88B"],["XKCD · Blood","#770001"],["XKCD · Blood Orange","#FE4B03"],["XKCD · Blood Red","#980002"],["XKCD · Blue","#0343DF"],["XKCD · Blue Blue","#2242C7"],["XKCD · Blue Green","#137E6D"],["XKCD · Blue Grey","#607C8E"],["XKCD · Blue Purple","#5729CE"],["XKCD · Blue Violet","#5D06E9"],["XKCD · Blue With A Hint Of Purple","#533CC6"],["XKCD · Blue/Green","#0F9B8E"],["XKCD · Blue/Grey","#758DA3"],["XKCD · Blue/Purple","#5A06EF"],["XKCD · Blueberry","#464196"],["XKCD · Bluegreen","#017A79"],["XKCD · Bluegrey","#85A3B2"],["XKCD · Bluey Green","#2BB179"],["XKCD · Bluey Grey","#89A0B0"],["XKCD · Bluey Purple","#6241C7"],["XKCD · Bluish","#2976BB"],["XKCD · Bluish Green","#10A674"],["XKCD · Bluish Grey","#748B97"],["XKCD · Bluish Purple","#703BE7"],["XKCD · Blurple","#5539CC"],["XKCD · Blush","#F29E8E"],["XKCD · Blush Pink","#FE828C"],["XKCD · Booger","#9BB53C"],["XKCD · Booger Green","#96B403"],["XKCD · Bordeaux","#7B002C"],["XKCD · Boring Green","#63B365"],["XKCD · Bottle Green","#044A05"],["XKCD · Brick","#A03623"],["XKCD · Brick Orange","#C14A09"],["XKCD · Brick Red","#8F1402"],["XKCD · Bright Aqua","#0BF9EA"],["XKCD · Bright Blue","#0165FC"],["XKCD · Bright Cyan","#41FDFE"],["XKCD · Bright Green","#01FF07"],["XKCD · Bright Lavender","#C760FF"],["XKCD · Bright Light Blue","#26F7FD"],["XKCD · Bright Light Green","#2DFE54"],["XKCD · Bright Lilac","#C95EFB"],["XKCD · Bright Lime","#87FD05"],["XKCD · Bright Lime Green","#65FE08"],["XKCD · Bright Magenta","#FF08E8"],["XKCD · Bright Olive","#9CBB04"],["XKCD · Bright Orange","#FF5B00"],["XKCD · Bright Pink","#FE01B1"],["XKCD · Bright Purple","#BE03FD"],["XKCD · Bright Red","#FF000D"],["XKCD · Bright Sea Green","#05FFA6"],["XKCD · Bright Sky Blue","#02CCFE"],["XKCD · Bright Teal","#01F9C6"],["XKCD · Bright Turquoise","#0FFEF9"],["XKCD · Bright Violet","#AD0AFD"],["XKCD · Bright Yellow","#FFFD01"],["XKCD · Bright Yellow Green","#9DFF00"],["XKCD · British Racing Green","#05480D"],["XKCD · Bronze","#A87900"],["XKCD · Brown","#653700"],["XKCD · Brown Green","#706C11"],["XKCD · Brown Grey","#8D8468"],["XKCD · Brown Orange","#B96902"],["XKCD · Brown Red","#922B05"],["XKCD · Brown Yellow","#B29705"],["XKCD · Brownish","#9C6D57"],["XKCD · Brownish Green","#6A6E09"],["XKCD · Brownish Grey","#86775F"],["XKCD · Brownish Orange","#CB7723"],["XKCD · Brownish Pink","#C27E79"],["XKCD · Brownish Purple","#76424E"],["XKCD · Brownish Red","#9E3623"],["XKCD · Brownish Yellow","#C9B003"],["XKCD · Browny Green","#6F6C0A"],["XKCD · Browny Orange","#CA6B02"],["XKCD · Bruise","#7E4071"],["XKCD · Bubble Gum Pink","#FF69AF"],["XKCD · Bubblegum","#FF6CB5"],["XKCD · Bubblegum Pink","#FE83CC"],["XKCD · Buff","#FEF69E"],["XKCD · Burgundy","#610023"],["XKCD · Burnt Orange","#C04E01"],["XKCD · Burnt Red","#9F2305"],["XKCD · Burnt Siena","#B75203"],["XKCD · Burnt Sienna","#B04E0F"],["XKCD · Burnt Umber","#A0450E"],["XKCD · Burnt Yellow","#D5AB09"],["XKCD · Burple","#6832E3"],["XKCD · Butter","#FFFF81"],["XKCD · Butter Yellow","#FFFD74"],["XKCD · Butterscotch","#FDB147"],["XKCD · Cadet Blue","#4E7496"],["XKCD · Camel","#C69F59"],["XKCD · Camo","#7F8F4E"],["XKCD · Camo Green","#526525"],["XKCD · Camouflage Green","#4B6113"],["XKCD · Canary","#FDFF63"],["XKCD · Canary Yellow","#FFFE40"],["XKCD · Candy Pink","#FF63E9"],["XKCD · Caramel","#AF6F09"],["XKCD · Carmine","#9D0216"],["XKCD · Carnation","#FD798F"],["XKCD · Carnation Pink","#FF7FA7"],["XKCD · Carolina Blue","#8AB8FE"],["XKCD · Celadon","#BEFDB7"],["XKCD · Celery","#C1FD95"],["XKCD · Cement","#A5A391"],["XKCD · Cerise","#DE0C62"],["XKCD · Cerulean","#0485D1"],["XKCD · Cerulean Blue","#056EEE"],["XKCD · Charcoal","#343837"],["XKCD · Charcoal Grey","#3C4142"],["XKCD · Chartreuse","#C1F80A"],["XKCD · Cherry","#CF0234"],["XKCD · Cherry Red","#F7022A"],["XKCD · Chestnut","#742802"],["XKCD · Chocolate","#3D1C02"],["XKCD · Chocolate Brown","#411900"],["XKCD · Cinnamon","#AC4F06"],["XKCD · Claret","#680018"],["XKCD · Clay","#B66A50"],["XKCD · Clay Brown","#B2713D"],["XKCD · Clear Blue","#247AFD"],["XKCD · Cloudy Blue","#ACC2D9"],["XKCD · Cobalt","#1E488F"],["XKCD · Cobalt Blue","#030AA7"],["XKCD · Cocoa","#875F42"],["XKCD · Coffee","#A6814C"],["XKCD · Cool Blue","#4984B8"],["XKCD · Cool Green","#33B864"],["XKCD · Cool Grey","#95A3A6"],["XKCD · Copper","#B66325"],["XKCD · Coral","#FC5A50"],["XKCD · Coral Pink","#FF6163"],["XKCD · Cornflower","#6A79F7"],["XKCD · Cornflower Blue","#5170D7"],["XKCD · Cranberry","#9E003A"],["XKCD · Cream","#FFFFC2"],["XKCD · Creme","#FFFFB6"],["XKCD · Crimson","#8C000F"],["XKCD · Custard","#FFFD78"],["XKCD · Cyan","#00FFFF"],["XKCD · Dandelion","#FEDF08"],["XKCD · Dark","#1B2431"],["XKCD · Dark Aqua","#05696B"],["XKCD · Dark Aquamarine","#017371"],["XKCD · Dark Beige","#AC9362"],["XKCD · Dark Blue","#00035B"],["XKCD · Dark Blue Green","#005249"],["XKCD · Dark Blue Grey","#1F3B4D"],["XKCD · Dark Brown","#341C02"],["XKCD · Dark Coral","#CF524E"],["XKCD · Dark Cream","#FFF39A"],["XKCD · Dark Cyan","#0A888A"],["XKCD · Dark Forest Green","#002D04"],["XKCD · Dark Fuchsia","#9D0759"],["XKCD · Dark Gold","#B59410"],["XKCD · Dark Grass Green","#388004"],["XKCD · Dark Green","#033500"],["XKCD · Dark Green Blue","#1F6357"],["XKCD · Dark Grey","#363737"],["XKCD · Dark Grey Blue","#29465B"],["XKCD · Dark Hot Pink","#D90166"],["XKCD · Dark Indigo","#1F0954"],["XKCD · Dark Khaki","#9B8F55"],["XKCD · Dark Lavender","#856798"],["XKCD · Dark Lilac","#9C6DA5"],["XKCD · Dark Lime","#84B701"],["XKCD · Dark Lime Green","#7EBD01"],["XKCD · Dark Magenta","#960056"],["XKCD · Dark Maroon","#3C0008"],["XKCD · Dark Mauve","#874C62"],["XKCD · Dark Mint","#48C072"],["XKCD · Dark Mint Green","#20C073"],["XKCD · Dark Mustard","#A88905"],["XKCD · Dark Navy","#000435"],["XKCD · Dark Navy Blue","#00022E"],["XKCD · Dark Olive","#373E02"],["XKCD · Dark Olive Green","#3C4D03"],["XKCD · Dark Orange","#C65102"],["XKCD · Dark Pastel Green","#56AE57"],["XKCD · Dark Peach","#DE7E5D"],["XKCD · Dark Periwinkle","#665FD1"],["XKCD · Dark Pink","#CB416B"],["XKCD · Dark Plum","#3F012C"],["XKCD · Dark Purple","#35063E"],["XKCD · Dark Red","#840000"],["XKCD · Dark Rose","#B5485D"],["XKCD · Dark Royal Blue","#02066F"],["XKCD · Dark Sage","#598556"],["XKCD · Dark Salmon","#C85A53"],["XKCD · Dark Sand","#A88F59"],["XKCD · Dark Sea Green","#11875D"],["XKCD · Dark Seafoam","#1FB57A"],["XKCD · Dark Seafoam Green","#3EAF76"],["XKCD · Dark Sky Blue","#448EE4"],["XKCD · Dark Slate Blue","#214761"],["XKCD · Dark Tan","#AF884A"],["XKCD · Dark Taupe","#7F684E"],["XKCD · Dark Teal","#014D4E"],["XKCD · Dark Turquoise","#045C5A"],["XKCD · Dark Violet","#34013F"],["XKCD · Dark Yellow","#D5B60A"],["XKCD · Dark Yellow Green","#728F02"],["XKCD · Darkblue","#030764"],["XKCD · Darkgreen","#054907"],["XKCD · Darkish Blue","#014182"],["XKCD · Darkish Green","#287C37"],["XKCD · Darkish Pink","#DA467D"],["XKCD · Darkish Purple","#751973"],["XKCD · Darkish Red","#A90308"],["XKCD · Deep Aqua","#08787F"],["XKCD · Deep Blue","#040273"],["XKCD · Deep Brown","#410200"],["XKCD · Deep Green","#02590F"],["XKCD · Deep Lavender","#8D5EB7"],["XKCD · Deep Lilac","#966EBD"],["XKCD · Deep Magenta","#A0025C"],["XKCD · Deep Orange","#DC4D01"],["XKCD · Deep Pink","#CB0162"],["XKCD · Deep Purple","#36013F"],["XKCD · Deep Red","#9A0200"],["XKCD · Deep Rose","#C74767"],["XKCD · Deep Sea Blue","#015482"],["XKCD · Deep Sky Blue","#0D75F8"],["XKCD · Deep Teal","#00555A"],["XKCD · Deep Turquoise","#017374"],["XKCD · Deep Violet","#490648"],["XKCD · Denim","#3B638C"],["XKCD · Denim Blue","#3B5B92"],["XKCD · Desert","#CCAD60"],["XKCD · Diarrhea","#9F8303"],["XKCD · Dirt","#8A6E45"],["XKCD · Dirt Brown","#836539"],["XKCD · Dirty Blue","#3F829D"],["XKCD · Dirty Green","#667E2C"],["XKCD · Dirty Orange","#C87606"],["XKCD · Dirty Pink","#CA7B80"],["XKCD · Dirty Purple","#734A65"],["XKCD · Dirty Yellow","#CDC50A"],["XKCD · Dodger Blue","#3E82FC"],["XKCD · Drab","#828344"],["XKCD · Drab Green","#749551"],["XKCD · Dried Blood","#4B0101"],["XKCD · Duck Egg Blue","#C3FBF4"],["XKCD · Dull Blue","#49759C"],["XKCD · Dull Brown","#876E4B"],["XKCD · Dull Green","#74A662"],["XKCD · Dull Orange","#D8863B"],["XKCD · Dull Pink","#D5869D"],["XKCD · Dull Purple","#84597E"],["XKCD · Dull Red","#BB3F3F"],["XKCD · Dull Teal","#5F9E8F"],["XKCD · Dull Yellow","#EEDC5B"],["XKCD · Dusk","#4E5481"],["XKCD · Dusk Blue","#26538D"],["XKCD · Dusky Blue","#475F94"],["XKCD · Dusky Pink","#CC7A8B"],["XKCD · Dusky Purple","#895B7B"],["XKCD · Dusky Rose","#BA6873"],["XKCD · Dust","#B2996E"],["XKCD · Dusty Blue","#5A86AD"],["XKCD · Dusty Green","#76A973"],["XKCD · Dusty Lavender","#AC86A8"],["XKCD · Dusty Orange","#F0833A"],["XKCD · Dusty Pink","#D58A94"],["XKCD · Dusty Purple","#825F87"],["XKCD · Dusty Red","#B9484E"],["XKCD · Dusty Rose","#C0737A"],["XKCD · Dusty Teal","#4C9085"],["XKCD · Earth","#A2653E"],["XKCD · Easter Green","#8CFD7E"],["XKCD · Easter Purple","#C071FE"],["XKCD · Ecru","#FEFFCA"],["XKCD · Egg Shell","#FFFCC4"],["XKCD · Eggplant","#380835"],["XKCD · Eggplant Purple","#430541"],["XKCD · Eggshell","#FFFFD4"],["XKCD · Eggshell Blue","#C4FFF7"],["XKCD · Electric Blue","#0652FF"],["XKCD · Electric Green","#21FC0D"],["XKCD · Electric Lime","#A8FF04"],["XKCD · Electric Pink","#FF0490"],["XKCD · Electric Purple","#AA23FF"],["XKCD · Emerald","#01A049"],["XKCD · Emerald Green","#028F1E"],["XKCD · Evergreen","#05472A"],["XKCD · Faded Blue","#658CBB"],["XKCD · Faded Green","#7BB274"],["XKCD · Faded Orange","#F0944D"],["XKCD · Faded Pink","#DE9DAC"],["XKCD · Faded Purple","#916E99"],["XKCD · Faded Red","#D3494E"],["XKCD · Faded Yellow","#FEFF7F"],["XKCD · Fawn","#CFAF7B"],["XKCD · Fern","#63A950"],["XKCD · Fern Green","#548D44"],["XKCD · Fire Engine Red","#FE0002"],["XKCD · Flat Blue","#3C73A8"],["XKCD · Flat Green","#699D4C"],["XKCD · Fluorescent Green","#08FF08"],["XKCD · Fluro Green","#0AFF02"],["XKCD · Foam Green","#90FDA9"],["XKCD · Forest","#0B5509"],["XKCD · Forest Green","#06470C"],["XKCD · Forrest Green","#154406"],["XKCD · French Blue","#436BAD"],["XKCD · Fresh Green","#69D84F"],["XKCD · Frog Green","#58BC08"],["XKCD · Fuchsia","#ED0DD9"],["XKCD · Gold","#DBB40C"],["XKCD · Golden","#F5BF03"],["XKCD · Golden Brown","#B27A01"],["XKCD · Golden Rod","#F9BC08"],["XKCD · Golden Yellow","#FEC615"],["XKCD · Goldenrod","#FAC205"],["XKCD · Grape","#6C3461"],["XKCD · Grape Purple","#5D1451"],["XKCD · Grapefruit","#FD5956"],["XKCD · Grass","#5CAC2D"],["XKCD · Grass Green","#3F9B0B"],["XKCD · Grassy Green","#419C03"],["XKCD · Green","#15B01A"],["XKCD · Green Apple","#5EDC1F"],["XKCD · Green Blue","#06B48B"],["XKCD · Green Brown","#544E03"],["XKCD · Green Grey","#77926F"],["XKCD · Green Teal","#0CB577"],["XKCD · Green Yellow","#C9FF27"],["XKCD · Green/Blue","#01C08D"],["XKCD · Green/Yellow","#B5CE08"],["XKCD · Greenblue","#23C48B"],["XKCD · Greenish","#40A368"],["XKCD · Greenish Beige","#C9D179"],["XKCD · Greenish Blue","#0B8B87"],["XKCD · Greenish Brown","#696112"],["XKCD · Greenish Cyan","#2AFEB7"],["XKCD · Greenish Grey","#96AE8D"],["XKCD · Greenish Tan","#BCCB7A"],["XKCD · Greenish Teal","#32BF84"],["XKCD · Greenish Turquoise","#00FBB0"],["XKCD · Greenish Yellow","#CDFD02"],["XKCD · Greeny Blue","#42B395"],["XKCD · Greeny Brown","#696006"],["XKCD · Greeny Grey","#7EA07A"],["XKCD · Greeny Yellow","#C6F808"],["XKCD · Grey","#929591"],["XKCD · Grey Blue","#6B8BA4"],["XKCD · Grey Brown","#7F7053"],["XKCD · Grey Green","#789B73"],["XKCD · Grey Pink","#C3909B"],["XKCD · Grey Purple","#826D8C"],["XKCD · Grey Teal","#5E9B8A"],["XKCD · Grey/Blue","#647D8E"],["XKCD · Grey/Green","#86A17D"],["XKCD · Greyblue","#77A1B5"],["XKCD · Greyish","#A8A495"],["XKCD · Greyish Blue","#5E819D"],["XKCD · Greyish Brown","#7A6A4F"],["XKCD · Greyish Green","#82A67D"],["XKCD · Greyish Pink","#C88D94"],["XKCD · Greyish Purple","#887191"],["XKCD · Greyish Teal","#719F91"],["XKCD · Gross Green","#A0BF16"],["XKCD · Gunmetal","#536267"],["XKCD · Hazel","#8E7618"],["XKCD · Heather","#A484AC"],["XKCD · Heliotrope","#D94FF5"],["XKCD · Highlighter Green","#1BFC06"],["XKCD · Hospital Green","#9BE5AA"],["XKCD · Hot Green","#25FF29"],["XKCD · Hot Magenta","#F504C9"],["XKCD · Hot Pink","#FF028D"],["XKCD · Hot Purple","#CB00F5"],["XKCD · Hunter Green","#0B4008"],["XKCD · Ice","#D6FFFA"],["XKCD · Ice Blue","#D7FFFE"],["XKCD · Icky Green","#8FAE22"],["XKCD · Indian Red","#850E04"],["XKCD · Indigo","#380282"],["XKCD · Indigo Blue","#3A18B1"],["XKCD · Iris","#6258C4"],["XKCD · Irish Green","#019529"],["XKCD · Ivory","#FFFFCB"],["XKCD · Jade","#1FA774"],["XKCD · Jade Green","#2BAF6A"],["XKCD · Jungle Green","#048243"],["XKCD · Kelley Green","#009337"],["XKCD · Kelly Green","#02AB2E"],["XKCD · Kermit Green","#5CB200"],["XKCD · Key Lime","#AEFF6E"],["XKCD · Khaki","#AAA662"],["XKCD · Khaki Green","#728639"],["XKCD · Kiwi","#9CEF43"],["XKCD · Kiwi Green","#8EE53F"],["XKCD · Lavender","#C79FEF"],["XKCD · Lavender Blue","#8B88F8"],["XKCD · Lavender Pink","#DD85D7"],["XKCD · Lawn Green","#4DA409"],["XKCD · Leaf","#71AA34"],["XKCD · Leaf Green","#5CA904"],["XKCD · Leafy Green","#51B73B"],["XKCD · Leather","#AC7434"],["XKCD · Lemon","#FDFF52"],["XKCD · Lemon Green","#ADF802"],["XKCD · Lemon Lime","#BFFE28"],["XKCD · Lemon Yellow","#FDFF38"],["XKCD · Lichen","#8FB67B"],["XKCD · Light Aqua","#8CFFDB"],["XKCD · Light Aquamarine","#7BFDC7"],["XKCD · Light Beige","#FFFEB6"],["XKCD · Light Blue","#95D0FC"],["XKCD · Light Blue Green","#7EFBB3"],["XKCD · Light Blue Grey","#B7C9E2"],["XKCD · Light Bluish Green","#76FDA8"],["XKCD · Light Bright Green","#53FE5C"],["XKCD · Light Brown","#AD8150"],["XKCD · Light Burgundy","#A8415B"],["XKCD · Light Cyan","#ACFFFC"],["XKCD · Light Eggplant","#894585"],["XKCD · Light Forest Green","#4F9153"],["XKCD · Light Gold","#FDDC5C"],["XKCD · Light Grass Green","#9AF764"],["XKCD · Light Green","#96F97B"],["XKCD · Light Green Blue","#56FCA2"],["XKCD · Light Greenish Blue","#63F7B4"],["XKCD · Light Grey","#D8DCD6"],["XKCD · Light Grey Blue","#9DBCD4"],["XKCD · Light Grey Green","#B7E1A1"],["XKCD · Light Indigo","#6D5ACF"],["XKCD · Light Khaki","#E6F2A2"],["XKCD · Light Lavendar","#EFC0FE"],["XKCD · Light Lavender","#DFC5FE"],["XKCD · Light Light Blue","#CAFFFB"],["XKCD · Light Light Green","#C8FFB0"],["XKCD · Light Lilac","#EDC8FF"],["XKCD · Light Lime","#AEFD6C"],["XKCD · Light Lime Green","#B9FF66"],["XKCD · Light Magenta","#FA5FF7"],["XKCD · Light Maroon","#A24857"],["XKCD · Light Mauve","#C292A1"],["XKCD · Light Mint","#B6FFBB"],["XKCD · Light Mint Green","#A6FBB2"],["XKCD · Light Moss Green","#A6C875"],["XKCD · Light Mustard","#F7D560"],["XKCD · Light Navy","#155084"],["XKCD · Light Navy Blue","#2E5A88"],["XKCD · Light Neon Green","#4EFD54"],["XKCD · Light Olive","#ACBF69"],["XKCD · Light Olive Green","#A4BE5C"],["XKCD · Light Orange","#FDAA48"],["XKCD · Light Pastel Green","#B2FBA5"],["XKCD · Light Pea Green","#C4FE82"],["XKCD · Light Peach","#FFD8B1"],["XKCD · Light Periwinkle","#C1C6FC"],["XKCD · Light Pink","#FFD1DF"],["XKCD · Light Plum","#9D5783"],["XKCD · Light Purple","#BF77F6"],["XKCD · Light Red","#FF474C"],["XKCD · Light Rose","#FFC5CB"],["XKCD · Light Royal Blue","#3A2EFE"],["XKCD · Light Sage","#BCECAC"],["XKCD · Light Salmon","#FEA993"],["XKCD · Light Sea Green","#98F6B0"],["XKCD · Light Seafoam","#A0FEBF"],["XKCD · Light Seafoam Green","#A7FFB5"],["XKCD · Light Sky Blue","#C6FCFF"],["XKCD · Light Tan","#FBEEAC"],["XKCD · Light Teal","#90E4C1"],["XKCD · Light Turquoise","#7EF4CC"],["XKCD · Light Urple","#B36FF6"],["XKCD · Light Violet","#D6B4FC"],["XKCD · Light Yellow","#FFFE7A"],["XKCD · Light Yellow Green","#CCFD7F"],["XKCD · Light Yellowish Green","#C2FF89"],["XKCD · Lightblue","#7BC8F6"],["XKCD · Lighter Green","#75FD63"],["XKCD · Lighter Purple","#A55AF4"],["XKCD · Lightgreen","#76FF7B"],["XKCD · Lightish Blue","#3D7AFD"],["XKCD · Lightish Green","#61E160"],["XKCD · Lightish Purple","#A552E6"],["XKCD · Lightish Red","#FE2F4A"],["XKCD · Lilac","#CEA2FD"],["XKCD · Liliac","#C48EFD"],["XKCD · Lime","#AAFF32"],["XKCD · Lime Green","#89FE05"],["XKCD · Lime Yellow","#D0FE1D"],["XKCD · Lipstick","#D5174E"],["XKCD · Lipstick Red","#C0022F"],["XKCD · Macaroni And Cheese","#EFB435"],["XKCD · Magenta","#C20078"],["XKCD · Mahogany","#4A0100"],["XKCD · Maize","#F4D054"],["XKCD · Mango","#FFA62B"],["XKCD · Manilla","#FFFA86"],["XKCD · Marigold","#FCC006"],["XKCD · Marine","#042E60"],["XKCD · Marine Blue","#01386A"],["XKCD · Maroon","#650021"],["XKCD · Mauve","#AE7181"],["XKCD · Medium Blue","#2C6FBB"],["XKCD · Medium Brown","#7F5112"],["XKCD · Medium Green","#39AD48"],["XKCD · Medium Grey","#7D7F7C"],["XKCD · Medium Pink","#F36196"],["XKCD · Medium Purple","#9E43A2"],["XKCD · Melon","#FF7855"],["XKCD · Merlot","#730039"],["XKCD · Metallic Blue","#4F738E"],["XKCD · Mid Blue","#276AB3"],["XKCD · Mid Green","#50A747"],["XKCD · Midnight","#03012D"],["XKCD · Midnight Blue","#020035"],["XKCD · Midnight Purple","#280137"],["XKCD · Military Green","#667C3E"],["XKCD · Milk Chocolate","#7F4E1E"],["XKCD · Mint","#9FFEB0"],["XKCD · Mint Green","#8FFF9F"],["XKCD · Minty Green","#0BF77D"],["XKCD · Mocha","#9D7651"],["XKCD · Moss","#769958"],["XKCD · Moss Green","#658B38"],["XKCD · Mossy Green","#638B27"],["XKCD · Mud","#735C12"],["XKCD · Mud Brown","#60460F"],["XKCD · Mud Green","#606602"],["XKCD · Muddy Brown","#886806"],["XKCD · Muddy Green","#657432"],["XKCD · Muddy Yellow","#BFAC05"],["XKCD · Mulberry","#920A4E"],["XKCD · Murky Green","#6C7A0E"],["XKCD · Mushroom","#BA9E88"],["XKCD · Mustard","#CEB301"],["XKCD · Mustard Brown","#AC7E04"],["XKCD · Mustard Green","#A8B504"],["XKCD · Mustard Yellow","#D2BD0A"],["XKCD · Muted Blue","#3B719F"],["XKCD · Muted Green","#5FA052"],["XKCD · Muted Pink","#D1768F"],["XKCD · Muted Purple","#805B87"],["XKCD · Nasty Green","#70B23F"],["XKCD · Navy","#01153E"],["XKCD · Navy Blue","#001146"],["XKCD · Navy Green","#35530A"],["XKCD · Neon Blue","#04D9FF"],["XKCD · Neon Green","#0CFF0C"],["XKCD · Neon Pink","#FE019A"],["XKCD · Neon Purple","#BC13FE"],["XKCD · Neon Red","#FF073A"],["XKCD · Neon Yellow","#CFFF04"],["XKCD · Nice Blue","#107AB0"],["XKCD · Night Blue","#040348"],["XKCD · Ocean","#017B92"],["XKCD · Ocean Blue","#03719C"],["XKCD · Ocean Green","#3D9973"],["XKCD · Ocher","#BF9B0C"],["XKCD · Ochre","#BF9005"],["XKCD · Ocre","#C69C04"],["XKCD · Off Blue","#5684AE"],["XKCD · Off Green","#6BA353"],["XKCD · Off White","#FFFFE4"],["XKCD · Off Yellow","#F1F33F"],["XKCD · Old Pink","#C77986"],["XKCD · Old Rose","#C87F89"],["XKCD · Olive","#6E750E"],["XKCD · Olive Brown","#645403"],["XKCD · Olive Drab","#6F7632"],["XKCD · Olive Green","#677A04"],["XKCD · Olive Yellow","#C2B709"],["XKCD · Orange","#F97306"],["XKCD · Orange Brown","#BE6400"],["XKCD · Orange Pink","#FF6F52"],["XKCD · Orange Red","#FD411E"],["XKCD · Orange Yellow","#FFAD01"],["XKCD · Orangeish","#FD8D49"],["XKCD · Orangered","#FE420F"],["XKCD · Orangey Brown","#B16002"],["XKCD · Orangey Red","#FA4224"],["XKCD · Orangey Yellow","#FDB915"],["XKCD · Orangish","#FC824A"],["XKCD · Orangish Brown","#B25F03"],["XKCD · Orangish Red","#F43605"],["XKCD · Orchid","#C875C4"],["XKCD · Pale","#FFF9D0"],["XKCD · Pale Aqua","#B8FFEB"],["XKCD · Pale Blue","#D0FEFE"],["XKCD · Pale Brown","#B1916E"],["XKCD · Pale Cyan","#B7FFFA"],["XKCD · Pale Gold","#FDDE6C"],["XKCD · Pale Green","#C7FDB5"],["XKCD · Pale Grey","#FDFDFE"],["XKCD · Pale Lavender","#EECFFE"],["XKCD · Pale Light Green","#B1FC99"],["XKCD · Pale Lilac","#E4CBFF"],["XKCD · Pale Lime","#BEFD73"],["XKCD · Pale Lime Green","#B1FF65"],["XKCD · Pale Magenta","#D767AD"],["XKCD · Pale Mauve","#FED0FC"],["XKCD · Pale Olive","#B9CC81"],["XKCD · Pale Olive Green","#B1D27B"],["XKCD · Pale Orange","#FFA756"],["XKCD · Pale Peach","#FFE5AD"],["XKCD · Pale Pink","#FFCFDC"],["XKCD · Pale Purple","#B790D4"],["XKCD · Pale Red","#D9544D"],["XKCD · Pale Rose","#FDC1C5"],["XKCD · Pale Salmon","#FFB19A"],["XKCD · Pale Sky Blue","#BDF6FE"],["XKCD · Pale Teal","#82CBB2"],["XKCD · Pale Turquoise","#A5FBD5"],["XKCD · Pale Violet","#CEAEFA"],["XKCD · Pale Yellow","#FFFF84"],["XKCD · Parchment","#FEFCAF"],["XKCD · Pastel Blue","#A2BFFE"],["XKCD · Pastel Green","#B0FF9D"],["XKCD · Pastel Orange","#FF964F"],["XKCD · Pastel Pink","#FFBACD"],["XKCD · Pastel Purple","#CAA0FF"],["XKCD · Pastel Red","#DB5856"],["XKCD · Pastel Yellow","#FFFE71"],["XKCD · Pea","#A4BF20"],["XKCD · Pea Green","#8EAB12"],["XKCD · Pea Soup","#929901"],["XKCD · Pea Soup Green","#94A617"],["XKCD · Peach","#FFB07C"],["XKCD · Peachy Pink","#FF9A8A"],["XKCD · Peacock Blue","#016795"],["XKCD · Pear","#CBF85F"],["XKCD · Periwinkle","#8E82FE"],["XKCD · Periwinkle Blue","#8F99FB"],["XKCD · Perrywinkle","#8F8CE7"],["XKCD · Petrol","#005F6A"],["XKCD · Pig Pink","#E78EA5"],["XKCD · Pine","#2B5D34"],["XKCD · Pine Green","#0A481E"],["XKCD · Pink","#FF81C0"],["XKCD · Pink Purple","#DB4BDA"],["XKCD · Pink Red","#F5054F"],["XKCD · Pink/Purple","#EF1DE7"],["XKCD · Pinkish","#D46A7E"],["XKCD · Pinkish Brown","#B17261"],["XKCD · Pinkish Grey","#C8ACA9"],["XKCD · Pinkish Orange","#FF724C"],["XKCD · Pinkish Purple","#D648D7"],["XKCD · Pinkish Red","#F10C45"],["XKCD · Pinkish Tan","#D99B82"],["XKCD · Pinky","#FC86AA"],["XKCD · Pinky Purple","#C94CBE"],["XKCD · Pinky Red","#FC2647"],["XKCD · Piss Yellow","#DDD618"],["XKCD · Pistachio","#C0FA8B"],["XKCD · Plum","#580F41"],["XKCD · Plum Purple","#4E0550"],["XKCD · Poison Green","#40FD14"],["XKCD · Poo","#8F7303"],["XKCD · Poo Brown","#885F01"],["XKCD · Poop","#7F5E00"],["XKCD · Poop Brown","#7A5901"],["XKCD · Poop Green","#6F7C00"],["XKCD · Powder Blue","#B1D1FC"],["XKCD · Powder Pink","#FFB2D0"],["XKCD · Primary Blue","#0804F9"],["XKCD · Prussian Blue","#004577"],["XKCD · Puce","#A57E52"],["XKCD · Puke","#A5A502"],["XKCD · Puke Brown","#947706"],["XKCD · Puke Green","#9AAE07"],["XKCD · Puke Yellow","#C2BE0E"],["XKCD · Pumpkin","#E17701"],["XKCD · Pumpkin Orange","#FB7D07"],["XKCD · Pure Blue","#0203E2"],["XKCD · Purple","#7E1E9C"],["XKCD · Purple Blue","#632DE9"],["XKCD · Purple Brown","#673A3F"],["XKCD · Purple Grey","#866F85"],["XKCD · Purple Pink","#E03FD8"],["XKCD · Purple Red","#990147"],["XKCD · Purple/Blue","#5D21D0"],["XKCD · Purple/Pink","#D725DE"],["XKCD · Purpleish","#98568D"],["XKCD · Purpleish Blue","#6140EF"],["XKCD · Purpleish Pink","#DF4EC8"],["XKCD · Purpley","#8756E4"],["XKCD · Purpley Blue","#5F34E7"],["XKCD · Purpley Grey","#947E94"],["XKCD · Purpley Pink","#C83CB9"],["XKCD · Purplish","#94568C"],["XKCD · Purplish Blue","#601EF9"],["XKCD · Purplish Brown","#6B4247"],["XKCD · Purplish Grey","#7A687F"],["XKCD · Purplish Pink","#CE5DAE"],["XKCD · Purplish Red","#B0054B"],["XKCD · Purply","#983FB2"],["XKCD · Purply Blue","#661AEE"],["XKCD · Purply Pink","#F075E6"],["XKCD · Putty","#BEAE8A"],["XKCD · Racing Green","#014600"],["XKCD · Radioactive Green","#2CFA1F"],["XKCD · Raspberry","#B00149"],["XKCD · Raw Sienna","#9A6200"],["XKCD · Raw Umber","#A75E09"],["XKCD · Really Light Blue","#D4FFFF"],["XKCD · Red","#E50000"],["XKCD · Red Brown","#8B2E16"],["XKCD · Red Orange","#FD3C06"],["XKCD · Red Pink","#FA2A55"],["XKCD · Red Purple","#820747"],["XKCD · Red Violet","#9E0168"],["XKCD · Red Wine","#8C0034"],["XKCD · Reddish","#C44240"],["XKCD · Reddish Brown","#7F2B0A"],["XKCD · Reddish Grey","#997570"],["XKCD · Reddish Orange","#F8481C"],["XKCD · Reddish Pink","#FE2C54"],["XKCD · Reddish Purple","#910951"],["XKCD · Reddy Brown","#6E1005"],["XKCD · Rich Blue","#021BF9"],["XKCD · Rich Purple","#720058"],["XKCD · Robin Egg Blue","#8AF1FE"],["XKCD · Robin'S Egg","#6DEDFD"],["XKCD · Robin'S Egg Blue","#98EFF9"],["XKCD · Rosa","#FE86A4"],["XKCD · Rose","#CF6275"],["XKCD · Rose Pink","#F7879A"],["XKCD · Rose Red","#BE013C"],["XKCD · Rosy Pink","#F6688E"],["XKCD · Rouge","#AB1239"],["XKCD · Royal","#0C1793"],["XKCD · Royal Blue","#0504AA"],["XKCD · Royal Purple","#4B006E"],["XKCD · Ruby","#CA0147"],["XKCD · Russet","#A13905"],["XKCD · Rust","#A83C09"],["XKCD · Rust Brown","#8B3103"],["XKCD · Rust Orange","#C45508"],["XKCD · Rust Red","#AA2704"],["XKCD · Rusty Orange","#CD5909"],["XKCD · Rusty Red","#AF2F0D"],["XKCD · Saffron","#FEB209"],["XKCD · Sage","#87AE73"],["XKCD · Sage Green","#88B378"],["XKCD · Salmon","#FF796C"],["XKCD · Salmon Pink","#FE7B7C"],["XKCD · Sand","#E2CA76"],["XKCD · Sand Brown","#CBA560"],["XKCD · Sand Yellow","#FCE166"],["XKCD · Sandstone","#C9AE74"],["XKCD · Sandy","#F1DA7A"],["XKCD · Sandy Brown","#C4A661"],["XKCD · Sandy Yellow","#FDEE73"],["XKCD · Sap Green","#5C8B15"],["XKCD · Sapphire","#2138AB"],["XKCD · Scarlet","#BE0119"],["XKCD · Sea","#3C9992"],["XKCD · Sea Blue","#047495"],["XKCD · Sea Green","#53FCA1"],["XKCD · Seafoam","#80F9AD"],["XKCD · Seafoam Blue","#78D1B6"],["XKCD · Seafoam Green","#7AF9AB"],["XKCD · Seaweed","#18D17B"],["XKCD · Seaweed Green","#35AD6B"],["XKCD · Sepia","#985E2B"],["XKCD · Shamrock","#01B44C"],["XKCD · Shamrock Green","#02C14D"],["XKCD · Shit","#7F5F00"],["XKCD · Shit Brown","#7B5804"],["XKCD · Shit Green","#758000"],["XKCD · Shocking Pink","#FE02A2"],["XKCD · Sick Green","#9DB92C"],["XKCD · Sickly Green","#94B21C"],["XKCD · Sickly Yellow","#D0E429"],["XKCD · Sienna","#A9561E"],["XKCD · Silver","#C5C9C7"],["XKCD · Sky","#82CAFC"],["XKCD · Sky Blue","#75BBFD"],["XKCD · Slate","#516572"],["XKCD · Slate Blue","#5B7C99"],["XKCD · Slate Green","#658D6D"],["XKCD · Slate Grey","#59656D"],["XKCD · Slime Green","#99CC04"],["XKCD · Snot","#ACBB0D"],["XKCD · Snot Green","#9DC100"],["XKCD · Soft Blue","#6488EA"],["XKCD · Soft Green","#6FC276"],["XKCD · Soft Pink","#FDB0C0"],["XKCD · Soft Purple","#A66FB5"],["XKCD · Spearmint","#1EF876"],["XKCD · Spring Green","#A9F971"],["XKCD · Spruce","#0A5F38"],["XKCD · Squash","#F2AB15"],["XKCD · Steel","#738595"],["XKCD · Steel Blue","#5A7D9A"],["XKCD · Steel Grey","#6F828A"],["XKCD · Stone","#ADA587"],["XKCD · Stormy Blue","#507B9C"],["XKCD · Straw","#FCF679"],["XKCD · Strawberry","#FB2943"],["XKCD · Strong Blue","#0C06F7"],["XKCD · Strong Pink","#FF0789"],["XKCD · Sun Yellow","#FFDF22"],["XKCD · Sunflower","#FFC512"],["XKCD · Sunflower Yellow","#FFDA03"],["XKCD · Sunny Yellow","#FFF917"],["XKCD · Sunshine Yellow","#FFFD37"],["XKCD · Swamp","#698339"],["XKCD · Swamp Green","#748500"],["XKCD · Tan","#D1B26F"],["XKCD · Tan Brown","#AB7E4C"],["XKCD · Tan Green","#A9BE70"],["XKCD · Tangerine","#FF9408"],["XKCD · Taupe","#B9A281"],["XKCD · Tea","#65AB7C"],["XKCD · Tea Green","#BDF8A3"],["XKCD · Teal","#029386"],["XKCD · Teal Blue","#01889F"],["XKCD · Teal Green","#25A36F"],["XKCD · Tealish","#24BCA8"],["XKCD · Tealish Green","#0CDC73"],["XKCD · Terra Cotta","#C9643B"],["XKCD · Terracota","#CB6843"],["XKCD · Terracotta","#CA6641"],["XKCD · Tiffany Blue","#7BF2DA"],["XKCD · Tomato","#EF4026"],["XKCD · Tomato Red","#EC2D01"],["XKCD · Topaz","#13BBAF"],["XKCD · Toupe","#C7AC7D"],["XKCD · Toxic Green","#61DE2A"],["XKCD · Tree Green","#2A7E19"],["XKCD · True Blue","#010FCC"],["XKCD · True Green","#089404"],["XKCD · Turquoise","#06C2AC"],["XKCD · Turquoise Blue","#06B1C4"],["XKCD · Turquoise Green","#04F489"],["XKCD · Turtle Green","#75B84F"],["XKCD · Twilight","#4E518B"],["XKCD · Twilight Blue","#0A437A"],["XKCD · Ugly Blue","#31668A"],["XKCD · Ugly Brown","#7D7103"],["XKCD · Ugly Green","#7A9703"],["XKCD · Ugly Pink","#CD7584"],["XKCD · Ugly Purple","#A442A0"],["XKCD · Ugly Yellow","#D0C101"],["XKCD · Ultramarine","#2000B1"],["XKCD · Ultramarine Blue","#1805DB"],["XKCD · Umber","#B26400"],["XKCD · Velvet","#750851"],["XKCD · Vermillion","#F4320C"],["XKCD · Very Dark Blue","#000133"],["XKCD · Very Dark Brown","#1D0200"],["XKCD · Very Dark Green","#062E03"],["XKCD · Very Dark Purple","#2A0134"],["XKCD · Very Light Blue","#D5FFFF"],["XKCD · Very Light Brown","#D3B683"],["XKCD · Very Light Green","#D1FFBD"],["XKCD · Very Light Pink","#FFF4F2"],["XKCD · Very Light Purple","#F6CEFC"],["XKCD · Very Pale Blue","#D6FFFE"],["XKCD · Very Pale Green","#CFFDBC"],["XKCD · Vibrant Blue","#0339F8"],["XKCD · Vibrant Green","#0ADD08"],["XKCD · Vibrant Purple","#AD03DE"],["XKCD · Violet","#9A0EEA"],["XKCD · Violet Blue","#510AC9"],["XKCD · Violet Pink","#FB5FFC"],["XKCD · Violet Red","#A50055"],["XKCD · Viridian","#1E9167"],["XKCD · Vivid Blue","#152EFF"],["XKCD · Vivid Green","#2FEF10"],["XKCD · Vivid Purple","#9900FA"],["XKCD · Vomit","#A2A415"],["XKCD · Vomit Green","#89A203"],["XKCD · Vomit Yellow","#C7C10C"],["XKCD · Warm Blue","#4B57DB"],["XKCD · Warm Brown","#964E02"],["XKCD · Warm Grey","#978A84"],["XKCD · Warm Pink","#FB5581"],["XKCD · Warm Purple","#952E8F"],["XKCD · Washed Out Green","#BCF5A6"],["XKCD · Water Blue","#0E87CC"],["XKCD · Watermelon","#FD4659"],["XKCD · Weird Green","#3AE57F"],["XKCD · Wheat","#FBDD7E"],["XKCD · White","#FFFFFF"],["XKCD · Windows Blue","#3778BF"],["XKCD · Wine","#80013F"],["XKCD · Wine Red","#7B0323"],["XKCD · Wintergreen","#20F986"],["XKCD · Wisteria","#A87DC2"],["XKCD · Yellow","#FFFF14"],["XKCD · Yellow Brown","#B79400"],["XKCD · Yellow Green","#C0FB2D"],["XKCD · Yellow Ochre","#CB9D06"],["XKCD · Yellow Orange","#FCB001"],["XKCD · Yellow Tan","#FFE36E"],["XKCD · Yellow/Green","#C8FD3D"],["XKCD · Yellowgreen","#BBF90F"],["XKCD · Yellowish","#FAEE66"],["XKCD · Yellowish Brown","#9B7A01"],["XKCD · Yellowish Green","#B0DD16"],["XKCD · Yellowish Orange","#FFAB0F"],["XKCD · Yellowish Tan","#FCFC81"],["XKCD · Yellowy Brown","#AE8B0C"],["XKCD · Yellowy Green","#BFF128"]];
+for(const [name,hex] of allXkcdNames){
+  const rgb=hexRgbCatalog(hex);
+  const [h,s]=hslCatalog(rgb);
+  const family=s<12?'neutral':chromaticFamily(h);
+  colorData.push([name,hex,family]);
+}
+/* 07E / CLASSIC WEB-SAFE RGB PALETTE (216 combinations)
+   Plus a complete 256-step digital grayscale ramp.
+*/
+function hexRgbCatalog(hex){return [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));}
+function hslCatalog([r,g,b]){r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;let h=0;if(d){switch(mx){case r:h=((g-b)/d)%6;break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h=(h*60+360)%360}const l=(mx+mn)/2;return [h,d?d/(1-Math.abs(2*l-1))*100:0];}
+for(const r of [0,51,102,153,204,255])for(const g of [0,51,102,153,204,255])for(const b of [0,51,102,153,204,255]){
+  const hex='#'+[r,g,b].map(n=>n.toString(16).padStart(2,'0')).join('').toUpperCase();
+  const [h,s]=hslCatalog([r,g,b]);
+  colorData.push(['Web Safe · '+hex,hex,s<12?'neutral':chromaticFamily(h)]);
+}
+for(let n=0;n<256;n++){
+  const hex='#'+n.toString(16).padStart(2,'0').repeat(3).toUpperCase();
+  colorData.push(['Grayscale · '+String(n).padStart(3,'0'),hex,'neutral']);
+}
+
+const palettes=[['Signal Spectrum',['#F25C79','#F6BC58','#70CBA8','#53BCE5','#966CEF']],['Warm Archive',['#2B2528','#8F4E4D','#D78563','#EBC39B','#F7EADC']],['Ocean Study',['#132B42','#22677B','#31A6B1','#8BD8D8','#E9F3EF']],['Botanical',['#213B35','#50785D','#94A876','#C7D9A6','#F1EEDC']],['After Hours',['#161A2D','#443D75','#7765AC','#C19CCB','#F1C9BF']],['Festival',['#EC4B5C','#FFA552','#F8E47C','#63D2AC','#468BE6']],['Muted Interface',['#292B34','#666C7D','#A9ADBA','#D5D8E1','#F6F6F5']],['Glasshouse',['#1F4851','#4D9492','#94CAC1','#C8E2D9','#EFF6EF']],['Editorial',['#F6F0DF','#D9B884','#9D7650','#5B5F53','#22282A']],['Neon Study',['#161327','#6A3CE2','#ED4EAB','#50D7EF','#C1F26C']]];
+const gradientList=[['Chromatic','linear-gradient(110deg,#f3617e,#f6bc55,#72d2aa,#5baaf5,#ad72ed)'],['Dusk','linear-gradient(130deg,#291b4b,#8956b8,#e4918e)'],['Citrus','linear-gradient(120deg,#ff5f6d,#ffc371)'],['Northern Light','linear-gradient(130deg,#163c5a,#31bca6,#b8e89d)'],['Lavender Field','linear-gradient(105deg,#9986de,#e2b2dd,#f7d3c2)'],['Blue Hour','linear-gradient(135deg,#14284e,#4883c3,#9ed9ec)'],['Earth','linear-gradient(130deg,#72553d,#b78857,#e5cba0)'],['Chroma Shift','linear-gradient(95deg,#ea4878,#994de6,#4c9cea,#42cdaa)'],['Pink Noise','linear-gradient(110deg,#fcacc8,#dca7e9,#9abff2)']];
+/* 07B / HISTORICAL ARCHIVE: research links describe pigments and names, not exact HEX values. */
+const historySources={
+ survey:{name:'xkcd — 2010 Color Survey Results (named screen colors)',url:'https://blog.xkcd.com/2010/05/03/color-survey-results/'},
+ w3c:{name:'W3C — CSS Color Level 4, Named Colors and origins',url:'https://www.w3.org/TR/css-color-4/#named-colors'},
+ mdn:{name:'MDN — CSS named colors and their development',url:'https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color'},
+ met:{name:'The Metropolitan Museum of Art — pigment glossary',url:'https://www.metmuseum.org/exhibitions/cycladic-art/glossary'},
+ cinnabar:{name:'The Met — Cinnabar and vermilion',url:'https://www.metmuseum.org/de/perspectives/cinnabar-vermilion'},
+ egypt:{name:'Journal of Roman Archaeology — Egyptian blue',url:'https://doi.org/10.1017/S1047759400072184'},
+ natural:{name:'Royal Society of Chemistry — ancient blue and purple pigments',url:'https://pubs.rsc.org/en/content/articlehtml/2007/cs/b606268g'},
+ mauve:{name:'Smithsonian Libraries — Making Color',url:'https://library.si.edu/exhibition/color-in-a-new-light/making'},
+ ochre:{name:'Smithsonian Libraries — Making Color',url:'https://library.si.edu/exhibition/color-in-a-new-light/making'}
+};
+const familyHistory={
+ all:{name:'The spectrum',lead:'Explore the color families below. Natural colorants came from earth, minerals, plants and animals; synthetic pigments and dyes expanded the palette. Digital HEX values are modern representations, not historic formulas.',grad:'linear-gradient(90deg,#e74a61,#f3ad39,#6bcf9b,#58b9e8,#a576d7)',sources:['met','mauve']},
+ red:{name:'Reds and pinks',lead:'Red ochres have long been made with iron-rich earth. Cinnabar, a mercury-sulfide mineral, supplied the prized vermilion red used in ancient art and later manufactured synthetically.',grad:'linear-gradient(90deg,#861c3d,#d7263d,#f77ca3)',sources:['cinnabar','met']},
+ orange:{name:'Yellows and oranges',lead:'Yellow and orange earth pigments traditionally came from iron-bearing minerals. Gold and saffron also became color names through the appearance of the metal and the saffron spice.',grad:'linear-gradient(90deg,#ea762c,#f3b53e,#f8df88)',sources:['met']},
+ green:{name:'Greens',lead:'Green pigments have historically included mineral colorants such as malachite, a copper carbonate mineral. Many modern green names refer instead to plants, landscapes, or gemstones.',grad:'linear-gradient(90deg,#194a39,#45a874,#b2d78c)',sources:['met']},
+ blue:{name:'Blues and cyans',lead:'Natural azurite and lapis lazuli were important early blue pigments. Ancient Egyptians also made a copper-based synthetic blue. Later ultramarine was prepared from lapis lazuli.',grad:'linear-gradient(90deg,#254d9a,#3888dc,#5cdde5)',sources:['met','egypt']},
+ purple:{name:'Purples and violets',lead:'Purple hues came from several natural dyes and minerals. A major change came in 1856 when William Henry Perkin discovered mauveine, an early synthetic purple dye.',grad:'linear-gradient(90deg,#4d387f,#8c57c9,#d0a4ef)',sources:['mauve','natural']},
+ neutral:{name:'Neutrals',lead:'Black, white, gray and earth-toned materials have been used throughout art history. Different substances can give a similar apparent color; a screen swatch does not identify what pigment was used.',grad:'linear-gradient(90deg,#222327,#777880,#f4efe1)',sources:['met']}
+};
+// Selected documented histories: all other cards explicitly distinguish a color name from a historical pigment.
+const detailedHistories={
+ 'Crimson':{kind:'Dye and color name',text:'Historically, crimson referred to strong reds produced using insect-derived dyes such as kermes; later crimson colorants included cochineal. This digital sample is only a modern visual interpretation.',source:'met'},
+ 'Scarlet':{kind:'Color name',text:'Scarlet has long described a vivid red, especially on dyed textiles. Many different dyes have produced scarlet shades over time; the present HEX value does not correspond to one dye.',source:'cinnabar'},
+ 'Ochre':{kind:'Natural earth pigment',text:'Ochre is the name for earth pigments colored mainly by iron compounds. Yellow and red ochres are among the longstanding mineral colorants used in painting.',source:'met'},
+ 'Saffron':{kind:'Plant dye and color name',text:'The name comes from saffron, the dried stigmas of Crocus sativus. The plant has been used as a yellow coloring material as well as a spice.',source:'ochre'},
+ 'Gold':{kind:'Metal and color name',text:'The color is named for metallic gold, valued in decoration and gilding across many civilizations. A flat RGB color cannot reproduce the reflective properties of gold leaf.',source:'met'},
+ 'Vermilion':{kind:'Mineral and manufactured pigment',text:'Traditional vermilion is based on mercury sulfide: natural cinnabar was used in antiquity, while synthetic forms were made later. Some historical vermilion materials were toxic.',source:'cinnabar'},
+ 'Jade':{kind:'Gemstone-based name',text:'Jade is a name for jadeite and nephrite gemstones associated with traditions of carving and adornment, especially in East Asia. The HEX swatch represents a modern jade-like green.',source:'met'},
+ 'Emerald':{kind:'Gemstone-based name',text:'Emerald is the green variety of beryl. Its appearance inspired the color name; historically manufactured pigments sold as emerald green were chemically different from the gemstone.',source:'met'},
+ 'Turquoise':{kind:'Mineral-based name',text:'Turquoise is a blue-green copper-bearing mineral used in jewelry and decorative objects since antiquity. Modern turquoise color codes imitate the appearance, not the mineral itself.',source:'met'},
+ 'Azure':{kind:'Color name and mineral history',text:'Azure is associated with blue mineral colorants, particularly the lapis lazuli tradition. Related terminology traveled through Persian, Arabic, and European languages.',source:'met'},
+ 'Cobalt':{kind:'Modern pigment family',text:'Cobalt blue pigments have been important in modern artist materials. The display value is a cobalt-like blue, not the chemical composition of a pigment.',source:'met'},
+ 'Ultramarine':{kind:'Historic blue pigment',text:'Natural ultramarine was extracted from lapis lazuli, historically sourced largely from what is now Afghanistan. It became a costly blue pigment in European painting.',source:'met'},
+ 'Indigo':{kind:'Plant dye tradition',text:'Indigo dyes have been used widely to dye cloth in many regions. The color comes from indigotin, traditionally obtained through processing certain plants.',source:'mauve'},
+ 'Violet':{kind:'Flower-based color name',text:'Violet takes its name from violet flowers. Purple pigments and dyes have a separate material history that includes later synthetic dyes.',source:'mauve'},
+ 'Lavender':{kind:'Flower-based color name',text:'Lavender is named for the pale purplish appearance of lavender flowers. The modern HEX value is a design choice, not an extracted historic dye.',source:'mauve'},
+ 'Amethyst':{kind:'Gemstone-based name',text:'Amethyst is the violet variety of quartz. Its gemstone color inspired the name used for modern purple palettes.',source:'natural'},
+ 'Ivory':{kind:'Material-based name',text:'Ivory describes the pale creamy appearance of animal tusk material. The word has also been used for a range of off-white paints and decorative shades.',source:'met'},
+ 'Charcoal':{kind:'Carbon material and color name',text:'Charcoal is carbon-rich material made by heating organic matter with limited oxygen; it has long been used for drawing and black colorants.',source:'met'},
+ 'Silver':{kind:'Metal-based color name',text:'Silver is named after the reflective metal. On an RGB display, silver appears as a light gray because ordinary screens cannot reproduce its metallic shine.',source:'met'},
+ 'Rose':{kind:'Flower-based color name',text:'Rose pink refers to the coloring associated with rose petals. Many unrelated pigments and dyes can produce shades called rose.',source:'mauve'}
+};
+/* An entry for every color: documented CSS keyword history or Digital color reference.
+   Never present a pigment-family history as proof of an individual name's origin. */
+const cssOrigins=new Set(cssNamedColors.map(c=>c[0].toLowerCase()));
+const originalCHIVIS=new Set(colorData.slice(0,60).map(c=>c[0].toLowerCase()));
+const basicVGA=new Set('aqua black blue fuchsia gray green lime maroon navy olive purple red silver teal white yellow'.split(' '));
+function colorHistoryRecord(name,hex,family){
+ if((name.startsWith('Spectrum · ')||name.startsWith('Hue ')))return {kind:'Generated sRGB spectrum coordinate',text:`${name} (${hex}) is a modern digital color generated from hue, saturation, and lightness coordinates and converted to sRGB for display. It has no separately verified historical pigment origin or traditional color name.`,sourceKeys:['w3c'],certainty:'Digital specification only. Not a historical pigment or dye.'};
+ if(name.startsWith('XKCD · '))return {kind:'2010 color naming survey',text:`${name.slice(7)} (${hex}) is part of the published XKCD survey color-name dataset, included as a modern digital swatch. Its recorded name is not evidence of an individual historical dye or pigment origin.`,sourceKeys:['survey'],certainty:'Modern color-name survey provenance; historical pigment origin not independently established.'};
+ if(name.startsWith('Web Safe · '))return {kind:'Web-safe RGB palette',text:`${hex} is one of 216 combinations of the RGB intensities 0, 51, 102, 153, 204, and 255. These combinations were used in early web graphics for compatibility with limited color displays; the color is a digital coordinate, not an independently documented historical pigment.`,sourceKeys:['w3c'],certainty:'Historical digital palette; no individual pigment provenance.'};
+ if(name.startsWith('Grayscale · '))return {kind:'Digital grayscale',text:`${hex} is an RGB grayscale value, where the red, green, and blue channels are identical. This is a digitally defined shade; no unique historical dye or pigment origin is established for this exact value.`,sourceKeys:['w3c'],certainty:'Digital grayscale coordinate only.'};
+ if(name.startsWith('Survey · '))return {kind:'2010 color-naming survey',text:`${name.slice(9)} (${hex}) is a name and screen color reported in Randall Munroe's 2010 xkcd color-naming survey. This is evidence of contemporary color naming, not proof of the origin of a historic pigment, mineral, dye or the first use of this phrase.`,sourceKeys:['survey'],certainty:'Survey-based naming provenance only. A unique historical pigment origin is not established.'};
+ const detail=detailedHistories[name];
+ const standard=cssOrigins.has(name.toLowerCase());
+ const inCHIVIS=originalCHIVIS.has(name.toLowerCase());
+ if(detail){return {kind:detail.kind,text:detail.text,sourceKeys:[detail.source,'w3c'],certainty:'Documented pigment, material or naming context; the digital HEX value is not a pigment sample.'}}
+ if(standard){
+   let lineage=basicVGA.has(name.toLowerCase())?'This keyword belongs to the original 16-color VGA/HTML palette.':name.toLowerCase()==='rebeccapurple'?'The CSS keyword rebeccapurple was introduced to honor Rebecca, daughter of web developer Eric Meyer.':'This CSS named color belongs to the extended color keyword set, mostly inherited from the X11 colors and later standardized for SVG and CSS.';
+   let qualifier=inCHIVIS?` This library’s ${hex} shade is a custom interpretation and may differ from the standard CSS keyword value.`:` The standardized sRGB value is ${hex}.`;
+   return {kind:inCHIVIS?'Custom shade / CSS keyword':'Standard CSS color keyword',text:`${name}: ${lineage}${qualifier} The cited specifications establish the keyword’s web-standard history, not a unique dye, mineral, or ancient origin for this exact color name.`,sourceKeys:['w3c','mdn'],certainty:'Web-standard provenance documented; independent pigment origin not established.'}
+ }
+ return {kind:'Digital color reference',text:`${name} (${hex}) is a digital color entry in this archive. A reliable independent historical origin for this exact named color has not been established. Its ${familyHistory[family].name.toLowerCase()} classification describes appearance only. See the W3C color specification for the distinction between digital color definitions and pigment history.`,sourceKeys:['w3c'],certainty:'No verified individual historical origin. This is not an ancient pigment attribution.'}
+}
+const sourceLink=key=>{const s=historySources[key];return s?`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.name} ↗</a>`:''};
+
+const $=id=>document.getElementById(id);
+function hexRgb(hex){let v=hex.replace('#','').trim();if(v.length===3)v=v.split('').map(s=>s+s).join('');if(!/^[0-9a-f]{6}$/i.test(v))return null;return [parseInt(v.slice(0,2),16),parseInt(v.slice(2,4),16),parseInt(v.slice(4,6),16)]}
+function canonical(v){let a=hexRgb(v);return a?'#'+a.map(n=>n.toString(16).padStart(2,'0')).join('').toUpperCase():null}
+function hsl(rgb){let r=rgb[0]/255,g=rgb[1]/255,b=rgb[2]/255,max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min,l=(max+min)/2,h=0,s=0;if(d){s=d/(1-Math.abs(2*l-1));switch(max){case r:h=((g-b)/d)%6;break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h*=60;if(h<0)h+=360}return [Math.round(h),Math.round(s*100),Math.round(l*100)]}
+function luminance(rgb){let a=rgb.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4});return a[0]*.2126+a[1]*.7152+a[2]*.0722}
+function contrast(a,b){const l1=luminance(a),l2=luminance(b);return (Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05)}
+let toastTimer;function notify(text){let n=$('toast');n.textContent=text;n.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>n.classList.remove('show'),1500)}
+async function copy(value){try{await navigator.clipboard.writeText(value);notify('Copied to clipboard')}catch{let t=document.createElement('textarea');t.value=value;t.style.position='fixed';t.style.left='-9999px';document.body.appendChild(t);t.select();try{document.execCommand('copy');notify('Copied to clipboard')}catch{notify('Select and copy manually')}t.remove()}}
+/* 08 / PAGE NAVIGATION */
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab))}));
+/* 09 / SEARCH AND SAVE COLORS */
+let favorites=new Set();try{favorites=new Set(JSON.parse(localStorage.getItem('thursdayColors')||'[]'))}catch{}
+let savedOnly=false,activeFamily='all',lastFocus=null;let hueFilterOn=false,hueValue=0;
+function store(){try{localStorage.setItem('thursdayColors',JSON.stringify([...favorites]))}catch{}}
+/* Family color bar lets visitors select a precise location in the displayed gradient.
+   It ranks existing swatches by visual RGB proximity, never invents new historical colors. */
+const familyGradientStops={
+ all:['#e74a61','#f3ad39','#6bcf9b','#58b9e8','#a576d7'],
+ red:['#861c3d','#d7263d','#f77ca3'],
+ orange:['#ea762c','#f3b53e','#f8df88'],
+ green:['#194a39','#45a874','#b2d78c'],
+ blue:['#254d9a','#3888dc','#5cdde5'],
+ purple:['#4d387f','#8c57c9','#d0a4ef'],
+ neutral:['#222327','#777880','#f4efe1']
+};
+let familyBarEnabled=false,familyBarRGB=null,familyBarPercent=50;
+function shadeAt(family,percentage){
+ const stops=familyGradientStops[family].map(hexRgb), scaled=Math.max(0,Math.min(100,percentage))/100*(stops.length-1);
+ const i=Math.min(stops.length-2,Math.floor(scaled)), f=scaled-i;
+ return stops[i].map((v,k)=>Math.round(v+(stops[i+1][k]-v)*f));
+}
+function rgbHex(rgb){return '#'+rgb.map(n=>n.toString(16).padStart(2,'0')).join('').toUpperCase()}
+function familyBarChanged(){
+ familyBarPercent=Number($('familyShadeSlider').value);familyBarRGB=shadeAt(activeFamily,familyBarPercent);familyBarEnabled=true;
+ $('familyShadePin').style.left=familyBarPercent+'%';
+ $('familyShadeValue').textContent=rgbHex(familyBarRGB)+' · CLOSEST COLORS';
+ if(hueFilterOn){hueFilterOn=false;hueEnabled.checked=false;$('hueReadout').textContent='ALL COLORS';$('hueFamilyName').textContent='Choose a hue to find its family'}
+ renderColors();
+ updateWaveTheme();
+}
+function renderFamilyHeader(){
+ const d=familyHistory[activeFamily];familyBarEnabled=false;familyBarRGB=null;familyBarPercent=50;
+ $('familyIntro').innerHTML=`<div><div class="mini">COLOR FAMILY / HISTORICAL REGISTER</div><h2>${d.name}</h2><p>${d.lead}</p><div class="family-source">REFERENCES · ${d.sources.map(sourceLink).join(' &nbsp; / &nbsp; ')}</div></div><div class="family-art-control"><div class="family-art" style="--grad:${d.grad}"><span class="family-art-pin" id="familyShadePin" style="display:none"></span><input type="range" id="familyShadeSlider" min="0" max="100" value="50" step="1" aria-label="Choose a shade along the ${d.name} gradient"></div><div class="family-art-caption"><strong id="familyShadeValue">SLIDE TO FIND A SHADE</strong><button class="small-btn" type="button" id="familyShadeReset" style="display:none">ALL SHADES</button></div></div>`;
+ $('familyShadeSlider').addEventListener('input',()=>{familyBarChanged();$('familyShadePin').style.display='block';$('familyShadeReset').style.display='block'});
+ $('familyShadeReset').addEventListener('click',()=>{familyBarEnabled=false;familyBarRGB=null;$('familyShadePin').style.display='none';$('familyShadeReset').style.display='none';$('familyShadeValue').textContent='SLIDE TO FIND A SHADE';renderColors();updateWaveTheme()});
+}
+
+function colorDistance(a,b){return (a[0]-b[0])**2*0.3+(a[1]-b[1])**2*0.59+(a[2]-b[2])**2*0.11}
+function colorNote(name,family){const c=colorData.find(x=>x[0]===name);return colorHistoryRecord(name,c?.[1]||'',family).kind}
+let displayLimit=120;
+function renderColors(){let q=$('search').value.trim().toLowerCase(),fam=activeFamily,sort=$('sort').value;let data=colorData.filter(([name,hex,family])=>(fam==='all'||fam===family)&&(!hueFilterOn||hueMatches(hex))&&(!savedOnly||favorites.has(hex))&&(!q||name.toLowerCase().includes(q)||hex.toLowerCase().includes(q)||family.includes(q)));if(familyBarEnabled&&familyBarRGB){data.sort((a,b)=>colorDistance(hexRgb(a[1]),familyBarRGB)-colorDistance(hexRgb(b[1]),familyBarRGB));data=data.slice(0,18)}else if(sort==='name')data.sort((a,b)=>a[0].localeCompare(b[0]));if(sort==='light'||sort==='dark')data.sort((a,b)=>(luminance(hexRgb(b[1]))-luminance(hexRgb(a[1])))*(sort==='light'?1:-1));$('colorCount').textContent=data.length+' COLORS / '+(savedOnly?'SAVED':familyHistory[fam].name.toUpperCase());$('swatches').innerHTML=data.length?data.slice(0,displayLimit).map(([name,hex,family])=>`<article class="swatch"><div class="swatch-color" data-copy="${hex}" style="background:${hex}" title="Copy ${hex}"></div><div class="swatch-info"><div class="swatch-title">${name}</div><div class="swatch-code">${hex}</div></div><div class="swatch-history">${colorNote(name,family)}</div><div class="swatch-actions"><button data-history="${name}" title="View historical notes about ${name}">HISTORY</button><button data-copy="${hex}" title="Copy HEX">HEX</button><button data-fav="${hex}" title="Save color">${favorites.has(hex)?'★ SAVED':'☆ SAVE'}</button></div></article>`).join('')+(data.length>displayLimit?`<div class="show-more"><button class="action light" id="showMore" type="button">LOAD MORE COLORS · ${Math.min(120,data.length-displayLimit)} / ${data.length-displayLimit} REMAINING</button></div>`:''):'<div class="empty" style="grid-column:1/-1">No matching colors. Try another search.</div>'}
+function openHistory(name){let c=colorData.find(r=>r[0]===name);if(!c)return;let [title,hex,family]=c,record=colorHistoryRecord(title,hex,family),d=record,group=familyHistory[family];let description=record.text;let sources=[...new Set(record.sourceKeys)];
+ $('historyBody').innerHTML=`<div class="history-banner" style="background:${hex}"></div><h2 id="historyTitle">${title}</h2><div class="history-meta">${hex} · ${record.kind}</div><h3>Origin and history</h3><p>${description}</p><p class="history-warning">${record.certainty}</p><h3>Research references</h3><div class="history-links">${sources.map(sourceLink).join('')}</div><p class="history-warning">Historical notes describe documented colorants, names or related materials. HEX values approximate appearances and are not authenticated historical pigment samples. References may cover the broader color family rather than this exact named shade.</p><button class="action" id="historyCopy" style="margin-top:10px">Copy ${hex}</button>`;
+ $('historyCopy').addEventListener('click',()=>copy(hex));lastFocus=document.activeElement;$('historyOverlay').classList.add('open');$('historyClose').focus();document.body.style.overflow='hidden';}
+function closeHistory(){$('historyOverlay').classList.remove('open');document.body.style.overflow='';lastFocus?.focus()}
+$('historyClose').addEventListener('click',closeHistory);
+$('historyOverlay').addEventListener('click',e=>{if(e.target===$('historyOverlay'))closeHistory()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('historyOverlay').classList.contains('open'))closeHistory()});
+document.querySelectorAll('.family-tab').forEach(b=>b.addEventListener('click',()=>{activeFamily=b.dataset.family;displayLimit=120;b.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});document.querySelectorAll('.family-tab').forEach(t=>{t.classList.toggle('active',t===b);t.setAttribute('aria-pressed',t===b?'true':'false')});renderFamilyHeader();renderColors();updateWaveTheme()}));
+$('swatches').addEventListener('click',e=>{if(e.target.closest('#showMore')){displayLimit+=120;renderColors();return;}
+let b=e.target.closest('[data-copy],[data-history],[data-fav]');if(!b)return;if(b.dataset.history)openHistory(b.dataset.history);if(b.dataset.copy)copy(b.dataset.copy);if(b.dataset.fav){let v=b.dataset.fav;favorites.has(v)?favorites.delete(v):favorites.add(v);store();renderColors()}});
+$('search').addEventListener('input',()=>{displayLimit=120;
+ if($('search').value.trim()){
+   document.querySelector('.tab[data-tab="library"]').click();
+   if(hueFilterOn)setHueFilter(false);
+   if(activeFamily!=='all')document.querySelector('.family-tab[data-family="all"]').click();
+ }
+ renderColors();
+});
+/* 09B / HUE SLIDER: choose a hue and automatically select its color family.
+   Circular hue distance avoids a red wraparound bug at 0/360 degrees. */
+const hueSlider=$('hueSlider'),hueEnabled=$('hueEnabled');
+function hueDistance(a,b){const d=Math.abs(a-b)%360;return Math.min(d,360-d)}
+function hueMatches(hex){const rgb=hexRgb(hex);if(!rgb)return false;const [h,s]=hsl(rgb);return s>=10&&hueDistance(h,hueValue)<=($('hueExact').checked?22:48)}
+function hueFamily(h){if(h<16||h>=345)return 'red';if(h<70)return 'orange';if(h<170)return 'green';if(h<255)return 'blue';if(h<345)return 'purple';return 'red'}
+function setHueFilter(on){hueFilterOn=on;hueEnabled.checked=on;updateHue();}
+function updateHue(){if(hueFilterOn&&familyBarEnabled){familyBarEnabled=false;familyBarRGB=null;const pin=$('familyShadePin'),reset=$('familyShadeReset'),label=$('familyShadeValue');if(pin)pin.style.display='none';if(reset)reset.style.display='none';if(label)label.textContent='SLIDE TO FIND A SHADE'}hueValue=Number(hueSlider.value);const family=hueFamily(hueValue),c=`hsl(${hueValue} 90% 57%)`;
+ hueSlider.style.setProperty('--picked',c);$('huePreview').style.setProperty('--picked',c);
+ $('hueReadout').textContent=hueFilterOn?`HUE ${hueValue}° · ${family.toUpperCase()}`:'ALL COLORS';
+ $('hueFamilyName').textContent=hueFilterOn?'MATCHING FAMILY: '+familyHistory[family].name:'Choose a hue to find its family';
+ if(hueFilterOn){const t=document.querySelector(`.family-tab[data-family="${family}"]`);if(t&&activeFamily!==family)t.click();else renderColors();}else{renderColors()}
+}
+hueEnabled.addEventListener('change',()=>setHueFilter(hueEnabled.checked));
+hueSlider.addEventListener('input',()=>{if(!hueFilterOn)setHueFilter(true);else updateHue()});
+$('hueExact').addEventListener('change',renderColors);
+$('hueReset').addEventListener('click',()=>{setHueFilter(false);document.querySelector('.family-tab[data-family="all"]').click()});
+$('sort').addEventListener('change',()=>{displayLimit=120;renderColors()});
+$('clearSearch').addEventListener('click',()=>{$('search').value='';renderColors();$('search').focus()});
+$('searchCoverage').textContent=colorData.length.toLocaleString()+' ARCHIVE ENTRIES · CSS / SURVEY / WEB-SAFE / GRAYSCALE / SPECTRUM';
+const familyTrack=$('familyTrack');
+function updateFamilyArrows(){
+ $('familyPrev').disabled=familyTrack.scrollLeft<=3;
+ $('familyNext').disabled=familyTrack.scrollLeft+familyTrack.clientWidth>=familyTrack.scrollWidth-3;
+}
+$('familyPrev').addEventListener('click',()=>familyTrack.scrollBy({left:-Math.round(familyTrack.clientWidth*.73),behavior:'smooth'}));
+$('familyNext').addEventListener('click',()=>familyTrack.scrollBy({left:Math.round(familyTrack.clientWidth*.73),behavior:'smooth'}));
+familyTrack.addEventListener('scroll',updateFamilyArrows,{passive:true});
+window.addEventListener('resize',updateFamilyArrows);
+requestAnimationFrame(updateFamilyArrows);$('favoritesOnly').addEventListener('click',()=>{savedOnly=!savedOnly;$('favoritesOnly').textContent=savedOnly?'★ Saved only':'☆ Saved';renderColors()});
+/* 10 / PALETTE LIBRARY */
+function renderPalettes(){let el=$('paletteGrid');el.innerHTML=palettes.map(([name,colors],i)=>`<article class="palette-item"><div class="palette-strip">${colors.map(hex=>`<button data-color="${hex}" style="background:${hex}" title="Copy ${hex}" aria-label="Copy ${hex}"></button>`).join('')}</div><div class="palette-caption"><div><b>${name}</b><small>${colors.join(' · ')}</small></div><button class="small-btn" data-palette="${i}">COPY CSS</button></div></article>`).join('')}
+$('paletteGrid').addEventListener('click',e=>{let c=e.target.closest('[data-color]'),p=e.target.closest('[data-palette]');if(c)copy(c.dataset.color);if(p){let arr=palettes[+p.dataset.palette][1];copy(':root {\n'+arr.map((x,i)=>`  --color-${i+1}: ${x};`).join('\n')+'\n}')}});
+$('generate').addEventListener('click',()=>{const seed=Math.floor(Math.random()*360),arr=Array.from({length:5},(_,i)=>{const h=(seed+i*43)%360;let rgb=hslToRgb(h,65,56+(i%3)*9);return '#'+rgb.map(v=>v.toString(16).padStart(2,'0')).join('').toUpperCase()});palettes.unshift(['Generated '+String(palettes.length).padStart(2,'0'),arr]);renderPalettes();notify('New palette generated')});
+function hslToRgb(h,s,l){s/=100;l/=100;let a=s*Math.min(l,1-l);function f(n){let k=(n+h/30)%12;return Math.round(255*(l-a*Math.max(-1,Math.min(k-3,9-k,1))))}return [f(0),f(8),f(4)]}
+/* 11 / CSS GRADIENT GALLERY */
+function renderGradients(){$('gradientGrid').innerHTML=gradientList.map(([name,css],i)=>`<article class="grad-card"><div class="grad-example" data-gradient="${i}" style="background:${css}" title="Copy gradient CSS"></div><div class="grad-footer"><div><strong>${name}</strong><span>CSS / LINEAR GRADIENT</span></div><button class="small-btn" data-gradient="${i}">COPY CSS</button></div></article>`).join('')}
+$('gradientGrid').addEventListener('click',e=>{let b=e.target.closest('[data-gradient]');if(b)copy('background: '+gradientList[Number(b.dataset.gradient)][1]+';')});
+/* 12 / WCAG CONTRAST CALCULATOR */
+function updateContrast(){let fg=$('fg').value,bg=$('bg').value,ratio=contrast(hexRgb(fg),hexRgb(bg));$('contrastPreview').style.background=bg;$('contrastPreview').style.color=fg;$('fgValue').textContent=fg.toUpperCase();$('bgValue').textContent=bg.toUpperCase();let status=(ok)=>`<b class="${ok?'pass':'fail'}">${ok?'PASS':'FAIL'}</b>`;$('contrastReadout').innerHTML=`<b>${ratio.toFixed(2)}:1</b> &nbsp; CONTRAST RATIO<br>Normal text AA · ${status(ratio>=4.5)}<br>Large text AA · ${status(ratio>=3)}<br>Normal text AAA · ${status(ratio>=7)}`}
+['fg','bg'].forEach(id=>$(id).addEventListener('input',updateContrast));$('swap').addEventListener('click',()=>{let x=$('fg').value;$('fg').value=$('bg').value;$('bg').value=x;updateContrast()});$('copyContrast').addEventListener('click',()=>copy(`color: ${$('fg').value};\nbackground-color: ${$('bg').value};`));
+/* 13 / CSS INSPECTOR AND GRADIENT MAKER */
+function updateCSS(){let c=canonical($('hexInput').value);if(!c){$('cssCode').textContent='Enter a valid HEX color, such as #8A64F5';return}$('cssPicker').value=c;$('cssPreview').style.backgroundColor=c;let rgb=hexRgb(c),v=hsl(rgb);$('cssCode').textContent=`HEX   ${c}\nRGB   rgb(${rgb.join(', ')})\nHSL   hsl(${v[0]} ${v[1]}% ${v[2]}%)\n\nCSS\ncolor: ${c};\nbackground-color: ${c};`}
+$('hexInput').addEventListener('input',updateCSS);$('cssPicker').addEventListener('input',e=>{$('hexInput').value=e.target.value.toUpperCase();updateCSS()});$('randomColor').addEventListener('click',()=>{let v='#'+Math.floor(Math.random()*16777216).toString(16).padStart(6,'0').toUpperCase();$('hexInput').value=v;updateCSS()});$('copyColorCode').addEventListener('click',()=>copy($('cssCode').textContent));
+function updateGradient(){let css=`linear-gradient(${$('angle').value}deg, ${$('grad1').value}, ${$('grad2').value})`;$('angleValue').textContent=$('angle').value+'°';$('gradientPreview').style.background=css;$('gradientCode').textContent='background: '+css+';'}['grad1','grad2','angle'].forEach(id=>$(id).addEventListener('input',updateGradient));$('copyGradientCode').addEventListener('click',()=>copy($('gradientCode').textContent));
+/* 14 / IRIS SPECTRUM WAVE — interactive family-responsive wave.
+   The wave responds to pointer movement and adopts the active color family. */
+const canvas=$('spectrum'),ctx=canvas.getContext('2d',{alpha:true});
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const waveNote=$('waveNote');
+const codeBg=$('codeBg');
+const waveState={pointerX:.5,pointerY:.5,targetX:.5,targetY:.5,hover:false,hoverStrength:0,pulse:0,currentPalette:[],targetPalette:[],transition:1,label:'ALL COLORS'};
+let raf=0, waveWidth=0,waveHeight=0,waveDots=[];
+function mixRgb(a,b,t){return a.map((v,i)=>Math.round(v+(b[i]-v)*t))}
+function adjustRgb(rgb,amt){const target=amt>=0?[255,255,255]:[0,0,0],t=Math.min(1,Math.abs(amt));return mixRgb(rgb,target,t)}
+function rgbCss(rgb,a=1){return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`}
+function samplePalette(palette,pos){
+  const clamped=Math.max(0,Math.min(1,pos));
+  const scaled=clamped*(palette.length-1);
+  const i=Math.min(palette.length-2,Math.floor(scaled));
+  return mixRgb(palette[i],palette[i+1],scaled-i);
+}
+function monochromePalette(baseRGB){
+  const info=hsl(baseRGB),h=info[0],s=info[1],l=info[2];
+  if(s<10){
+    return [10,18,28,40,54,70,86].map(L=>hslToRgb(h,Math.max(2,Math.min(10,s+3)),L));
+  }
+  const deltas=[-34,-22,-12,0,10,22,32];
+  return deltas.map((d,i)=>hslToRgb(h,Math.max(28,Math.min(100,s+(i<3?8:0)-(i>4?10:0))),Math.max(10,Math.min(90,l+d))));
+}
+function paletteFromFamily(){
+  if(familyBarEnabled&&familyBarRGB)return monochromePalette(familyBarRGB);
+  if(activeFamily==='all')return ['#F25C7A','#F4A845','#F3DE72','#7DCB8A','#57C2D8','#6D8EF0','#B07AE6'].map(hexRgb);
+  const stops=(familyGradientStops[activeFamily]||familyGradientStops.all).map(hexRgb);
+  return monochromePalette(stops[Math.floor(stops.length/2)]);
+}
+function visiblePalette(){
+  const a=waveState.currentPalette.length?waveState.currentPalette:paletteFromFamily();
+  const b=waveState.targetPalette.length?waveState.targetPalette:a;
+  return a.map((rgb,i)=>mixRgb(rgb,b[i]||b[b.length-1],waveState.transition));
+}
+function sampleWaveColor(pos){
+  return samplePalette(visiblePalette(),pos);
+}
+function seedCodeBackground(){
+  if(!codeBg) return;
+  const snippets=[
+    '<div class="swatch" data-hex="#F26C8A">',
+    'background: linear-gradient(90deg, var(--shade-1), var(--shade-7));',
+    'const hue = Math.round(pointerX * 360);',
+    'color-family: activeFamily; // spectrum register',
+    'box-shadow: 0 0 34px rgba(255,255,255,.12);',
+    'renderPalette(shades.map(hex => ({ hex, family })));',
+    'hsl(hue, saturation, lightness)',
+    'HEX · RGB · HSL · HISTORY · CSS',
+    'if(activeFamily !== "all") wave.fadeTo(monochromePalette);',
+    'transition: opacity .65s ease, filter .65s ease;',
+    'article.swatch:hover { transform: translateY(-4px); }',
+    'copy("#A36BE5") // Iris color archive'
+  ];
+  codeBg.innerHTML=Array.from({length:8},(_,i)=>{
+    const top=10+i*11;
+    const delay=-(i*1.2);
+    const text=snippets[i%snippets.length]+'   '+snippets[(i+4)%snippets.length]+'   '+snippets[(i+8)%snippets.length];
+    return `<div class="code-line" style="top:${top}%;animation-delay:${delay}s">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`;
+  }).join('');
+}
+function updateWaveTheme(force=false){
+  const next=paletteFromFamily();
+  const visible=visiblePalette();
+  if(force||!waveState.currentPalette.length){
+    waveState.currentPalette=next.slice();
+    waveState.targetPalette=next.slice();
+    waveState.transition=1;
+  }else{
+    waveState.currentPalette=visible.slice();
+    waveState.targetPalette=next.slice();
+    waveState.transition=0;
+  }
+  waveState.label=familyBarEnabled&&familyBarRGB?rgbHex(familyBarRGB):familyHistory[activeFamily].name.toUpperCase();
+  if(!waveState.hover){
+    $('heroReadout').textContent=familyBarEnabled&&familyBarRGB?`${rgbHex(familyBarRGB)} · ACTIVE SHADE`:waveState.label+' · RGB · HSL · HEX';
+  }
+}
+function resizeWave(){
+  const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.25);
+  waveWidth=Math.max(1,rect.width);waveHeight=Math.max(1,rect.height);
+  canvas.width=Math.max(1,Math.round(waveWidth*dpr));canvas.height=Math.max(1,Math.round(waveHeight*dpr));
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const count=Math.min(1000,Math.max(450,Math.round(waveWidth*.85)));
+  waveDots=Array.from({length:count},(_,i)=>{
+    const a=(i*.618033988749895)%1;
+    const b=(i*.754877666246693)%1;
+    const c=(i*.569840290998)%1;
+    return {x:a,band:b*2-1,offset:c*Math.PI*2,size:i%13===0?1.95:i%7===0?1.45:1.0,depth:c};
+  });
+}
+function readWavePointer(evt){
+  const rect=canvas.getBoundingClientRect();
+  waveState.targetX=Math.max(0,Math.min(1,(evt.clientX-rect.left)/rect.width));
+  waveState.targetY=Math.max(0,Math.min(1,(evt.clientY-rect.top)/rect.height));
+}
+canvas.addEventListener('pointerenter',e=>{waveState.hover=true;readWavePointer(e)});
+canvas.addEventListener('pointermove',e=>{waveState.hover=true;readWavePointer(e);const picked=rgbHex(sampleWaveColor(waveState.pointerX));$('heroReadout').textContent=`${picked} · ${waveState.label}`;if(reduceMotion)wave()});
+canvas.addEventListener('pointerleave',()=>{waveState.hover=false;$('heroReadout').textContent=familyBarEnabled&&familyBarRGB?`${rgbHex(familyBarRGB)} · ACTIVE SHADE`:waveState.label+' · RGB · HSL · HEX';if(reduceMotion)wave()});
+canvas.addEventListener('pointerdown',e=>{waveState.hover=true;readWavePointer(e);waveState.pulse=1});
+canvas.addEventListener('click',()=>{const picked=rgbHex(sampleWaveColor(waveState.pointerX));copy(picked);$('search').value=picked;document.querySelector('.tab[data-tab="library"]').click();renderColors()});
+let lastWaveFrame=-Infinity;
+function wave(time=0){
+  // 30fps maximum avoids oversubscribing weaker laptops and keeps pointer input responsive.
+  if(!reduceMotion && time-lastWaveFrame<32){raf=requestAnimationFrame(wave);return;}
+  lastWaveFrame=time;
+  const w=waveWidth,h=waveHeight,t=reduceMotion?0:time*.00043;
+  waveState.pointerX+=(waveState.targetX-waveState.pointerX)*.32;
+  waveState.pointerY+=(waveState.targetY-waveState.pointerY)*.32;
+  // Ease mouse influence in/out instead of removing its distortion instantly.
+  const desiredInfluence=waveState.hover?1:0;
+  waveState.hoverStrength+=(desiredInfluence-waveState.hoverStrength)*(waveState.hover?.19:.075);
+  if(Math.abs(waveState.hoverStrength-desiredInfluence)<.002)waveState.hoverStrength=desiredInfluence;
+  if(waveState.transition<1)waveState.transition=Math.min(1,waveState.transition+(reduceMotion?.22:.055));
+  ctx.clearRect(0,0,w,h);
+  const blendedColors=visiblePalette();
+  const waveColor=(position)=>samplePalette(blendedColors,position);
+  const centerColor=waveColor(.5),sideColor=waveColor(.14);
+  const pulse=.5+.5*Math.sin(t*6.2);
+  const glow=ctx.createRadialGradient(w*.5,h*.52,2,w*.5,h*.52,w*.49);
+  glow.addColorStop(0,rgbCss(adjustRgb(centerColor,.42),.14+.05*pulse));
+  glow.addColorStop(.28,rgbCss(adjustRgb(centerColor,.18),.10+.03*pulse));
+  glow.addColorStop(.58,rgbCss(adjustRgb(sideColor,.12),.06));
+  glow.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+  for(const pos of [.26,.74]){
+    const rgb=waveColor(pos);
+    const gx=w*pos,gy=h*(.51+.03*Math.sin(t*4+pos*7));
+    const r=72+18*pulse;
+    const aura=ctx.createRadialGradient(gx,gy,0,gx,gy,r);
+    aura.addColorStop(0,rgbCss(adjustRgb(rgb,.45),.11));
+    aura.addColorStop(.5,rgbCss(adjustRgb(rgb,.18),.05));
+    aura.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=aura;ctx.fillRect(gx-r,gy-r,r*2,r*2);
+  }
+  const px=waveState.pointerX*w, py=waveState.pointerY*h;
+  if(waveState.pulse>0)waveState.pulse=Math.max(0,waveState.pulse-(reduceMotion?.1:.038));
+  ctx.globalCompositeOperation='screen';
+  for(const d of waveDots){
+    const x=18+d.x*(w-36),nx=(x-w*.5)/(w*.5);
+    const taper=Math.pow(Math.max(0,1-nx*nx),.58);
+    const baseTwist=Math.sin(nx*8.3-t*1.45+d.band*2.9)*24+Math.sin(nx*14.4+t*.92+d.offset*.28)*9;
+    let y=h*.51+taper*(d.band*h*.29+baseTwist+Math.sin(nx*4.2+t*.75+d.band*3.1)*13);
+    let influence=0;
+    if(waveState.hoverStrength>.001){
+      // Gradually relax the distortion after the mouse leaves.
+      const dx=x-px, proximity=Math.exp(-(dx*dx)/(2*155*155));
+      const dy=y-py;
+      const distance=Math.hypot(dx,dy);
+      influence=Math.max(0,1-distance/185)*waveState.hoverStrength;
+      y+=((py-y)*.48*proximity + Math.sin(t*9+d.offset*7)*18*proximity)*waveState.hoverStrength;
+    }
+    if(waveState.pulse>0){
+      const ring=Math.abs(Math.hypot(x-px,y-py)-waveState.pulse*180);
+      influence=Math.max(influence,Math.max(0,1-ring/28)*.85);
+    }
+    const rgb=waveColor((d.x*.82)+((d.band+1)/2)*.18);
+    const lit=adjustRgb(rgb,influence*.34 + taper*.08 + pulse*.05);
+    const alpha=(.22+.58*taper)*(.72+d.depth*.26)+influence*.18;
+    const r=d.size*(.82+.28*taper+influence*.95+(pulse*.08));
+    // Bloom comes from the two broad radial halos, not a costly blur for each dot.
+    ctx.fillStyle=rgbCss(lit,Math.min(.98,alpha+.12*pulse));
+    ctx.beginPath();ctx.arc(x,y,r*(1+.12*pulse),0,Math.PI*2);ctx.fill();
+  }
+  if(waveState.hoverStrength>.001){
+    const sample=sampleWaveColor(waveState.pointerX),accent=adjustRgb(sample,.35);
+    ctx.globalCompositeOperation='source-over';
+    ctx.strokeStyle=rgbCss(accent,.72*waveState.hoverStrength);ctx.lineWidth=1.25;
+    ctx.beginPath();ctx.arc(px,py,22+waveState.pulse*18,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(px-12,py);ctx.lineTo(px+12,py);ctx.moveTo(px,py-12);ctx.lineTo(px,py+12);ctx.stroke();
+    ctx.globalCompositeOperation='screen';
+  }
+  ctx.globalCompositeOperation='source-over';
+  if(!reduceMotion)raf=requestAnimationFrame(wave);
+}
+let resizeWaveTimer;
+window.addEventListener('resize',()=>{clearTimeout(resizeWaveTimer);resizeWaveTimer=setTimeout(()=>{resizeWave();if(reduceMotion)wave()},90)});
+seedCodeBackground();resizeWave();updateWaveTheme(true);wave();
+// Canvas dimensions are stable during scroll; viewport resizing is handled above.
+// Do not observe/resize this canvas on sticky position changes.
+/* 16 / COMPLETE SPECTRUM ATLAS. Browser 24-bit RGB supports 16,777,216 values.
+   The matrix is a live neighborhood, not millions of DOM nodes. */
+const atlas={h:220,s:75,l:55,exact:null};
+function atlasHex(h,s,l){return rgbHex(hslToRgb((h+360)%360,s,l));}
+function setAtlasFromHex(hex){const value=canonical(hex);if(!value)return false;const [hh,ss,ll]=hsl(hexRgb(value));atlas.h=hh;atlas.s=ss;atlas.l=ll;atlas.exact=value;renderAtlas();return true;}
+function renderAtlas(){
+ const h=Math.round(atlas.h),s=Math.round(atlas.s),l=Math.round(atlas.l),hex=atlas.exact||atlasHex(h,s,l);
+ $('atlasHue').value=h;$('atlasSat').value=s;$('atlasLight').value=l;
+ $('atlasHueVal').textContent=h+'°';$('atlasSatVal').textContent=s+'%';$('atlasLightVal').textContent=l+'%';
+ $('atlasHex').value=hex;$('atlasNative').value=hex.toLowerCase();
+ $('atlasSelected').style.background=hex;$('atlasSelected').style.color=l>52?'#17131c':'#fff';
+ $('atlasSelected').textContent=hex+'  /  HSL '+h+'° '+s+'% '+l+'%';
+ $('atlasGridTitle').textContent='HUE '+h+'° · COLOR NEIGHBORHOOD';
+ $('atlasSat').style.background='linear-gradient(90deg,'+atlasHex(h,0,l)+','+atlasHex(h,100,l)+')';
+ $('atlasLight').style.background='linear-gradient(90deg,#000,'+atlasHex(h,s,50)+',#fff)';
+ // Grid rows shift brightness; columns change saturation around the selected color.
+ let cells='';for(let row=0;row<12;row++)for(let col=0;col<16;col++){
+  const ss=Math.max(0,Math.min(100,s+(col-7.5)*6.5));
+  const ll=Math.max(2,Math.min(98,l+(5.5-row)*8));
+  const c=atlasHex(h,ss,ll);
+  cells+=`<button type="button" class="atlas-chip${c===hex?' selected':''}" style="background:${c}" data-atlas-hex="${c}" title="${c} · ${Math.round(ss)}% saturation, ${Math.round(ll)}% lightness" aria-label="Select ${c}"></button>`;
+ }
+ $('atlasGrid').innerHTML=cells;
+ let neighbors='';for(let i=0;i<24;i++){
+  const hue=(h-46+i*4+720)%360,c=atlasHex(hue,s,l);
+  neighbors+=`<button type="button" style="background:${c}" data-atlas-hex="${c}" title="${c} · hue ${hue}°" aria-label="Select ${c}"></button>`;
+ }
+ $('atlasNeighbors').innerHTML=neighbors;
+}
+['atlasHue','atlasSat','atlasLight'].forEach((id,i)=>$(id).addEventListener('input',e=>{atlas[['h','s','l'][i]]=Number(e.target.value);atlas.exact=null;renderAtlas()}));
+$('atlasNative').addEventListener('input',e=>setAtlasFromHex(e.target.value));
+$('atlasHex').addEventListener('change',e=>{if(!setAtlasFromHex(e.target.value))notify('Enter a valid 6-digit HEX color')});
+$('atlasCopy').addEventListener('click',()=>copy(atlas.exact||atlasHex(atlas.h,atlas.s,atlas.l)));
+['atlasGrid','atlasNeighbors'].forEach(id=>$(id).addEventListener('click',e=>{const el=e.target.closest('[data-atlas-hex]');if(el){setAtlasFromHex(el.dataset.atlasHex);copy(el.dataset.atlasHex)}}));
+renderAtlas();
+
+
+/* 24 / CODE ATMOSPHERE AND STICKY HEADER */
+(function(){
+ const host=document.getElementById('ambientCode');
+ const samples=[
+  'const shade = hslToRgb(hue, saturation, lightness);',
+  'function blend(a,b,t) { return interpolate(a,b,t); }',
+  'palette.map(color => color.hex).join(\"  \")',
+  'if (family === \"blue\") renderWave(shades);',
+  '--tone-1:#3B2459; --tone-2:#A779D5;',
+  'const {r,g,b} = spectrum.sample(x,y);',
+  'background:linear-gradient(90deg, var(--a), var(--b));',
+  'requestAnimationFrame(drawWave);',
+  '/* COLOR ARCHIVE · WAVEFORM · HUE · SATURATION */',
+  'document.querySelectorAll(\".swatch\");',
+  'rgb(128 55 210)  hsl(273 62% 52%)  #8037D2',
+  'const history = colorHistoryRecord(name, hex, family);'
+ ];
+ host.innerHTML=Array.from({length:8},(_,i)=>
+  `<div class="ambient-code-line" style="top:${8+i*12}%;animation-delay:-${i*1.7}s">${(samples[i%samples.length]+' &nbsp; '.repeat(4)+samples[(i+3)%samples.length]).replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
+ ).join('');
+ // Scroll does not change header height: no moving breakpoint or layout thrash.
+ // While scrolling, release the cursor's wave influence until actual pointer movement.
+ window.addEventListener('scroll',()=>{waveState.hover=false;waveState.pulse=0;}, {passive:true});
+})();
+
+
+
+/* 25 / LOWER AMBIENT FIELD: code + scattered glow dots across the library area. */
+(function(){
+ const main=document.querySelector('main');
+ const host=document.getElementById('mainCode');
+ const canvas=document.getElementById('mainDots');
+ if(!main||!host||!canvas) return;
+ const snippets=[
+  'const archive = colorData.filter(entry => entry.family === activeFamily);',
+  'renderColors(); updateWaveTheme(); copy(hex);',
+  '--shade-1: #f46b8b; --shade-7: #6e8df0;',
+  'hsl(hue, saturation, lightness) · rgb(r g b) · hex',
+  'paletteFromFamily() // Iris spectrum engine',
+  'article.swatch:hover { transform: translateY(-4px); }',
+  'findColor(hexOrName); historySources[key];',
+  'background: linear-gradient(90deg, var(--a), var(--b));',
+  'requestAnimationFrame(wave); const picked = sampleWaveColor(x);',
+  'contrast(hexRgb(fg), hexRgb(bg));',
+  'const family = hueFamily(h); renderFamilyHeader();',
+  'atlasHex(h, s, l); // complete RGB atlas'
+ ];
+ host.innerHTML=Array.from({length:26},(_,i)=>{
+   const top=1.5+i*3.85;
+   const line=(snippets[i%snippets.length]+' &nbsp; '.repeat(3)+snippets[(i+4)%snippets.length]+' &nbsp; '.repeat(3)+snippets[(i+8)%snippets.length]).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+   return `<div class="main-code-line" style="top:${top}%">${line}</div>`;
+ }).join('');
+ const ctx=canvas.getContext('2d',{alpha:true});
+ function seeded(n){return (Math.sin(n*91.133+17.17)*43758.5453123)%1}
+ function positiveSeed(n){const v=seeded(n);return v<0?v+1:v}
+ function draw(){
+   const dpr=Math.min(window.devicePixelRatio||1,1.25);
+   const w=Math.max(1,main.clientWidth);
+   const h=Math.max(1,main.scrollHeight);
+   canvas.style.width=w+'px';
+   canvas.style.height=h+'px';
+   canvas.width=Math.round(w*dpr);
+   canvas.height=Math.round(h*dpr);
+   ctx.setTransform(dpr,0,0,dpr,0,0);
+   ctx.clearRect(0,0,w,h);
+   const colors=['#FF8CB4','#FFD275','#77D9C1','#79BAFF','#C695FF','#FFF1FA'];
+   const count=Math.max(110,Math.min(200,Math.round((w*h)/26000)));
+   for(let i=0;i<count;i++){
+     const x=24+positiveSeed(i+1)*(w-48);
+     const y=24+positiveSeed(i+101)*(h-48);
+     const core=1.0+positiveSeed(i+201)*1.6;
+     const halo=6+positiveSeed(i+301)*10;
+     const color=colors[i%colors.length];
+     ctx.beginPath();
+     const g=ctx.createRadialGradient(x,y,0,x,y,halo);
+     g.addColorStop(0,color+'33');
+     g.addColorStop(.45,color+'16');
+     g.addColorStop(1,'rgba(0,0,0,0)');
+     ctx.fillStyle=g;
+     ctx.arc(x,y,halo,0,Math.PI*2);
+     ctx.fill();
+     ctx.beginPath();
+     ctx.fillStyle=color+'99';
+     ctx.arc(x,y,core,0,Math.PI*2);
+     ctx.fill();
+   }
+ }
+ let timer=0;
+ const queue=()=>{clearTimeout(timer);timer=setTimeout(draw,80)};
+ if('ResizeObserver' in window){new ResizeObserver(queue).observe(main)}
+ window.addEventListener('resize',queue,{passive:true});
+ queue();
+})();
+
+/* 15 / INITIAL STATE */
+renderFamilyHeader();renderColors();updateWaveTheme();renderPalettes();renderGradients();updateContrast();updateCSS();updateGradient();
+</script>
+</body></html>
