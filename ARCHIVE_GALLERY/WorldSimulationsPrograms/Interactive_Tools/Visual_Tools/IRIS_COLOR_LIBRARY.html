@@ -437,9 +437,102 @@ main > .page:is(#atlas,#palettes,#gradients,#contrast,#css) .atlas-heading p{
  main > .page:is(#atlas,#palettes,#gradients,#contrast,#css).active{padding:16px;margin-top:9px}
 }
 
+
+/* 28 / IRIS ENTRANCE — separate from the color library. */
+.iris-entrance{
+ position:fixed;inset:0;z-index:5000;display:grid;place-items:center;
+ padding:28px;overflow:hidden;
+ background:radial-gradient(ellipse 68% 54% at 50% 49%,rgba(97,66,127,.20),transparent 82%),
+ radial-gradient(ellipse 44% 42% at 9% 12%,rgba(250,121,154,.13),transparent 85%),
+ radial-gradient(ellipse 40% 40% at 89% 84%,rgba(85,171,184,.12),transparent 85%),#19191e;
+ color:#f8f3fa;transition:opacity .75s ease,visibility .75s ease;
+}
+.iris-entrance:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.2;background-image:linear-gradient(rgba(255,255,255,.065) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.065) 1px,transparent 1px);background-size:78px 78px}
+.iris-entrance.is-exiting{opacity:0;visibility:hidden;pointer-events:none}
+.iris-entry-content{position:relative;width:min(1080px,100%);text-align:center;isolation:isolate}
+.iris-entry-overline{color:#d4bddb;font:11px 'Courier New',monospace;letter-spacing:.34em;text-transform:uppercase}
+.iris-entry-title{font-size:clamp(66px,12vw,160px);line-height:1;margin:17px 0 0;font-weight:750;letter-spacing:.18em;text-indent:.18em;background:linear-gradient(95deg,#f18ba9,#f5ce93,#a4e1c3,#9cbafa,#d3a1ed);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.iris-entry-subtitle{font-size:clamp(11px,1.7vw,16px);letter-spacing:.2em;color:#e5dcea;margin-top:13px}
+.iris-entry-wave{position:relative;height:clamp(140px,23vh,240px);margin:12px auto 12px;width:100%;overflow:hidden;background:radial-gradient(ellipse 49% 54% at 50% 54%,rgba(168,117,220,.09),transparent 92%)}
+.iris-entry-wave canvas{width:100%;height:100%;display:block}
+.iris-entry-wave:after{content:"";position:absolute;left:10%;right:10%;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(244,221,248,.12),transparent);pointer-events:none}
+.iris-entry-divider{width:min(340px,60%);height:1px;margin:24px auto;background:linear-gradient(90deg,transparent,rgba(250,224,245,.38),transparent)}
+.iris-entry-button{font:700 12px Arial,Helvetica,sans-serif;letter-spacing:.24em;padding:15px 29px;border:1px solid rgba(241,206,243,.64);border-radius:2px;background:rgba(29,24,37,.78);color:#f8e9fa;transition:background .2s,border-color .2s,transform .2s}
+.iris-entry-button:hover,.iris-entry-button:focus-visible{background:rgba(155,103,196,.26);border-color:#ffd6f0;transform:translateY(-2px)}
+.iris-entry-note{font:10px 'Courier New',monospace;letter-spacing:.14em;color:#aa9fb8;margin-top:22px}
+body.iris-entry-open{overflow:hidden}
+@media(max-width:600px){.iris-entrance{padding:17px}.iris-entry-title{letter-spacing:.12em;text-indent:.12em}.iris-entry-subtitle{letter-spacing:.1em}}
+@media(prefers-reduced-motion:reduce){.iris-entrance{transition:none}.iris-entry-button{transition:none}}
+
+
+/* 29 / IRIS ENTRANCE — atmospheric source code behind an interactive color wave */
+.iris-entrance{background:
+ radial-gradient(ellipse 56% 42% at 50% 55%,rgba(133,81,159,.22),transparent 84%),
+ radial-gradient(ellipse 58% 62% at 4% 22%,rgba(237,119,156,.13),transparent 80%),
+ radial-gradient(ellipse 57% 60% at 94% 76%,rgba(89,192,182,.10),transparent 80%),
+ linear-gradient(140deg,#1c1925,#24212c 52%,#191f28);}
+.iris-entrance::before{opacity:.10}
+.iris-entry-content{z-index:2;width:min(1120px,100%)}
+.iris-entry-overline{color:#cabed2;letter-spacing:.30em;font-size:10px}
+.iris-entry-title{font-size:clamp(72px,12vw,152px);margin:10px 0 0;letter-spacing:.21em;font-weight:800;filter:drop-shadow(0 5px 28px rgba(239,128,195,.12))}
+.iris-entry-subtitle{margin-top:7px;letter-spacing:.25em;color:#e9dfea}
+.iris-entry-wave{width:min(1120px,100%);height:clamp(190px,29vh,300px);margin:3px auto 0;
+ background:radial-gradient(ellipse 58% 45% at 50% 51%,rgba(191,114,213,.13),transparent 82%)}
+.iris-entry-wave canvas{position:relative;z-index:2;cursor:crosshair;touch-action:pan-y}
+.iris-entry-wave::after{opacity:.55}
+.iris-entry-divider{margin:10px auto 19px}
+.iris-entry-button{background:rgba(20,17,28,.84);border-color:rgba(255,214,238,.55)}
+.iris-entry-note{margin-top:16px}
+.iris-entry-code{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;
+ mask-image:linear-gradient(to bottom,transparent,black 13%,black 90%,transparent)}
+.iris-code-row{position:absolute;left:-14%;width:128%;font:clamp(9px,1vw,12px)/1.6 'Courier New',monospace;
+ white-space:nowrap;letter-spacing:.11em;color:rgba(234,208,255,.16);text-align:center;
+ text-shadow:0 0 12px rgba(184,116,237,.14);animation:irisCodeGlide 32s ease-in-out infinite alternate}
+.iris-code-row:nth-child(3n){color:rgba(142,232,222,.17);animation-duration:38s}
+.iris-code-row:nth-child(4n){color:rgba(255,185,146,.16);animation-duration:45s}
+@keyframes irisCodeGlide{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(2%,0,0)}}
+.iris-entry-wave-hint{position:absolute;bottom:8px;right:16px;z-index:3;color:#d0bace;font:9px 'Courier New',monospace;letter-spacing:.16em;pointer-events:none}
+@media(max-width:600px){.iris-entry-wave{height:200px}.iris-entry-wave-hint{font-size:8px;right:6px}.iris-entry-title{letter-spacing:.13em}}
+@media(prefers-reduced-motion:reduce){.iris-code-row{animation:none}}
+
+
+/* 30 / TAB TRANSITIONS — lightweight fade and slight upward reveal.
+   CSS-only animations replay when a page is shown or color swatches rerender. */
+@keyframes irisTabReveal{
+  from{opacity:0;transform:translate3d(0,10px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes irisSwatchReveal{
+  from{opacity:0;transform:translate3d(0,7px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+.page.active{animation:irisTabReveal .42s cubic-bezier(.2,.75,.25,1) both}
+.family-intro{animation:irisTabReveal .34s ease-out both}
+.swatches>.swatch{animation:irisSwatchReveal .34s ease-out both}
+.swatches>.swatch:nth-child(4n + 2){animation-delay:.035s}
+.swatches>.swatch:nth-child(4n + 3){animation-delay:.065s}
+.swatches>.swatch:nth-child(4n){animation-delay:.09s}
+@media(prefers-reduced-motion:reduce){
+ .page.active,.family-intro,.swatches>.swatch{animation:none!important}
+}
+
 </style>
 </head>
 <body>
+<!-- IRIS opening gallery; remains until Enter is pressed or the button is clicked. -->
+<div class="iris-entrance" id="irisEntrance" role="dialog" aria-modal="true" aria-label="Enter IRIS Interactive RGB and Iridescence Studio">
+  <div class="iris-entry-code" id="irisEntryCode" aria-hidden="true"></div>
+  <div class="iris-entry-content">
+    <div class="iris-entry-overline">CHIVIS / CHROMATIC ARCHIVE</div>
+    <h1 class="iris-entry-title">IRIS</h1>
+    <div class="iris-entry-subtitle">INTERACTIVE RGB &amp; IRIDESCENCE STUDIO</div>
+    <div class="iris-entry-wave"><canvas id="irisEntranceWave" aria-label="Interactive rainbow spectrum wave, move mouse to influence the dots"></canvas><span class="iris-entry-wave-hint">MOVE CURSOR THROUGH THE SPECTRUM</span></div>
+    <div class="iris-entry-divider"></div>
+    <button id="irisEnterButton" class="iris-entry-button" type="button">PRESS ENTER</button>
+    <div class="iris-entry-note">EXPLORE · COMPARE · CREATE</div>
+  </div>
+</div>
+
 <div id="ambientCode" class="ambient-code" aria-hidden="true"></div>
 <div class="shell"><div class="sticky-dashboard" id="stickyDashboard"><header class="top"><div><div class="wordmark">IRIS</div><div class="tagline">CHIVIS / HTML COLOR LIBRARY</div></div><div class="mark"><b>SPECTRUM SYSTEM</b><div style="margin-top:7px">COLORS · PALETTES · GRADIENTS · CSS</div></div></header>
 <section class="hero"><div class="hero-head"><span class="mini">Interactive RGB & Iridescence Studio</span><strong id="heroReadout">RGB · HSL · HEX</strong></div><div class="wave-container"><div class="code-bg" id="codeBg" aria-hidden="true"></div><canvas id="spectrum" aria-label="Animated rainbow spectrum of colored points"></canvas><div class="wave-note" id="waveNote">MOVE THROUGH THE WAVE · CLICK TO COPY</div></div></section>
@@ -1067,4 +1160,136 @@ renderAtlas();
 /* 15 / INITIAL STATE */
 renderFamilyHeader();renderColors();updateWaveTheme();renderPalettes();renderGradients();updateContrast();updateCSS();updateGradient();
 </script>
+
+<script>
+/* 29 / INTERACTIVE IRIS ENTRANCE — dot-wave and drifting code. */
+(()=>{
+ const overlay=document.getElementById('irisEntrance');
+ const canvas=document.getElementById('irisEntranceWave');
+ const button=document.getElementById('irisEnterButton');
+ const code=document.getElementById('irisEntryCode');
+ if(!overlay||!canvas||!button)return;
+ document.body.classList.add('iris-entry-open');
+ const samples=[
+   'const color = { hue: 278, saturation: 74, lightness: 62 };',
+   'background: linear-gradient(90deg, #FF9BB2, #83D9C5, #A4A8FF);',
+   'function interpolate(a, b, t) { return a + (b - a) * t; }',
+   'RGB(238, 137, 173)  HSL(339, 76%, 73%)  #EE89AD',
+   'const palette = archive.filter(shade => shade.family === selected);',
+   'document.querySelector("#spectrum"); // interactive color study',
+   '/* IRIS · NAMED COLORS · GRADIENTS · RGB ATLAS */',
+   '--rose: #F098B6; --mint: #8CE4C6; --violet: #B29DF6;',
+   'const hex = rgbToHex(r, g, b);',
+   'requestAnimationFrame(renderSpectrum);'
+ ];
+ if(code){
+   const escape=v=>v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+   code.innerHTML=Array.from({length:15},(_,i)=>{
+     const txt=samples[i%samples.length]+'　　'+samples[(i+3)%samples.length]+'　　'+samples[(i+7)%samples.length];
+     return '<div class="iris-code-row" style="top:'+(4+i*6.65)+'%;animation-delay:-'+(i*2.3)+'s">'+escape(txt)+'</div>';
+   }).join('');
+ }
+ const ctx=canvas.getContext('2d',{alpha:true});
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const colors=[[249,139,175],[253,193,119],[242,226,150],[143,228,189],[117,202,246],[155,157,250],[220,152,240]];
+ let w=1,h=1,raf=0,last=-Infinity,visible=true,dots=[];
+ const state={x:.5,y:.52,targetX:.5,targetY:.52,hover:false,strength:0,pulse:0};
+ const golden=.618033988749895;
+ function setup(){
+   if(!ctx)return;
+   const bounds=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.25);
+   w=Math.max(1,bounds.width);h=Math.max(1,bounds.height);
+   canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+   ctx.setTransform(dpr,0,0,dpr,0,0);
+   const count=Math.min(1000,Math.max(580,Math.round(w*.95)));
+   dots=Array.from({length:count},(_,i)=>{
+     const x=(i*golden)%1,band=((i*.754877666)%1)*2-1,depth=(i*.56984029)%1;
+     const idx=Math.min(colors.length-2,Math.floor(x*(colors.length-1)));
+     const fraction=x*(colors.length-1)-idx;
+     const rgb=colors[idx].map((v,k)=>Math.round(v+(colors[idx+1][k]-v)*fraction));
+     return {x,band,depth,phase:depth*6.283,size:i%17===0?2.1:i%7===0?1.55:1.05,rgb};
+   });
+ }
+ function pointer(e){
+   const r=canvas.getBoundingClientRect();
+   state.targetX=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+   state.targetY=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
+   state.hover=true;
+ }
+ canvas.addEventListener('pointerenter',pointer,{passive:true});
+ canvas.addEventListener('pointermove',pointer,{passive:true});
+ canvas.addEventListener('pointerleave',()=>{state.hover=false},{passive:true});
+ canvas.addEventListener('pointerdown',e=>{pointer(e);state.pulse=1},{passive:true});
+ function draw(ms){
+   if(!ctx)return;
+   const t=ms*.00043;
+   state.x+=(state.targetX-state.x)*.22;
+   state.y+=(state.targetY-state.y)*.22;
+   state.strength+=((state.hover?1:0)-state.strength)*(state.hover?.17:.055);
+   if(state.pulse>0)state.pulse=Math.max(0,state.pulse-.035);
+   const px=state.x*w,py=state.y*h;
+   ctx.clearRect(0,0,w,h);
+   const glow=ctx.createRadialGradient(w*.5,h*.52,0,w*.5,h*.52,w*.52);
+   glow.addColorStop(0,'rgba(202,131,236,.15)');
+   glow.addColorStop(.33,'rgba(150,116,232,.09)');
+   glow.addColorStop(.7,'rgba(244,145,184,.035)');
+   glow.addColorStop(1,'rgba(0,0,0,0)');
+   ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+   // A few broad glows instead of a costly shadow on every particle.
+   for(const [pos,rgb] of [[.24,colors[1]],[.76,colors[5]]]){
+     const gx=w*pos,gy=h*.51,r=75;
+     const g=ctx.createRadialGradient(gx,gy,0,gx,gy,r);
+     g.addColorStop(0,'rgba('+rgb.join(',')+',.12)');g.addColorStop(1,'rgba(0,0,0,0)');
+     ctx.fillStyle=g;ctx.fillRect(gx-r,gy-r,2*r,2*r);
+   }
+   ctx.globalCompositeOperation='screen';
+   for(const d of dots){
+     const x=18+d.x*(w-36),nx=(x-w*.5)/(w*.5);
+     const taper=Math.pow(Math.max(0,1-nx*nx),.58);
+     const twist=Math.sin(nx*8.3-t*1.45+d.band*2.9)*24+Math.sin(nx*14.4+t*.92+d.phase*.28)*9;
+     let y=h*.51+taper*(d.band*h*.29+twist+Math.sin(nx*4.2+t*.75+d.band*3.1)*13);
+     let light=0;
+     if(state.strength>.001){
+       const dx=x-px,dy=y-py,distance=Math.hypot(dx,dy);
+       const proximity=Math.exp(-(dx*dx)/(2*155*155));
+       light=Math.max(0,1-distance/185)*state.strength;
+       y+=((py-y)*.48*proximity+Math.sin(t*9+d.phase*7)*18*proximity)*state.strength;
+     }
+     const c=d.rgb,alpha=Math.min(.98,(.30+.62*taper)*(.73+d.depth*.22)+light*.18);
+     ctx.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+alpha.toFixed(2)+')';
+     ctx.beginPath();ctx.arc(x,y,d.size*(.85+.20*taper+light*.7),0,Math.PI*2);ctx.fill();
+   }
+   ctx.globalCompositeOperation='source-over';
+   if(state.strength>.008){
+     const r=26+state.pulse*28;
+     ctx.strokeStyle='rgba(242,208,251,'+(.7*state.strength).toFixed(2)+')';
+     ctx.lineWidth=1;ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.stroke();
+   }
+ }
+ function frame(t){
+   if(!visible||document.hidden)return;
+   if(t-last>=32){last=t;draw(reduced?0:t)}
+   if(!reduced)raf=requestAnimationFrame(frame);
+ }
+ function visibility(){if(!visible)return;cancelAnimationFrame(raf);if(!document.hidden&&!reduced)raf=requestAnimationFrame(frame)}
+ document.addEventListener('visibilitychange',visibility);
+ const resize=()=>{if(!visible)return;setup();if(reduced)draw(0)};
+ if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvas);
+ else window.addEventListener('resize',resize,{passive:true});
+ function enter(){
+   if(!visible)return;visible=false;
+   cancelAnimationFrame(raf);document.removeEventListener('visibilitychange',visibility);
+   document.removeEventListener('keydown',onKey);
+   document.body.classList.remove('iris-entry-open');
+   overlay.classList.add('is-exiting');
+   setTimeout(()=>overlay.remove(),reduced?0:790);
+ }
+ function onKey(e){if(e.key==='Enter'){e.preventDefault();enter()}}
+ document.addEventListener('keydown',onKey);
+ button.addEventListener('click',enter);
+ setup();draw(0);if(!reduced)raf=requestAnimationFrame(frame);
+ button.focus({preventScroll:true});
+})();
+</script>
+
 </body></html>
