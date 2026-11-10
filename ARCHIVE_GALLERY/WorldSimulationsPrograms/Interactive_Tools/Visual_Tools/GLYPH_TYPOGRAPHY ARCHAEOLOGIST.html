@@ -282,6 +282,67 @@ body.archive-locked{overflow:hidden}
   }
 }
 
+
+/* GLYPH FONT FIX / A face is never presented as authentic if it is only a visual stand-in. */
+.atlas-sample{font-synthesis:none;min-height:154px;overflow-wrap:anywhere}
+.atlas-card .font-status{display:inline-flex;align-items:center;gap:6px;font:700 9px/1.3 'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;background:#eae5db;border:1px solid #c9bdaf;color:#6d5346;margin-top:8px}
+.atlas-card .font-status.live{background:#e6efe8;border-color:#9fbdab;color:#306449}
+.atlas-card .font-status.missing{background:#f5e5dd;border-color:#d9aea0;color:#8b382d}
+.atlas-card .font-status.proxy{background:#ede8de;border-color:#c0b2a0;color:#80634e}
+.atlas-card .font-note{font-size:11px;line-height:1.65;display:block;margin:8px 0 0;color:#63594e}
+.atlas-font-explainer{grid-column:1/-1;background:#f4eadc;border-left:3px solid #923b30;padding:12px 15px;color:#5b5149;font:12px/1.6 'DM Sans',sans-serif}
+.atlas-exact-toggle{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#6d4c3c;cursor:pointer;letter-spacing:.02em}
+.atlas-exact-toggle input{accent-color:#9f352b;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.atlas-sample{transition:none!important}}
+
+/* RECREATED DIRECTORY / Keep all specimens visible, with honest provenance. */
+#typefaceSections .atlas-sample{min-height:162px;padding:21px 17px 17px;font-size:clamp(29px,3.05vw,49px);font-kerning:normal;font-synthesis:none;overflow-wrap:anywhere;white-space:normal}
+#typefaceSections .atlas-card{min-height:325px}
+#typefaceSections .font-status{display:inline-block;margin:3px 0 9px;padding:5px 8px;border:1px solid #b8a690;background:#eae3d7;font:700 10px/1.4 'DM Sans',sans-serif;color:#57443b}
+#typefaceSections .font-status.live{background:#e2ede3;border-color:#a1b59e;color:#295538}
+#typefaceSections .font-status.proxy{background:#f4eadf;border-color:#d5a97f;color:#7a4826}
+#typefaceSections .font-status.missing{background:#f1e2db;border-color:#d8aa99;color:#8a382d}
+#typefaceSections .font-note{line-height:1.6;min-height:45px}
+.atlas-exact-toggle{display:flex;align-items:center;gap:9px;color:#5a473c;font-size:12px;line-height:1.5}
+.atlas-exact-toggle input{accent-color:#95362d;width:16px;height:16px}
+@media(prefers-reduced-motion:reduce){#typefaceSections .atlas-card,#typefaceSections .atlas-sample{animation:none!important}}
+
+/* GLYPH / consistent font interpretation across Atlas, Archive, Compare, Studio, Scripts */
+.cross-font-banner{padding:12px 16px;margin:0 0 18px;border-left:3px solid #983a30;background:#e9ddd0;color:#59493f;font:12px/1.7 'DM Sans',sans-serif}
+.cross-font-label{display:block;border-top:1px solid #d0c1af;margin-top:12px;padding-top:8px;font:10px/1.6 'DM Sans',sans-serif;color:#87483b}
+#styleDescription{display:block;max-width:65ch;line-height:1.6}
+
+/* GLYPH / Authenticity labels — restrained museum-style illumination.
+   A slow shimmer, not a rapid flash; respects reduced-motion preferences. */
+@keyframes glyphAuthenticityGlow{
+  0%,100%{border-color:#b88c61;box-shadow:0 0 0 0 rgba(166,76,48,0);background:#f7ead9}
+  50%{border-color:#a14c39;box-shadow:0 0 0 3px rgba(167,83,57,.12),0 0 17px rgba(185,89,55,.15);background:#fff0db}
+}
+.authenticity-note{display:inline-flex;align-items:center;gap:9px;max-width:100%;margin:11px 0 4px;padding:8px 11px;border:1px solid #b88c61;background:#f7ead9;color:#773a2c;font:700 10px/1.55 'DM Sans',Arial,sans-serif;letter-spacing:.025em;animation:glyphAuthenticityGlow 3.8s ease-in-out infinite alternate;vertical-align:middle}
+.authenticity-note::before{content:'✧';font-size:16px;line-height:1;color:#ab5e39;flex:0 0 auto}
+.authenticity-note .authenticity-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#873a2b;display:block}
+.authenticity-note.static{animation:none;border-color:#a3aa91;background:#edf0e4;color:#3d583e}
+.authenticity-note.static::before{content:'✓';color:#4a7452}
+.authenticity-note.unavailable{background:#f2e7db;color:#79503f}
+.atlas-card-bottom .authenticity-note{width:100%;margin:10px 0 6px}
+.artifact .authenticity-note{margin:12px 0 1px;font-size:9px}
+.compare-card .authenticity-note{margin:10px 14px 15px}
+.studio-authenticity{display:flex;justify-content:center;margin:11px 0 0}
+#studioAuthenticity{max-width:min(95%,560px)}
+.script-card .authenticity-note{margin:11px 0 0;font-size:9px}
+.authenticity-explainer{font:12px/1.65 'DM Sans',Arial,sans-serif;color:#685849;margin:9px 0 19px;padding:10px 14px;border-left:2px solid #ac7560;background:#f2ebe1}
+@media(prefers-reduced-motion:reduce){.authenticity-note{animation:none!important}}
+
+/* GLYPH / Global authenticity-caption visibility control. */
+.authenticity-toggle{flex:0 0 auto;display:inline-flex;gap:8px;align-items:center;justify-content:center;padding:10px 12px;border:1px solid #9f352b;border-radius:2px;background:#9f352b;color:#fff8ee;font:700 9px/1.4 'Space Grotesk',Arial,sans-serif;letter-spacing:.085em;white-space:nowrap;transition:background .2s ease,color .2s ease,border-color .2s ease}
+.authenticity-toggle:hover{background:#773028;border-color:#773028}
+.authenticity-toggle:focus-visible{outline:2px solid #9f352b;outline-offset:3px}
+.authenticity-toggle[aria-pressed="false"]{background:transparent;color:#81352c;border-color:#ad9583}
+.authenticity-toggle[aria-pressed="false"]:hover{background:#e7d9c8}
+.authenticity-toggle-icon{font-size:16px;line-height:1}
+body.authenticity-hidden .authenticity-note,body.authenticity-hidden .authenticity-explainer{display:none!important}
+@media(max-width:1100px){.top-inner{flex-wrap:wrap}.authenticity-toggle{margin-left:auto}}
+@media(max-width:650px){.authenticity-toggle{margin:0;font-size:9px;padding:8px 10px;max-width:100%;white-space:normal}}
 </style><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Archivo&family=Bodoni+Moda&family=Cinzel&family=EB+Garamond&family=Fraunces&family=IM+Fell+English&family=IBM+Plex+Mono&family=Inter&family=Libre+Baskerville&family=Lora&family=Montserrat&family=Press+Start+2P&family=Roboto+Slab&family=Space+Grotesk&family=Source+Sans+3&family=UnifrakturCook&display=swap" rel="stylesheet">
 </head><body>
 <!-- TYPOGRAPHY ARCHAEOLOGIST / Opening museum title card -->
@@ -302,7 +363,7 @@ body.archive-locked{overflow:hidden}
 
 <!-- Decorative moving letterforms: behind the content, no interaction or canvas rendering. -->
 <div class="letter-atmosphere" id="letterAtmosphere" aria-hidden="true"></div>
-<header class="top"><div class="top-inner"><div class="brand"><span class="glyph-brand-name">GLYPH</span><small class="glyph-brand-sub">TYPOGRAPHY ARCHAEOLOGIST</small></div><nav class="nav" aria-label="Archive sections"><button data-go="archive" class="active">01 / Archive</button><button data-go="typefaces">02 / Typeface Atlas</button><button data-go="compare">03 / Compare</button><button data-go="studio">04 / Lettering Studio</button><button data-go="scripts">05 / Scripts</button><button data-go="sources">06 / Sources</button></nav></div></header>
+<header class="top"><div class="top-inner"><div class="brand"><span class="glyph-brand-name">GLYPH</span><small class="glyph-brand-sub">TYPOGRAPHY ARCHAEOLOGIST</small></div><nav class="nav" aria-label="Archive sections"><button data-go="archive" class="active">01 / Archive</button><button data-go="typefaces">02 / Typeface Atlas</button><button data-go="compare">03 / Compare</button><button data-go="studio">04 / Lettering Studio</button><button data-go="scripts">05 / Scripts</button><button data-go="sources">06 / Sources</button></nav><button type="button" id="authenticityToggle" class="authenticity-toggle" aria-pressed="true" aria-label="Hide authenticity captions" title="Show or hide authenticity captions"><span class="authenticity-toggle-icon" aria-hidden="true">✧</span><span id="authenticityToggleText">HIDE AUTHENTICITY NOTICES</span></button></div></header>
 <!-- Preserve the original decorative letterform exhibit ABOVE the dated tabs. -->
 <div class="container">
 <section class="hero"><div class="hero-grid"><div><div class="eyebrow">GLYPH / HISTORICAL LETTERFORM ARCHIVE</div><h1>The anatomy<br>of a <em>letter.</em></h1><p>A visual archive tracing how written forms changed across cultures and centuries. Explore the development of writing and typography across centuries. Browse typefaces by era, read their historical context, compare letterforms, and test your own text in the specimen studio.</p><div class="facts"><a class="hero-link" href="#archive">EXPLORE THE ARCHIVE <span>↗</span></a><a class="hero-link ghost" href="#compare">COMPARE LETTERFORMS <span>↗</span></a></div></div><div class="specimen" aria-label="Historical letterform study featuring four lettering traditions">
@@ -333,9 +394,9 @@ body.archive-locked{overflow:hidden}
     <label class="atlas-field atlas-select">PERIOD<select id="atlasPeriod" aria-label="Filter typeface time period"><option value="all">All historical periods</option></select></label>
     <label class="atlas-field atlas-select">STYLE<select id="atlasCategory" aria-label="Filter typeface category"><option value="all">All styles</option></select></label>
     <div class="atlas-controls"><span id="atlasCount" class="count"></span><button class="action" id="atlasReset" type="button">Clear filters</button></div>
-    <div class="atlas-tools-extra" aria-label="Specimen text presets"><strong>DISPLAY</strong><button type="button" class="atlas-quick" data-sample="alphabet">A–Z / a–z</button><button type="button" class="atlas-quick" data-sample="numbers">NUMBERS &amp; SYMBOLS</button><button type="button" class="atlas-quick" data-sample="pangram">SAMPLE SENTENCE</button><button type="button" class="atlas-quick" id="officeFonts">WORD / OFFICE TYPEFACES</button><span class="help">Click a preset to change every specimen in the selected era.</span></div>
+    <div class="atlas-font-explainer">REAL TYPEFACE PREVIEWS: exact Google Fonts load when online; proprietary fonts such as Times New Roman and Arial render only when installed. Historic types without an available digital file are identified as <strong>visual stand-ins</strong>, not claimed to be the original design. The entire historical catalog stays visible. Exact fonts appear where available; historical traditions use clearly labeled modern reference styles, never identified as the original. The status on each card tells you what you are actually seeing.</div><label class="atlas-exact-toggle"><input id="realFontsOnly" type="checkbox"> Digital fonts only (optional — unchecked shows the complete historical directory)</label><div class="atlas-tools-extra" aria-label="Specimen text presets"><strong>DISPLAY</strong><button type="button" class="atlas-quick" data-sample="alphabet">A–Z / a–z</button><button type="button" class="atlas-quick" data-sample="numbers">NUMBERS &amp; SYMBOLS</button><button type="button" class="atlas-quick" data-sample="pangram">SAMPLE SENTENCE</button><button type="button" class="atlas-quick" id="officeFonts">WORD / OFFICE TYPEFACES</button><span class="help">Click a preset to change every specimen in the selected era.</span></div>
   </div>
-  <div id="typefaceSections"></div>
+  <p class="authenticity-explainer">✧ A softly illuminated notice identifies modern interpretations and uncertain specimens. A verified digital font may reproduce its own design without being an original historical artifact. Fonts that cannot load are labeled as fallback previews.</p><div id="typefaceSections"></div>
   <div id="atlasEmpty" class="atlas-notice hidden">No matching typefaces. Try a different name, style or period.</div>
 </section>
 
@@ -343,8 +404,8 @@ body.archive-locked{overflow:hidden}
 <section class="section" id="archive"><div class="section-heading"><div><div class="eyebrow">01 / THE HISTORICAL COLLECTION</div><h2>Letterform Archive</h2></div><p>Explore selected milestones from manuscript culture through digital typography. Dates are approximate and describe traditions, not the age of the modern display fonts.</p></div><div class="control-row"><input class="search" id="search" type="search" placeholder="Search an era, style, place, or designer…" aria-label="Search archive"><select id="era" class="select" aria-label="Filter time period"><option value="all">All periods</option><option value="ancient">Ancient & early writing</option><option value="manuscript">Manuscript traditions</option><option value="printing">Early printing</option><option value="industrial">Industrial type</option><option value="modern">Modern & digital</option></select><span class="count" id="resultCount"></span></div><div id="timeline" class="timeline"></div><p id="none" class="help hidden">No matching records. Try another search or period.</p></section>
 
 <!-- NEW / PERIOD-ORGANIZED TYPEFACE ATLAS — historical names are not identical to preview fonts -->
-<section class="section" id="compare"><div class="section-heading"><div><div class="eyebrow">03 / THE CENTURIES SIDE BY SIDE</div><h2>Typeface Comparison</h2></div><p>Put two historical traditions next to each other with the same words. Typography is represented by modern revival or stylistic proxy fonts.</p></div><div class="panel"><div class="compare-controls"><select id="leftStyle" aria-label="First type style"></select><select id="rightStyle" aria-label="Second type style"></select><input id="comparisonText" aria-label="Comparison text" value="The shape of a letter tells a story" maxlength="180"><button class="action" id="swap">Swap</button></div><div class="comparison"><div class="compare-card"><div class="meta" id="leftMeta"></div><div class="big" id="leftSample"></div><div class="note" id="leftNote"></div></div><div class="compare-card"><div class="meta" id="rightMeta"></div><div class="big" id="rightSample"></div><div class="note" id="rightNote"></div></div></div><div class="note-box">The comparison is a learning tool, not a facsimile of an original printed page. Letterform revivals vary from historical sources, and fonts may fall back when offline.</div></div></section>
-<section class="section" id="studio"><div class="section-heading"><div><div class="eyebrow">04 / INTERACTIVE WORKBENCH</div><h2>Historical Lettering Studio</h2></div><p>Experiment with type size, tracking, alignment, ink and paper color, then export a specimen or copy its CSS.</p></div><div class="lab-grid"><div class="panel lab-controls"><div class="field"><label for="style">TYPE TRADITION</label><select id="style"></select></div><div class="field"><label for="yourText">YOUR TEXT</label><textarea id="yourText" spellcheck="false">Letters carry history.</textarea></div><div class="field"><label for="size">SIZE <output id="sizeOut">54 px</output></label><input type="range" id="size" min="24" max="100" value="54"></div><div class="field"><label for="tracking">LETTER SPACING <output id="trackOut">0 px</output></label><input type="range" id="tracking" min="-3" max="12" value="0" step="0.5"></div><div class="field"><label for="align">ALIGNMENT</label><select id="align"><option value="center">Centered</option><option value="left">Left</option><option value="right">Right</option></select></div><div class="field"><label>INK / PAPER</label><div style="display:flex;gap:18px"><input type="color" id="ink" value="#252129" aria-label="Ink color"><input type="color" id="paper" value="#eee5d2" aria-label="Paper color"></div></div><button class="action primary" id="reset">RESET SPECIMEN</button></div><div class="panel"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><div><h3 style="margin:0">Live Type Specimen</h3><small id="styleDescription"></small></div><span class="count">LETTERING STUDY / 001</span></div><div id="preview" class="lab-preview"><div id="live" class="live"></div></div><div class="lab-actions"><button class="action" id="copyCSS">Copy CSS</button><button class="action" id="download">Download specimen HTML</button><button class="action" id="copyText">Copy text</button></div><div class="note-box">Use a real historical source for accurate letterforms, ligatures, and non-Latin scripts. Browser fonts are modern approximations and depend on installed or loaded font files.</div></div></div></section>
+<section class="section" id="compare"><div class="section-heading"><div><div class="eyebrow">03 / THE CENTURIES SIDE BY SIDE</div><h2>Typeface Comparison</h2></div><p>Put two historical traditions next to each other with the same words. Typography is represented by modern revival or stylistic proxy fonts.</p></div><div class="cross-font-banner">This comparison now uses the same font mapping as the Typeface Atlas. Historical entries are identified as interpretations; exact named digital fonts load when available.</div><div class="panel"><div class="compare-controls"><select id="leftStyle" aria-label="First type style"></select><select id="rightStyle" aria-label="Second type style"></select><input id="comparisonText" aria-label="Comparison text" value="The shape of a letter tells a story" maxlength="180"><button class="action" id="swap">Swap</button></div><div class="comparison"><div class="compare-card"><div class="meta" id="leftMeta"></div><div class="big" id="leftSample"></div><div class="note" id="leftNote"></div><div class="authenticity-note" id="leftAuthenticity" role="note">DIGITAL INTERPRETATION · NOT A HISTORICAL FACSIMILE</div></div><div class="compare-card"><div class="meta" id="rightMeta"></div><div class="big" id="rightSample"></div><div class="note" id="rightNote"></div><div class="authenticity-note" id="rightAuthenticity" role="note">DIGITAL INTERPRETATION · NOT A HISTORICAL FACSIMILE</div></div></div><div class="note-box">The comparison is a learning tool, not a facsimile of an original printed page. Letterform revivals vary from historical sources, and fonts may fall back when offline.</div></div></section>
+<section class="section" id="studio"><div class="section-heading"><div><div class="eyebrow">04 / INTERACTIVE WORKBENCH</div><h2>Historical Lettering Studio</h2></div><p>Experiment with type size, tracking, alignment, ink and paper color, then export a specimen or copy its CSS.</p></div><div class="cross-font-banner">The Lettering Studio now uses the same typeface and preview rules as the directory. Exported HTML requests the selected web font when available.</div><div class="lab-grid"><div class="panel lab-controls"><div class="field"><label for="style">TYPE TRADITION</label><select id="style"></select></div><div class="field"><label for="yourText">YOUR TEXT</label><textarea id="yourText" spellcheck="false">Letters carry history.</textarea></div><div class="field"><label for="size">SIZE <output id="sizeOut">54 px</output></label><input type="range" id="size" min="24" max="100" value="54"></div><div class="field"><label for="tracking">LETTER SPACING <output id="trackOut">0 px</output></label><input type="range" id="tracking" min="-3" max="12" value="0" step="0.5"></div><div class="field"><label for="align">ALIGNMENT</label><select id="align"><option value="center">Centered</option><option value="left">Left</option><option value="right">Right</option></select></div><div class="field"><label>INK / PAPER</label><div style="display:flex;gap:18px"><input type="color" id="ink" value="#252129" aria-label="Ink color"><input type="color" id="paper" value="#eee5d2" aria-label="Paper color"></div></div><button class="action primary" id="reset">RESET SPECIMEN</button></div><div class="panel"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><div><h3 style="margin:0">Live Type Specimen</h3><small id="styleDescription"></small></div><span class="count">LETTERING STUDY / 001</span></div><div id="preview" class="lab-preview"><div id="live" class="live"></div></div><div class="studio-authenticity"><div id="studioAuthenticity" class="authenticity-note" role="note">DIGITAL INTERPRETATION · NOT AN ORIGINAL HISTORICAL SPECIMEN</div></div><div class="lab-actions"><button class="action" id="copyCSS">Copy CSS</button><button class="action" id="download">Download specimen HTML</button><button class="action" id="copyText">Copy text</button></div><div class="note-box">Use a real historical source for accurate letterforms, ligatures, and non-Latin scripts. Browser fonts are modern approximations and depend on installed or loaded font files.</div></div></div></section>
 <section class="section" id="scripts"><div class="section-heading"><div><div class="eyebrow">05 / BEFORE AND BEYOND LATIN TYPE</div><h2>Writing Systems</h2></div><p>Writing systems differ in how they represent language. A script is not the same as a language, and not every system is an alphabet.</p></div><div class="scripts" id="scriptGrid"></div><div class="section-heading" style="margin-top:44px"><div><div class="eyebrow">FIELD NOTES</div><h2>How to Read the Archive</h2></div></div><div class="writing-guide"><article><strong>01 / EXPLORE</strong><h3>Browse by period</h3><p>Use search or the period filter to examine contexts in which a letterform tradition developed.</p></article><article><strong>02 / COMPARE</strong><h3>Look for differences</h3><p>Compare stroke contrast, serif forms, weight, proportions and spacing between two styles.</p></article><article><strong>03 / EXPERIMENT</strong><h3>Make a specimen</h3><p>Type your own words, adjust the styling, then save the HTML for your own study.</p></article></div></section>
 <section class="section" id="sources"><div class="section-heading"><div><div class="eyebrow">06 / RESEARCH & REFERENCES</div><h2>Archive Sources</h2></div><p>Reference works and standards used to ground the timeline and script classifications.</p></div><div class="sources"><div class="source"><a target="_blank" rel="noopener" href="https://www.britannica.com/art/typography">Encyclopaedia Britannica — Typography</a><span>History of typography and its practice</span></div><div class="source"><a target="_blank" rel="noopener" href="https://www.unicode.org/versions/latest/ch06.pdf">Unicode Standard — Writing Systems</a><span>Classification of scripts and writing systems</span></div><div class="source"><a target="_blank" rel="noopener" href="https://unicode.org/reports/tr24/">Unicode Script Property (UAX #24)</a><span>Scripts, languages and historical relationships</span></div><div class="source"><a target="_blank" rel="noopener" href="https://www.metmuseum.org/toah/hd/prnt/hd_prnt.htm">The Met — Printed Books</a><span>Historical context for early printed books</span></div><div class="source"><a target="_blank" rel="noopener" href="https://fonts.google.com/">Google Fonts</a><span>Modern open font families used for specimen approximations</span></div><div class="source"><a target="_blank" rel="noopener" href="https://googlefonts.github.io/ebgaramond-specimen/">EB Garamond Specimen</a><span>Modern revival features and letterform examples</span></div></div></section></main><footer class="foot"><div class="container">TYPOGRAPHY ARCHAEOLOGIST — A CHIVIS RESEARCH ARCHIVE &nbsp; · &nbsp; A learning collection, not a repository of digitized original artifacts. <span style="float:right">LETTER / LANGUAGE / TIME</span></div></footer><div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -521,13 +582,153 @@ const scriptNames=new Set(scripts.map(s=>s.name));
 additionalScripts.forEach(s=>{if(!scriptNames.has(s.name))scripts.push(s)});
 
 const knownLoadedFamilies=new Set(["Abril Fatface", "Archivo", "Bodoni Moda", "Cinzel", "EB Garamond", "Fraunces", "IM Fell English", "IBM Plex Mono", "Inter", "Libre Baskerville", "Lora", "Montserrat", "Press Start 2P", "Roboto Slab", "Space Grotesk", "Source Sans 3", "UnifrakturCook"]);
+/* GLYPH / Font directory repair.
+   Previously ~500 titles shared ~17 preview faces. Real named digital faces now
+   render under their own families when licensed/installed or supplied by Google.
+   Historical styles remain explicit approximations; we do NOT rename a proxy as an original.
+   Load webfonts only for the selected era to avoid a 500-font network request. */
+const glyphWebFonts=new Set([
+ 'Abril Fatface','Alegreya','Alegreya Sans','Archivo','Archivo Black','Arvo','Barlow Condensed',
+ 'Bodoni Moda','Cabin','Cinzel','Cinzel Decorative','Cormorant Garamond','Crimson Text',
+ 'DM Mono','DM Sans','EB Garamond','Fira Code','Fraunces','IBM Plex Mono','IM Fell English',
+ 'Inconsolata','Inter','JetBrains Mono','Josefin Sans','Libre Baskerville','Lora',
+ 'Merriweather','Montserrat','Noto Serif','Oswald','Outfit','Playfair Display',
+ 'Press Start 2P','Prata','Roboto Mono','Roboto Slab','Sora','Source Sans 3',
+ 'Space Grotesk','Space Mono','Spectral','UnifrakturCook','Urbanist','Zilla Slab',
+ 'Bebas Neue','Cormorant','Cormorant Infant','DM Serif Display','DM Serif Text',
+ 'Figtree','Fjalla One','Gloock','Great Vibes','IBM Plex Sans','IBM Plex Serif',
+ 'Jost','Karla','Libre Caslon Text','Libre Franklin','Manrope','Marcellus',
+ 'Newsreader','Noto Sans','Old Standard TT','Pacifico','PT Sans','PT Serif',
+ 'Quattrocento','Raleway','Rubik','Satisfy','Source Serif 4','Teko','Tinos',
+ 'Vollkorn','Work Sans','Yeseva One'
+]);
+const glyphLicensedLocal=new Set([
+ 'Aptos','Aptos Display','Aptos Serif','Aptos Mono','Arial','Arial Narrow',
+ 'Arial Black','Baskerville','Book Antiqua','Calibri','Calibri Light','Cambria',
+ 'Cambria Math','Candara','Century','Century Gothic','Comic Sans MS','Consolas',
+ 'Constantia','Corbel','Courier New','Franklin Gothic Medium','Garamond','Georgia',
+ 'Gill Sans','Helvetica','Helvetica Neue','Impact','Lucida Console','Lucida Sans Unicode',
+ 'Microsoft Sans Serif','Palatino Linotype','Segoe UI','Sitka','Sylfaen','Tahoma',
+ 'Times New Roman','Trebuchet MS','Verdana','Rockwell','Bodoni MT','Didot',
+ 'Futura','Optima','Palatino','American Typewriter','Bookman Old Style'
+]);
+const glyphProxyByKind={
+ 'inscriptional':['Cinzel','Cinzel Decorative','Marcellus','Cormorant Garamond'],
+ 'manuscript':['IM Fell English','Cormorant Infant','Old Standard TT','Alegreya'],
+ 'blackletter':['UnifrakturCook','UnifrakturCook','UnifrakturCook'],
+ 'early serif':['IM Fell English','EB Garamond','Old Standard TT','Libre Caslon Text'],
+ 'old style serif':['EB Garamond','Cormorant Garamond','Libre Caslon Text','Crimson Text','Alegreya'],
+ 'transitional serif':['Libre Baskerville','Baskerville','Tinos','Newsreader','Spectral'],
+ 'didone serif':['Bodoni Moda','Playfair Display','Prata','Gloock','Abril Fatface'],
+ 'slab serif':['Roboto Slab','Arvo','Zilla Slab','IBM Plex Serif'],
+ 'grotesque sans':['Archivo','Libre Franklin','Oswald','Fjalla One'],
+ 'geometric sans':['Jost','Montserrat','Josefin Sans','Outfit'],
+ 'humanist sans':['Source Sans 3','Cabin','Alegreya Sans','PT Sans'],
+ 'neo-grotesque':['Inter','Archivo','IBM Plex Sans','Noto Sans'],
+ 'contemporary sans':['Urbanist','Manrope','Figtree','Work Sans','Sora'],
+ 'modern serif':['Newsreader','Noto Serif','Source Serif 4','Vollkorn'],
+ 'contemporary serif':['Lora','Fraunces','Spectral','Alegreya'],
+ 'monospaced':['IBM Plex Mono','JetBrains Mono','Fira Code','Inconsolata','Space Mono'],
+ 'ornamental display':['Cinzel Decorative','Yeseva One','Abril Fatface','Great Vibes'],
+ 'decorative display':['Cinzel Decorative','Yeseva One','Gloock','Bebas Neue'],
+ 'pixel & display':['Press Start 2P','Space Mono','DM Mono'],
+ 'arts and crafts':['Josefin Sans','Cinzel Decorative','Cormorant Garamond','Marcellus']
+};
+const glyphGeneric=family=> /mono|code|consolas|courier|typewriter/i.test(family)?'monospace':
+ /sans|grotes|inter|archivo|jost|work|outfit|manrope|barlow|oswald|bebas|rubik/i.test(family)?'sans-serif':'serif';
+const glyphQuote=family=>'"'+String(family).replace(/"/g,'')+'"';
+const glyphScore=name=>Array.from(name).reduce((a,c)=>a*31+c.charCodeAt(0)|0,0)>>>0;
+for(const f of typefaces){
+ const exactName=f.name;
+ f.originalProxy=!!f.proxy;
+ if(glyphWebFonts.has(exactName)){
+  f.displayFont=exactName; f.font=exactName; f.proxy=false;
+  f.sourceType='web'; f.stack=glyphQuote(exactName)+', '+glyphGeneric(exactName);
+ }else if(glyphLicensedLocal.has(exactName)){
+  f.displayFont=exactName; f.font=exactName; f.proxy=false;
+  f.sourceType='local'; f.stack=glyphQuote(exactName)+', '+glyphGeneric(exactName);
+ }else if(glyphWebFonts.has(f.font)&&!f.proxy){
+  f.displayFont=f.font;f.sourceType='web';f.stack=glyphQuote(f.font)+', '+glyphGeneric(f.font);
+ }else{
+  const group=glyphProxyByKind[f.category]||glyphProxyByKind[f.period]||[f.font||'EB Garamond'];
+  const pick=group[glyphScore(exactName)%group.length];
+  f.displayFont=pick;
+  f.sourceType='proxy';f.proxy=true;
+  f.stack=glyphQuote(pick)+', '+glyphGeneric(pick);
+ }
+}
+const glyphFontLinks=new Set();
+function glyphLoadPeriodFonts(visible){
+ const pending=[...new Set(visible.map(f=>f.displayFont).filter(n=>glyphWebFonts.has(n)&&!glyphFontLinks.has(n)))];
+ if(!pending.length)return;
+ // Small CSS2 batches avoid hundreds of simultaneous network requests.
+ for(let i=0;i<pending.length;i+=12){
+  const batch=pending.slice(i,i+12);
+  batch.forEach(n=>glyphFontLinks.add(n));
+  const link=document.createElement('link');link.rel='stylesheet';
+  link.href='https://fonts.googleapis.com/css2?'+batch.map(n=>'family='+encodeURIComponent(n).replace(/%20/g,'+')).join('&')+'&display=swap';
+  link.addEventListener('load',()=>{ if(document.getElementById('typefaceSections')) glyphVerifyVisible(); },{once:true});
+  document.head.appendChild(link);
+ }
+}
+function glyphFontAvailable(f){
+ const name=f.displayFont;
+ if(!name)return false;
+ // A Google font may not be present until its CSS is fetched and text has been requested.
+ // FontFaceSet knows downloadable fonts; for installed desktop faces compare glyph widths.
+ if(f.sourceType==='web'){
+   return [...document.fonts].some(face=>face.family.replace(/['"]/g,'').toLowerCase()===name.toLowerCase()&&face.status==='loaded');
+ }
+ const ctx=glyphFontAvailable.ctx||(glyphFontAvailable.ctx=document.createElement('canvas').getContext('2d'));
+ if(!ctx)return false;
+ const samples=['Hamburgefontsiv 123QW','iiiiWWWWmmM','abcdefghijklmnopqrstuvwxyz'];
+ return samples.some(sample=>{
+   ctx.font='46px '+glyphQuote(name)+', monospace';const measured=ctx.measureText(sample).width;
+   ctx.font='46px monospace';const mono=ctx.measureText(sample).width;
+   ctx.font='46px '+glyphQuote(name)+', serif';const measuredSerif=ctx.measureText(sample).width;
+   ctx.font='46px serif';const serif=ctx.measureText(sample).width;
+   return Math.abs(measured-mono)>.3&&Math.abs(measuredSerif-serif)>.3;
+ });
+}
+let glyphVerificationToken=0;
+function glyphVerifyVisible(){
+ const token=++glyphVerificationToken;
+ const cards=[...document.querySelectorAll('#typefaceSections .atlas-card[data-glyph-index]')];
+ if(!cards.length)return;
+ const visible=cards.map(card=>typefaces[+card.dataset.glyphIndex]);
+ glyphLoadPeriodFonts(visible);
+ // Request the actual face to render (loads Google font files if online).
+ const loads=Promise.allSettled([...new Set(visible.filter(f=>f.sourceType==='web').map(f=>f.displayFont))].map(n=>document.fonts.load('38px '+glyphQuote(n),'Hamburgefontsiv 123QW')));
+ const refresh=()=>{
+  if(token!==glyphVerificationToken)return;
+  cards.forEach(card=>{
+    const f=typefaces[+card.dataset.glyphIndex];const badge=card.querySelector('.font-status');
+    const sample=card.querySelector('.atlas-sample');const authenticity=card.querySelector('[data-authenticity=atlas]');
+    if(!badge||!sample)return;
+    const live=glyphFontAvailable(f);
+    if(f.proxy){badge.className='font-status proxy';badge.textContent='Stylistic approximation · '+f.displayFont;}
+    else if(live){badge.className='font-status live';badge.textContent='Actual font displayed · '+f.displayFont;}
+    else{badge.className='font-status missing';badge.textContent='Preview fallback — '+f.displayFont+' not installed';}
+    if(authenticity){
+      if(f.proxy){authenticity.className='authenticity-note';authenticity.textContent='DIGITAL RECONSTRUCTION · NOT A HISTORICALLY ACCURATE SPECIMEN';}
+      else if(live){authenticity.className='authenticity-note static';authenticity.textContent='NAMED DIGITAL FONT DISPLAYED · NOT AN ORIGINAL HISTORICAL ARTIFACT';}
+      else{authenticity.className='authenticity-note unavailable';authenticity.textContent='FONT UNAVAILABLE · FALLBACK PREVIEW, NOT AN AUTHENTIC SPECIMEN';}
+    }
+    if(!live){sample.style.fontFamily=glyphQuote(f.displayFont)+', '+glyphGeneric(f.displayFont);}
+  });
+ };
+ setTimeout(refresh,1200); // Also report unavailable fonts if network loading stalls.
+ loads.then(refresh);
+}
+
 // Keep the selected era visible; switching tabs changes content instead of jumping down the page.
 let currentAtlasPeriod=typePeriods[0].id;
 let onlyOfficeFonts=false;
 function renderTypefaceAtlas(){
  const q=$('atlasSearch').value.toLowerCase().trim(), selectedCat=$('atlasCategory').value;
+ const realOnly=$('realFontsOnly').checked;
  const txt=$('atlasText').value||'The quick brown fox jumps over the lazy dog';
- const found=typefaces.filter(f=>(!onlyOfficeFonts||f.office)&&(selectedCat==='all'||f.category===selectedCat)&&[f.name,f.category,f.font,typePeriods.find(p=>p.id===f.period)?.title,typePeriods.find(p=>p.id===f.period)?.dates].join(' ').toLowerCase().includes(q));
+ const found=typefaces.filter(f=>(!realOnly||!f.proxy)&&(!onlyOfficeFonts||f.office)&&(selectedCat==='all'||f.category===selectedCat)&&[f.name,f.category,f.font,typePeriods.find(p=>p.id===f.period)?.title,typePeriods.find(p=>p.id===f.period)?.dates].join(' ').toLowerCase().includes(q));
  const available=typePeriods.filter(p=>found.some(f=>f.period===p.id));
  if(available.length&&!available.some(p=>p.id===currentAtlasPeriod))currentAtlasPeriod=available[0].id;
  const selected=typePeriods.find(p=>p.id===currentAtlasPeriod);
@@ -536,8 +737,9 @@ function renderTypefaceAtlas(){
  $('atlasEmpty').classList.toggle('hidden',found.length>0);
  $('typefaceSections').innerHTML=selected&&list.length?`<section class="period-section" id="period-${safe(selected.id)}"><div class="period-section-head"><div class="period-index">${safe(selected.number)}</div><div><div class="period-dates">${safe(selected.dates)} · ${list.length} ENTRIES</div><h3>${safe(selected.title)}</h3><p>${safe(selected.intro)}</p><p class="era-context">${safe(periodHistories[selected.id]?.body||'').replace(/\n\n/g,'<br><br>')}</p></div></div><div class="atlas-cards">${list.map(f=>{
    const proxy=!!f.proxy;
-   return `<article class="atlas-card"><div class="atlas-card-top"><span>${safe(selected.dates)}</span><span class="type">${safe(f.category)}</span></div><div class="atlas-sample ${/alphabet/i.test(txt)?'alphabet':''}" style="font-family:${f.stack};">${safe(txt)}</div><div class="atlas-card-bottom"><h4>${safe(f.name)}</h4><small>${proxy?'Visual stand-in: '+safe(f.font):'Digital preview family: '+safe(f.font)}. ${proxy?'Not an exact reproduction.':'Web font when available.'}</small><details class="atlas-history"><summary>HISTORY &amp; ORIGIN</summary><strong class="history-subhead">${safe(f.origin||'Historical context')}</strong>${String(f.history||'').split(/\n\n/).map(par=>`<p>${safe(par)}</p>`).join('')}<small>${safe(selected.dates)} · Period grouping is approximate</small><br><a class="history-source" href="${safe(f.source)}" target="_blank" rel="noopener noreferrer">HISTORICAL SOURCE / REFERENCE ↗</a></details><div class="atlas-card-action"><span>${proxy?'APPROXIMATION':'DIGITAL FONT'}</span><button type="button" data-atlas-try="${safe(f.name)}">TEST IN STUDIO →</button></div></div></article>`;
+   return `<article class="atlas-card" data-glyph-index="${typefaces.indexOf(f)}"><div class="atlas-card-top"><span>${safe(selected.dates)}</span><span class="type">${safe(f.category)}</span></div><div class="atlas-sample ${/alphabet/i.test(txt)?'alphabet':''}" style="font-family:${f.stack};">${safe(txt)}</div><div class="atlas-card-bottom"><h4>${safe(f.name)}</h4><span class="font-status ${proxy?'proxy':''}">${proxy?'Stylized stand-in':'Checking actual font…'}</span><span class="authenticity-note ${proxy?'':'unavailable'}" data-authenticity="atlas"><span>${proxy?'DIGITAL RECONSTRUCTION · NOT AN AUTHENTIC HISTORICAL SPECIMEN':'CHECKING FONT AUTHENTICITY…'}</span></span><small class="font-note">${proxy?'Historical reference. Previewed using '+safe(f.displayFont)+'; this is not the named typeface.':'Typeface requested: '+safe(f.displayFont)+'. The status confirms whether this browser can render it.'}</small><details class="atlas-history"><summary>HISTORY &amp; ORIGIN</summary><strong class="history-subhead">${safe(f.origin||'Historical context')}</strong>${String(f.history||'').split(/\n\n/).map(par=>`<p>${safe(par)}</p>`).join('')}<small>${safe(selected.dates)} · Period grouping is approximate</small><br><a class="history-source" href="${safe(f.source)}" target="_blank" rel="noopener noreferrer">HISTORICAL SOURCE / REFERENCE ↗</a></details><div class="atlas-card-action"><span>${proxy?'APPROXIMATION':'DIGITAL FONT'}</span><button type="button" data-atlas-try="${safe(f.name)}">TEST IN STUDIO →</button></div></div></article>`;
  }).join('')}</div></section>`:'';
+ glyphVerifyVisible();
  // Reuse the tab elements where possible; they can scroll without scrolling the whole document.
  const nav=$('periodJumps');
  const expected=available.map(p=>p.id).join('|');
@@ -558,6 +760,7 @@ function selectAtlasPeriod(id){
  const nav=$('periodJumps'), tab=nav.querySelector('.period-tab.active');
  if(tab){const left=tab.offsetLeft-(nav.clientWidth-tab.offsetWidth)/2;nav.scrollTo({left,behavior:'smooth'});}
 }
+$('realFontsOnly').addEventListener('change',renderTypefaceAtlas);
 $('periodJumps').addEventListener('click',e=>{
  const button=e.target.closest('[data-period]');if(button){selectAtlasPeriod(button.dataset.period);}
 });
@@ -594,26 +797,62 @@ $('typefaceSections').addEventListener('click',e=>{
 // Each entry can be used in the existing comparison and lettering studio.
 for(const f of typefaces){
  const id='atlas-'+f.name.replace(/[^a-z0-9]/gi,'-').toLowerCase();
- if(!styles.some(s=>s.id===id))styles.push({id,title:f.name,period:typePeriods.find(p=>p.id===f.period).dates,font:f.stack,note:(f.proxy?'Modern approximation using '+f.font+'.':'Modern digital font '+f.font+'.')+' Period grouping represents the history of the style, not the release date of the preview font.'});
+ if(!styles.some(s=>s.id===id))styles.push({id,title:f.name,period:typePeriods.find(p=>p.id===f.period).dates,font:f.stack,note:(f.proxy?'Modern style approximation using '+f.displayFont+'.':'Typeface requested: '+f.displayFont+'.')+' Period grouping represents the history of the style, not the release date of the preview font.'});
 }
 renderTypefaceAtlas();
 
+/* CONSISTENT FONTS / Apply the same font-resolution policy in every section. */
+function glyphFontForStyle(s){
+ const f=typefaces.find(x=>s.id==='atlas-'+x.name.replace(/[^a-z0-9]/gi,'-').toLowerCase());
+ return f||null;
+}
+function glyphPrepareSample(s){
+ const f=glyphFontForStyle(s);
+ if(f){glyphLoadPeriodFonts([f]);return f.stack;}
+ // Original nine teaching styles have deliberate, named modern example faces.
+ return s.font;
+}
+function glyphExplainStyle(s){
+ const f=glyphFontForStyle(s);
+ if(!f)return s.note+' (Modern illustrative font, not an original historical artifact.)';
+ return (f.proxy?'Historical-style approximation: '+f.displayFont+'. Not a reproduction of '+f.name+'.':
+   'Font requested: '+f.displayFont+'. If unavailable in this browser, the display may fall back.')+
+   ' '+(s.note||'');
+}
+function glyphEnsureStyleFont(s){
+ const f=glyphFontForStyle(s);
+ if(!f)return;
+ glyphLoadPeriodFonts([f]);
+ if(f.sourceType==='web')document.fonts.load('44px '+glyphQuote(f.displayFont),'Hamburgefontsiv 123QW').catch(()=>{});
+}
+function glyphArchiveFont(r){
+ const s=styles.find(x=>x.id===r.style);
+ if(s){glyphEnsureStyleFont(s);return glyphPrepareSample(s);}
+ // Writing systems with no verified historical digital face use Unicode system coverage.
+ return r.font;
+}
 /* ARCHIVE / Filtering is local; no additional requests. */
-function drawArchive(){const q=$('search').value.toLowerCase().trim(),era=$('era').value;const filtered=records.filter(x=>(era==='all'||x.era===era)&&[x.title,x.place,x.date,x.detail].join(' ').toLowerCase().includes(q));$('resultCount').textContent=filtered.length+' RECORDS';$('none').classList.toggle('hidden',!!filtered.length);$('timeline').innerHTML=filtered.map(x=>`<article class="artifact"><div class="arttop"><span>${safe(x.date)}</span><span>${safe(x.place.toUpperCase())}</span></div><div class="glyph" style="font-family:${x.font};${x.title==='Aldine Italic'?'font-style:italic;':''}">${safe(x.glyph)}</div><div class="body"><h3>${safe(x.title)}</h3><p>${safe(x.detail)}</p></div><div class="bottom"><a href="${x.source}" target="_blank" rel="noopener">View source ↗</a>${x.style?`<button data-try="${x.style}">TRY STYLE →</button>`:'<span>HISTORICAL RECORD</span>'}</div></article>`).join('')}
+function drawArchive(){const q=$('search').value.toLowerCase().trim(),era=$('era').value;const filtered=records.filter(x=>(era==='all'||x.era===era)&&[x.title,x.place,x.date,x.detail].join(' ').toLowerCase().includes(q));$('resultCount').textContent=filtered.length+' RECORDS';$('none').classList.toggle('hidden',!!filtered.length);$('timeline').innerHTML=filtered.map(x=>`<article class="artifact"><div class="arttop"><span>${safe(x.date)}</span><span>${safe(x.place.toUpperCase())}</span></div><div class="glyph" style="font-family:${glyphArchiveFont(x)};${x.title==='Aldine Italic'?'font-style:italic;':''}">${safe(x.glyph)}</div><div class="body"><h3>${safe(x.title)}</h3><p>${safe(x.detail)}</p><span class="authenticity-note"><span>${x.style?'DIGITAL INTERPRETATION · NOT AN ORIGINAL HISTORICAL TYPEFACE':'MODERN UNICODE RENDERING · NOT AN ORIGINAL HISTORICAL FACSIMILE'}</span></span></div><div class="bottom"><a href="${x.source}" target="_blank" rel="noopener">View source ↗</a>${x.style?`<button data-try="${x.style}">TRY STYLE →</button>`:'<span>HISTORICAL RECORD</span>'}</div></article>`).join('')}
 $('search').addEventListener('input',drawArchive);$('era').addEventListener('change',drawArchive);$('timeline').addEventListener('click',e=>{const btn=e.target.closest('[data-try]');if(!btn)return;$('style').value=btn.dataset.try;updateStudio();document.getElementById('studio').scrollIntoView({behavior:'smooth'});});drawArchive();
 /* TYPE COMPARISON / Synchronized text, independent fonts. */
 const styleOptions=styles.map(s=>`<option value="${s.id}">${safe(s.title)} · ${safe(s.period)}</option>`).join('');$('leftStyle').innerHTML=styleOptions;$('rightStyle').innerHTML=styleOptions;$('style').innerHTML=styleOptions;$('leftStyle').value='blackletter';$('rightStyle').value='bodoni';$('style').value='garamond';
-function updateCompare(){const t=$('comparisonText').value||'The shape of a letter tells a story';[['left','leftStyle'],['right','rightStyle']].forEach(([prefix,id])=>{const s=fontStyle($(id).value);$(prefix+'Meta').textContent=s.title.toUpperCase()+' / '+s.period.toUpperCase();$(prefix+'Sample').textContent=t;$(prefix+'Sample').style.fontFamily=s.font;$(prefix+'Note').textContent=s.note;})}
+function updateCompare(){const t=$('comparisonText').value||'The shape of a letter tells a story';[['left','leftStyle'],['right','rightStyle']].forEach(([prefix,id])=>{const s=fontStyle($(id).value);$(prefix+'Meta').textContent=s.title.toUpperCase()+' / '+s.period.toUpperCase();$(prefix+'Sample').textContent=t;$(prefix+'Sample').style.fontFamily=glyphPrepareSample(s);glyphEnsureStyleFont(s);$(prefix+'Note').textContent=glyphExplainStyle(s);const badge=$(prefix+'Authenticity');const f=glyphFontForStyle(s);badge.className='authenticity-note'+(f&&!f.proxy?' static':'');badge.textContent=f&&!f.proxy?'NAMED DIGITAL FONT · NOT AN ORIGINAL HISTORICAL ARTIFACT':'DIGITAL INTERPRETATION · NOT A HISTORICALLY ACCURATE SPECIMEN';})}
 ['leftStyle','rightStyle','comparisonText'].forEach(id=>$(id).addEventListener(id==='comparisonText'?'input':'change',updateCompare));$('swap').addEventListener('click',()=>{const a=$('leftStyle').value;$('leftStyle').value=$('rightStyle').value;$('rightStyle').value=a;updateCompare();});updateCompare();
 /* STUDIO / One safe source of truth for text and CSS settings. */
-function studioCSS(){const s=fontStyle($('style').value);return `font-family: ${s.font};\nfont-size: ${$('size').value}px;\nletter-spacing: ${$('tracking').value}px;\ntext-align: ${$('align').value};\ncolor: ${$('ink').value};\nline-height: 1.2;`;}
-function updateStudio(){const s=fontStyle($('style').value),el=$('live');el.textContent=$('yourText').value||'Your specimen';el.style.cssText=studioCSS().replace(/\n/g,' ');el.style.whiteSpace='pre-wrap';$('preview').style.backgroundColor=$('paper').value;$('sizeOut').textContent=$('size').value+' px';$('trackOut').textContent=$('tracking').value+' px';$('styleDescription').textContent=s.title+' · '+s.period;}
+function studioCSS(){const s=fontStyle($('style').value);glyphEnsureStyleFont(s);return `font-family: ${glyphPrepareSample(s)};\nfont-size: ${$('size').value}px;\nletter-spacing: ${$('tracking').value}px;\ntext-align: ${$('align').value};\ncolor: ${$('ink').value};\nline-height: 1.2;`;}
+function updateStudio(){const s=fontStyle($('style').value),el=$('live');el.textContent=$('yourText').value||'Your specimen';el.style.cssText=studioCSS().replace(/\n/g,' ');el.style.whiteSpace='pre-wrap';$('preview').style.backgroundColor=$('paper').value;$('sizeOut').textContent=$('size').value+' px';$('trackOut').textContent=$('tracking').value+' px';$('styleDescription').textContent=s.title+' · '+s.period+' · '+glyphExplainStyle(s);const f=glyphFontForStyle(s),b=$('studioAuthenticity');b.className='authenticity-note'+(f&&!f.proxy?' static':'');b.textContent=f&&!f.proxy?'NAMED DIGITAL FONT · NOT AN ORIGINAL HISTORICAL ARTIFACT':'DIGITAL INTERPRETATION · NOT A HISTORICALLY ACCURATE SPECIMEN';}
 ['style','yourText','size','tracking','align','ink','paper'].forEach(id=>$(id).addEventListener('input',updateStudio));$('reset').addEventListener('click',()=>{$('style').value='garamond';$('yourText').value='Letters carry history.';$('size').value='54';$('tracking').value='0';$('align').value='center';$('ink').value='#252129';$('paper').value='#eee5d2';updateStudio()});
 async function copy(v){try{await navigator.clipboard.writeText(v);showToast('Copied to clipboard')}catch(e){const t=document.createElement('textarea');t.value=v;document.body.append(t);t.select();document.execCommand('copy');t.remove();showToast('Copied')}}
 $('copyCSS').addEventListener('click',()=>copy(`/* GLYPH — Typography Archaeologist — modern style approximation */\n${studioCSS()}\nbackground-color: ${$('paper').value};`));$('copyText').addEventListener('click',()=>copy($('yourText').value));
-$('download').addEventListener('click',()=>{const s=fontStyle($('style').value);const html=`<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Type Specimen</title><link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda&family=Cinzel&family=DM+Sans&family=EB+Garamond&family=IM+Fell+English&family=Libre+Baskerville&family=Space+Grotesk&family=UnifrakturCook&display=swap" rel="stylesheet"><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:${$('paper').value};padding:30px;box-sizing:border-box}.specimen{width:100%;max-width:1000px;white-space:pre-wrap;overflow-wrap:anywhere;${studioCSS()}</style></head><body><div class="specimen">${safe($('yourText').value)}</div></body></html>`;const blob=new Blob([html],{type:'text/html'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='typography-specimen.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);showToast('Specimen exported')});updateStudio();
+function glyphExportFontLink(s){
+ const f=glyphFontForStyle(s);
+ if(!f || !glyphWebFonts.has(f.displayFont))return '';
+ const family=encodeURIComponent(f.displayFont).replace(/%20/g,'+');
+ return '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family='+family+'&display=swap">';
+}
+$('download').addEventListener('click',()=>{const s=fontStyle($('style').value);const html=`<!DOCTYPE html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Type Specimen</title>${glyphExportFontLink(s)}<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:${$('paper').value};padding:30px;box-sizing:border-box}.specimen{width:100%;max-width:1000px;white-space:pre-wrap;overflow-wrap:anywhere;${studioCSS()}</style></head><body><div class="specimen">${safe($('yourText').value)}</div></body></html>`;const blob=new Blob([html],{type:'text/html'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='typography-specimen.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);showToast('Specimen exported')});updateStudio();
 /* SCRIPTS / Unicode rendering depends on font coverage and system. */
-$('scriptGrid').innerHTML=scripts.map(s=>`<article class="script-card"><div class="eyebrow">${safe(s.kind.toUpperCase())}</div><div class="sample" dir="${s.dir}" style="font-family:${s.font}">${safe(s.glyph)}</div><h3>${safe(s.name)}</h3><p>${safe(s.desc)}</p><small>Characters may depend on installed system fonts.</small></article>`).join('');
+$('scriptGrid').innerHTML=scripts.map(s=>`<article class="script-card"><div class="eyebrow">${safe(s.kind.toUpperCase())}</div><div class="sample" dir="${s.dir}" style="font-family:${s.font}">${safe(s.glyph)}</div><h3>${safe(s.name)}</h3><p>${safe(s.desc)}</p><small>Unicode characters · the correct glyph shapes depend on installed script-supporting fonts.</small><span class="authenticity-note">MODERN UNICODE DISPLAY · NOT A HISTORICAL FACSIMILE</span></article>`).join('');
 /* SECTION NAVIGATION */
 document.querySelectorAll('[data-go]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-go]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');$(btn.dataset.go).scrollIntoView({behavior:'smooth',block:'start'})}));
 </script>
@@ -632,6 +871,32 @@ document.querySelectorAll('[data-go]').forEach(btn=>btn.addEventListener('click'
   for(const [key,value] of Object.entries(values))el.style.setProperty(key,value);
   host.appendChild(el);
  }
+})();
+</script>
+
+<script>
+/* Authenticity labels remain available and can be switched back on at any time.
+   The body class also covers dynamically rendered specimens in every section. */
+(function(){
+  const button=document.getElementById('authenticityToggle');
+  const text=document.getElementById('authenticityToggleText');
+  if(!button||!text)return;
+  const key='glyph:showAuthenticityNotices';
+  let showing=true;
+  try{showing=localStorage.getItem(key)!=='false';}catch(_e){}
+  function sync(){
+    document.body.classList.toggle('authenticity-hidden',!showing);
+    button.setAttribute('aria-pressed',String(showing));
+    button.setAttribute('aria-label',showing?'Hide authenticity captions':'Show authenticity captions');
+    button.title=showing?'Hide authenticity captions':'Show authenticity captions';
+    text.textContent=showing?'HIDE AUTHENTICITY NOTICES':'SHOW AUTHENTICITY NOTICES';
+  }
+  button.addEventListener('click',function(){
+    showing=!showing;
+    try{localStorage.setItem(key,String(showing));}catch(_e){}
+    sync();
+  });
+  sync();
 })();
 </script>
 </body></html>
