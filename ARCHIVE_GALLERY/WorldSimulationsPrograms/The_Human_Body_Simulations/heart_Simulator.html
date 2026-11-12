@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anatomical Heart Simulator</title>
+<title>Cardiac Atlas | Interactive Heart Anatomy</title>
 <style>
 :root{
   --bg:#04070a;--panel:#0b1218;--panel2:#0f171e;--line:#24323c;
@@ -70,16 +70,119 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
 @media(max-width:1100px){.layout{grid-template-columns:1fr}.side{position:static}}
 @media(max-width:760px){.app{padding:9px}.top{flex-direction:column;align-items:flex-start}.bottom{grid-template-columns:1fr}.cycle{position:static;width:auto;margin:10px}.overlay{position:static;padding:10px 10px 0}}
 @media(max-width:500px){.metrics,.facts,.legend{grid-template-columns:1fr}}
+
+/* Cardiac Atlas — visual refinement */
+:root{--bg:#07111b;--panel:#0b1b27;--panel2:#0c2330;--line:#294455;--text:#e7f1f3;--muted:#a0b7c2;--blue:#7cb4d3;--red:#e48789}
+body{background:radial-gradient(ellipse at 16% 0%,rgba(24,78,103,.28),transparent 43%),radial-gradient(ellipse at 90% 35%,rgba(97,51,69,.09),transparent 50%),linear-gradient(180deg,#07101a,#030811)!important}
+.app{padding:clamp(14px,2.3vw,34px);max-width:1670px}
+.top{padding:3px 6px 17px;align-items:center;border-bottom:1px solid #2d4653;margin-bottom:22px}
+.kicker{font-size:10px;font-weight:750;letter-spacing:.19em;color:#7fc5d0;margin-bottom:8px}
+.top h1{font-size:clamp(26px,3.2vw,43px);font-weight:760;letter-spacing:-.045em}
+.top h1 span{font-size:clamp(15px,1.6vw,21px);font-weight:400;color:#8bb0bb;letter-spacing:-.025em;white-space:normal}
+.top p{max-width:900px;font-size:13px;line-height:1.7;color:#abc2cb}
+.badge{border-color:#38606a;background:#0c2630;color:#96c9c8;white-space:nowrap;font-weight:650}
+.layout{grid-template-columns:320px minmax(0,1fr);gap:20px}
+.side{background:linear-gradient(170deg,#102433,#091722);border:1px solid #31505b;padding:17px;border-radius:17px;max-height:calc(100vh - 25px);overflow-y:auto;scrollbar-color:#3c5b66 transparent;scrollbar-width:thin}
+.group{padding:17px 0;border-color:#29404b}
+.st{font-size:10px;color:#7bc0cc;font-weight:760;letter-spacing:.15em}
+.btn{border-color:#2e4c5d;border-radius:9px;background:#142835;font-size:11px;color:#d0e3e9;transition:background .16s,border-color .16s,transform .16s}
+.btn:hover{background:#213d4b;border-color:#638798;transform:translateY(-1px)}
+.btn.primary,.btn.active{background:#244c5d;border-color:#77adbb;color:#edfafd}
+.btn:focus-visible,.phaseChip:focus-visible{outline:2px solid #83cddb;outline-offset:2px}
+.conditionBtn{min-height:54px}.conditionBtn small{font-size:9.5px;line-height:1.35;color:#a6c0c9}
+.control label{color:#c4d2d7;font-size:11px}
+.metric{background:#0a1b29;border-color:#284757;padding:12px}.metric b{font-size:16px;color:#f5fbfc}.metric span{color:#8faeba}
+.info{font-size:11px;color:#b0c4cd;line-height:1.7}.flowStep{background:#0a1a25;border-color:#2a424d;line-height:1.55;color:#b7cbd1;padding:10px}.flowStep b{font-size:11px;color:#e6f5f6}
+.conditionInfo{background:#102331;border-color:#36535f;padding:13px}.conditionInfo p{color:#b5c9d0;font-size:11px;line-height:1.63}
+.warningNote{font-size:10px;color:#96b0bd;line-height:1.6}
+.stageCard{background:linear-gradient(180deg,#0e202c,#07121b);border:1px solid #305061;border-radius:19px;box-shadow:0 24px 70px #0005}
+.stageHead{align-items:center;padding:17px 21px;border-color:#2b4856;flex-wrap:wrap}
+.stageHead strong{font-size:13px;letter-spacing:.09em;color:#ecf9fa}.stageHead strong small{color:#81b6bd;font-weight:500}
+.stageHead span{font-size:10px;color:#9cb7c1;line-height:1.45;max-width:500px;text-align:right}
+.stage{background:radial-gradient(ellipse at 50% 55%,rgba(54,89,102,.11),transparent 65%),#06111a;padding:14px}
+.svgWrap{border:1px solid #325061;border-radius:15px;background:#06121d;box-shadow:inset 0 0 30px #0006}
+#heart{aspect-ratio:1100/780}
+.plateText{font:10px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#5d8a9b;letter-spacing:1.6px}
+#heart .label{fill:#f0f8fa;stroke:#09131e;stroke-width:4;font-size:13px}
+#heart .sub{fill:#b0cbd4;stroke:#09131e;stroke-width:4;font-size:11px}
+.clickable{outline:none;transition:filter .15s}.clickable:hover{filter:brightness(1.24) drop-shadow(0 0 7px rgba(155,220,230,.32))}
+.cycle{position:absolute;top:30px;right:30px;width:240px;background:rgba(7,20,29,.88);border-color:rgba(106,148,163,.34);border-radius:12px;padding:15px;box-shadow:0 15px 30px #0005}
+.cycle h3{font-size:14px;color:#e8f7f9}.cycle p{font-size:11px;color:#b4c7d0;line-height:1.6}
+.phaseHelp{margin-top:10px;font-size:9px;line-height:1.5;color:#86b0bb}
+.pill{color:#add2dc;border:1px solid #47667270;background:rgba(7,19,28,.85);font-size:9px;padding:6px 10px}
+.phaseStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px 14px;background:#091b26;border-bottom:1px solid #284451}
+.phaseChip{border:1px solid #284758;border-radius:9px;padding:9px 7px;color:#85a8b8;background:#10232f;display:flex;justify-content:center;gap:6px;align-items:center;font:10px ui-monospace,monospace;cursor:pointer;min-width:0}
+.phaseChip b{color:#b7d1d9;font:600 10px system-ui;white-space:nowrap}
+.phaseChip i{width:5px;height:5px;flex:none;background:#496f7e;border-radius:50%}
+.phaseChip.on{border-color:#8ab8bb;background:#193c4a;color:#b9e5e5}.phaseChip.on b{color:#edfcf8}.phaseChip.on i{background:#7ddbd0;box-shadow:0 0 11px #87d6c7}
+.bottom{gap:16px;margin-top:16px}.card{background:linear-gradient(180deg,#102330,#091923);border-color:#31505b;padding:18px;border-radius:16px}.card h2{font-size:15px}.card p{font-size:11px;color:#afc5cc;line-height:1.7}
+.legendItem,.fact{background:#0b1c27;border-color:#2c4753;color:#b9d0d6;padding:10px}.fact span{color:#9db5bf;font-size:10.5px;line-height:1.5}
+.clinicalNote{display:flex;gap:12px;align-items:flex-start;margin-top:15px;border:1px solid #31515c;border-radius:12px;background:#0c2330;padding:13px 16px}
+.clinicalNote .clinicalIcon{display:grid;place-items:center;flex:none;width:22px;height:22px;border:1px solid #80c2ca;border-radius:50%;font-weight:700;font-size:12px;color:#9bdae0}
+.clinicalNote b{font-size:12px;color:#e1f1f4}.clinicalNote p{font-size:11px;color:#b6c9d0;line-height:1.65;margin:5px 0 0}
+.references{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;border-top:1px solid #27424e;padding:16px 4px;margin-top:18px;color:#88a9b4;font-size:10px;line-height:1.6}
+.references strong{color:#e0e9ec;font-size:11px}.references span{flex:1;min-width:200px}.references a{color:#8acbd2;text-decoration:none}.references a:hover{text-decoration:underline}
+@media(max-width:1100px){.side{max-height:none;overflow:visible}.stageHead span{text-align:left}}
+@media(max-width:830px){.phaseStrip{gap:5px}.phaseChip{font-size:9px}.phaseChip b{font-size:9px}.cycle{position:static;width:auto;margin:9px}.overlay{top:18px;left:18px}}
+@media(max-width:600px){.phaseStrip{grid-template-columns:repeat(5,minmax(0,1fr));overflow:auto}.phaseChip{padding:7px 4px;flex-direction:column}.phaseChip b{font-size:8px;white-space:normal}.stage{padding:7px}.top h1 span{display:block;margin-top:4px}.badge{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+
+<style id="cardiac-specimen-redesign">
+/* A more restrained specimen display with space for the heart to breathe. */
+:root{--text:#eef1e8;--muted:#aebbc1;--line:#28434f}
+body{background:radial-gradient(ellipse at 50% -15%,#1a3540 0%,#07121b 43%,#04090e 100%)!important}
+.app{max-width:1680px;padding:clamp(16px,2.3vw,36px)}
+.top{border-bottom:1px solid rgba(201,214,197,.13);margin-bottom:23px;padding-bottom:22px}
+.kicker{color:#d6b48c;letter-spacing:.22em}
+.top h1{font-weight:630;letter-spacing:-.045em;color:#f6f1e8}
+.top h1 span{color:#a7bbc0;font-weight:350}
+.layout{grid-template-columns:minmax(248px,294px) minmax(0,1fr);gap:22px;align-items:start}
+.side{border-color:#24404d;background:linear-gradient(175deg,rgba(17,37,48,.92),rgba(9,22,33,.97));box-shadow:0 22px 50px #0003;padding:16px;max-height:calc(100vh - 28px)}
+.group{padding:15px 0}
+.btn{min-height:35px;border-radius:6px}
+.conditionGrid{gap:6px}
+.conditionBtn{font-size:10.4px;min-height:51px;padding:7px 8px}
+.stageCard{border:1px solid #2c4a55;border-radius:14px;overflow:hidden;box-shadow:0 24px 75px #0007;background:#07141d}
+.stageHead{padding:17px 23px;background:#102430}
+.stageHead strong{letter-spacing:.16em;font-size:11px;color:#e5e9dc}
+.phaseStrip{background:#0d202b;padding:10px 15px;gap:6px}
+.phaseChip{border-radius:4px;background:#132833;border-color:#2b4852;padding:12px 5px}
+.phaseChip.on{background:#25434d;border-color:#c6a380}
+.phaseChip.on i{background:#e6c298;box-shadow:0 0 8px #d5a97b}
+.stage{display:flex;flex-direction:column;gap:11px;padding:12px!important;background:#07141c!important}
+.svgWrap{background:#07121a;border:1px solid rgba(146,169,160,.15);border-radius:9px;overflow:hidden;box-shadow:inset 0 0 55px #0007}
+#heart{width:100%;display:block;aspect-ratio:1100/780}
+#heart .label{font:500 12px ui-monospace,Consolas,monospace;letter-spacing:1.2px;fill:#dbe1dd;stroke:#06121a;stroke-width:3px}
+#heart .sub{font:500 10px ui-monospace,Consolas,monospace;fill:#a4bcc1;stroke:#06121a;stroke-width:3px;letter-spacing:.25px}
+.plateText{fill:#708d96;font-size:10px}
+.overlay{position:absolute;top:29px;left:31px;gap:8px}
+.pill{background:#08141cdd;border:1px solid #46646b75;color:#c5dad6;font:500 9px ui-monospace,Consolas,monospace;letter-spacing:.14em;padding:8px 11px;border-radius:5px}
+.pulsingDot{display:inline-block;vertical-align:1px;width:6px;height:6px;margin-right:7px;background:#7fd5bf;border-radius:50%;box-shadow:0 0 9px #7fd5bf88;animation:cardiacDot 1.3s ease-in-out infinite}
+@keyframes cardiacDot{50%{opacity:.35}}
+.cycle{position:relative!important;top:auto!important;right:auto!important;margin:0!important;width:auto!important;background:linear-gradient(110deg,#122935,#0b1d29)!important;border:1px solid #284653!important;border-radius:8px!important;box-shadow:none!important;padding:15px 20px!important;display:grid;grid-template-columns:minmax(160px,210px) minmax(0,1fr);gap:8px 22px;align-items:center}
+.cycle h3{grid-row:1;font-size:15px;margin:0!important;color:#f0e3d1}
+.cycle p{grid-column:2;grid-row:1;font-size:11.5px;color:#b6c9c8}
+.cycle .bar{grid-column:1 / -1;margin-top:2px;height:4px;background:#273a40}
+.cycle .fill{background:linear-gradient(90deg,#c67b79,#e3bf93)}
+.cycle .phaseHelp{grid-column:1/-1;margin-top:0;color:#819eaa}
+.clinicalNote{background:#0b202b;border-color:#2a4851;border-radius:8px}
+.bottom{gap:15px}.card{border-radius:10px;background:linear-gradient(165deg,#102530,#0b1d27);padding:22px}
+.card h2{font-size:16px;font-weight:600;color:#e8e9dc}
+.legendItem,.fact{border-radius:6px}
+@media(max-width:1080px){.layout{grid-template-columns:1fr}.side{position:static;max-height:none}.group{padding:12px 0}.cycle{grid-template-columns:1fr}.cycle p{grid-column:1;grid-row:2}}
+@media(max-width:650px){.overlay{top:20px;left:21px}.overlay .pill:last-child{display:none}.cycle{padding:13px!important}.phaseChip{flex-direction:column}.stageHead{padding:14px}}
+@media(prefers-reduced-motion:reduce){.pulsingDot{animation:none}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
     <div>
-      <h1>Anatomical Heart Simulator</h1>
-      <p>Explore chamber anatomy, valve timing, pulmonary and systemic circulation, and a more physiologically faithful cardiac cycle.</p>
+      <div class="kicker">CARDIAC ATLAS / INTERACTIVE ANATOMY</div><h1>The Living Heart <span>— anatomy in motion</span></h1>
+      <p>Explore blood flow, chambers, valves, and the cardiac cycle through a layered anatomical teaching illustration. Select a structure to learn what it does.</p>
     </div>
-    <div class="badge">Educational model · not diagnostic</div>
+    <div class="badge">INTERACTIVE STUDY · NOT DIAGNOSTIC</div>
   </div>
 
   <div class="layout">
@@ -109,8 +212,9 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
         <div class="row" id="jump">
           <button class="btn" data-p=".15">Filling</button>
           <button class="btn" data-p=".43">Atrial contraction</button>
-          <button class="btn" data-p=".57">Ventricular contraction</button>
-          <button class="btn" data-p=".76">Ejection</button>
+          <button class="btn" data-p=".54">Isovolumetric contraction</button>
+          <button class="btn" data-p=".71">Ejection</button>
+          <button class="btn" data-p=".92">Relaxation</button>
         </div>
       </div>
 
@@ -175,70 +279,113 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
 
     <main class="main">
       <section class="stageCard">
-        <div class="stageHead"><strong>Heart anatomy & motion</strong><span>Anterior cutaway teaching view · anatomical right appears on viewer’s left · vessels and chambers simplified for visibility</span></div>
+        <div class="stageHead"><strong>ANATOMICAL EXPLORER <small> / PLATE 01</small></strong><span>Anterior cutaway · anatomical right is on your left · not to anatomical scale</span></div>
+        <div class="phaseStrip" role="group" aria-label="Cardiac cycle stages">
+          <button class="phaseChip" data-phase=".09"><i></i>01 <b>Filling</b></button>
+          <button class="phaseChip" data-phase=".42"><i></i>02 <b>Atrial systole</b></button>
+          <button class="phaseChip" data-phase=".55"><i></i>03 <b>Contraction</b></button>
+          <button class="phaseChip" data-phase=".71"><i></i>04 <b>Ejection</b></button>
+          <button class="phaseChip" data-phase=".92"><i></i>05 <b>Relaxation</b></button>
+        </div>
         <div class="stage">
           <div class="svgWrap">
             <svg id="heart" viewBox="0 0 1100 780" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="bodyGrad" x1=".18" y1=".08" x2=".82" y2=".94">
-                  <stop offset="0" stop-color="#bd6568"/><stop offset=".48" stop-color="#98494d"/><stop offset="1" stop-color="#672d32"/>
+                  <stop offset="0" stop-color="#cf796c"/><stop offset=".24" stop-color="#af534f"/><stop offset=".52" stop-color="#8c3f46"/><stop offset=".78" stop-color="#71313e"/><stop offset="1" stop-color="#421c2d"/>
                 </linearGradient>
                 <linearGradient id="bodyShade" x1="0" y1="0" x2="1" y2="0">
                   <stop offset="0" stop-color="rgba(38,19,24,.18)"/><stop offset=".58" stop-color="rgba(255,255,255,.03)"/><stop offset="1" stop-color="rgba(24,11,16,.38)"/>
                 </linearGradient>
-                <radialGradient id="raGrad"><stop offset="0" stop-color="#6789b1"/><stop offset="1" stop-color="#345476"/></radialGradient>
-                <radialGradient id="rvGrad"><stop offset="0" stop-color="#5f82a9"/><stop offset="1" stop-color="#304c6a"/></radialGradient>
-                <radialGradient id="laGrad"><stop offset="0" stop-color="#c66b70"/><stop offset="1" stop-color="#8b4247"/></radialGradient>
-                <radialGradient id="lvGrad"><stop offset="0" stop-color="#ce7075"/><stop offset="1" stop-color="#8d4147"/></radialGradient>
+                <radialGradient id="raGrad" cx="34%" cy="23%" r="85%"><stop offset="0" stop-color="#7399a9"/><stop offset=".26" stop-color="#335c7a"/><stop offset=".68" stop-color="#1a3c59"/><stop offset="1" stop-color="#0a2034"/></radialGradient>
+                <radialGradient id="rvGrad" cx="32%" cy="24%" r="86%"><stop offset="0" stop-color="#5b849d"/><stop offset=".35" stop-color="#285675"/><stop offset=".74" stop-color="#153651"/><stop offset="1" stop-color="#061a2a"/></radialGradient>
+                <radialGradient id="laGrad" cx="35%" cy="24%" r="85%"><stop offset="0" stop-color="#cb7771"/><stop offset=".37" stop-color="#a44c54"/><stop offset=".76" stop-color="#6c303e"/><stop offset="1" stop-color="#401c2c"/></radialGradient>
+                <radialGradient id="lvGrad" cx="34%" cy="25%" r="90%"><stop offset="0" stop-color="#cd7c75"/><stop offset=".32" stop-color="#aa4b50"/><stop offset=".74" stop-color="#702d3b"/><stop offset="1" stop-color="#3a1a2a"/></radialGradient>
+                <radialGradient id="muscleHighlight" cx="39%" cy="29%" r="75%">
+                  <stop offset="0" stop-color="#e7a092" stop-opacity=".31"/>
+                  <stop offset=".48" stop-color="#c46f64" stop-opacity=".08"/>
+                  <stop offset="1" stop-color="#341722" stop-opacity=".45"/>
+                </radialGradient>
+                <linearGradient id="vesselBlue" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#1c3651"/><stop offset=".30" stop-color="#557fa9"/><stop offset=".6" stop-color="#82a6bd"/><stop offset="1" stop-color="#244664"/>
+                </linearGradient>
+                <linearGradient id="vesselRed" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#5b272f"/><stop offset=".38" stop-color="#aa4b50"/><stop offset=".7" stop-color="#dd7773"/><stop offset="1" stop-color="#76353c"/>
+                </linearGradient>
+                <radialGradient id="chamberShadow" cx="43%" cy="30%" r="80%">
+                  <stop offset="0" stop-color="#ffffff" stop-opacity=".15"/>
+                  <stop offset=".65" stop-color="#27121a" stop-opacity=".03"/>
+                  <stop offset="1" stop-color="#100e16" stop-opacity=".40"/>
+                </radialGradient>
+                <pattern id="anatomyGrid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" fill="none" stroke="#4b6978" stroke-opacity=".10" stroke-width=".8"/></pattern>
+                <filter id="organShadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="15" stdDeviation="22" flood-color="#000" flood-opacity=".65"/></filter>
+                <filter id="organGlow"><feGaussianBlur stdDeviation="2"/></filter>
+                
+                <clipPath id="myocardiumClip"><path d="M520 176 C491 160 464 171 436 176 C389 180 366 220 349 251 C328 293 332 344 350 391 C351 445 366 499 388 544 C412 600 453 647 508 687 C524 699 550 718 572 713 C589 708 618 683 650 645 C691 596 731 540 742 472 C754 419 754 360 739 323 C727 274 702 232 675 216 C644 197 625 185 596 186 C573 188 555 201 539 192 C532 186 530 181 520 176 Z"/></clipPath>
+                <linearGradient id="cardiacRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb19a" stop-opacity=".67"/><stop offset=".55" stop-color="#e28a7c" stop-opacity=".19"/><stop offset="1" stop-color="#180b16" stop-opacity=".72"/></linearGradient>
+                <radialGradient id="myocardialGlow"><stop offset="0" stop-color="#e89a8a" stop-opacity=".32"/><stop offset="1" stop-color="#d75861" stop-opacity="0"/></radialGradient>
+                <filter id="cavityDepth" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="1" dy="5" stdDeviation="8" flood-color="#100817" flood-opacity=".63"/></filter>
                 <filter id="selectGlow" x="-30%" y="-30%" width="160%" height="160%">
                   <feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
 
-              <rect width="1100" height="780" fill="#020609"/>
+              <rect width="1100" height="780" fill="#060d14"/>
+              <rect width="1100" height="780" fill="url(#anatomyGrid)"/>
+              <g opacity=".45" stroke="#436173" stroke-width="1" fill="none"><path d="M110 84H260 M110 694H260 M842 84H992 M842 694H992"/><path d="M130 65V110 M972 65V110 M130 673V720 M972 673V720"/></g>
+              <text x="50" y="54" class="plateText">PLATE 01 / FOUR-CHAMBER CUTAWAY</text>
+              <text x="50" y="738" class="plateText">VIEWER LEFT = ANATOMICAL RIGHT</text>
+              <text x="1050" y="738" text-anchor="end" class="plateText">ILLUSTRATIVE · NOT TO SCALE</text>
               <ellipse cx="550" cy="414" rx="285" ry="315" fill="rgba(115,140,153,.04)"/>
 
               <!-- great vessels -->
-              <path id="svc" d="M411 80 C408 143 408 205 428 270" fill="none" stroke="#5279a5" stroke-width="38" stroke-linecap="round"/>
-              <path id="ivc" d="M407 695 C404 630 410 572 437 526" fill="none" stroke="#5279a5" stroke-width="38" stroke-linecap="round"/>
+              <path id="svc" d="M411 80 C408 143 408 205 428 270" fill="none" stroke="url(#vesselBlue)" stroke-width="38" stroke-linecap="round"/>
+              <path id="ivc" d="M407 695 C404 630 410 572 437 526" fill="none" stroke="url(#vesselBlue)" stroke-width="38" stroke-linecap="round"/>
 
-              <path id="pulmonaryTrunk" d="M486 470 C476 395 489 323 518 273 C539 238 573 220 616 220" fill="none" stroke="#5b80aa" stroke-width="38" stroke-linecap="round"/>
-              <path d="M518 273 C478 242 420 225 347 235" fill="none" stroke="#5b80aa" stroke-width="27" stroke-linecap="round"/>
-              <path d="M538 248 C596 216 670 218 758 244" fill="none" stroke="#5b80aa" stroke-width="27" stroke-linecap="round"/>
+              <path id="pulmonaryTrunk" d="M486 470 C476 395 489 323 518 273 C539 238 573 220 616 220" fill="none" stroke="url(#vesselBlue)" stroke-width="38" stroke-linecap="round"/>
+              <path d="M518 273 C478 242 420 225 347 235" fill="none" stroke="url(#vesselBlue)" stroke-width="27" stroke-linecap="round"/>
+              <path d="M538 248 C596 216 670 218 758 244" fill="none" stroke="url(#vesselBlue)" stroke-width="27" stroke-linecap="round"/>
 
-              <path id="aorta" d="M611 482 C606 397 590 329 592 270 C594 190 648 146 716 153 C771 159 796 210 795 275" fill="none" stroke="#ca6066" stroke-width="44" stroke-linecap="round"/>
-              <path d="M684 159 L684 89 M733 166 L746 96 M772 192 L811 126" fill="none" stroke="#ca6066" stroke-width="24" stroke-linecap="round"/>
+              <path id="aorta" d="M611 482 C606 397 590 329 592 270 C594 190 648 146 716 153 C771 159 796 210 795 275" fill="none" stroke="url(#vesselRed)" stroke-width="44" stroke-linecap="round"/>
+              <path d="M684 159 L684 89 M733 166 L746 96 M772 192 L811 126" fill="none" stroke="url(#vesselRed)" stroke-width="24" stroke-linecap="round"/>
 
               <!-- pulmonary veins -->
-              <path d="M781 270 C733 267 702 272 657 292" fill="none" stroke="#bd5a61" stroke-width="21" stroke-linecap="round"/>
-              <path d="M779 325 C730 320 694 308 655 307" fill="none" stroke="#bd5a61" stroke-width="21" stroke-linecap="round"/>
-              <path d="M304 269 C392 267 530 281 615 296" fill="none" stroke="#bd5a61" stroke-width="21" stroke-linecap="round"/>
-              <path d="M306 327 C401 324 531 310 615 308" fill="none" stroke="#bd5a61" stroke-width="21" stroke-linecap="round"/>
+              <path d="M781 270 C733 267 702 272 657 292" fill="none" stroke="url(#vesselRed)" stroke-width="21" stroke-linecap="round"/>
+              <path d="M779 325 C730 320 694 308 655 307" fill="none" stroke="url(#vesselRed)" stroke-width="21" stroke-linecap="round"/>
+              <path d="M304 269 C392 267 530 281 615 296" fill="none" stroke="url(#vesselRed)" stroke-width="21" stroke-linecap="round"/>
+              <path d="M306 327 C401 324 531 310 615 308" fill="none" stroke="url(#vesselRed)" stroke-width="21" stroke-linecap="round"/>
 
+              <!-- vessel rim lighting and physiological visual landmarks (schematic) -->
+              <g opacity=".23" stroke="#ebebea" fill="none" stroke-linecap="round">
+                <path d="M403 94 C404 146 409 204 421 242" stroke-width="5"/>
+                <path d="M602 452 C596 370 590 307 598 257 C602 189 658 152 711 160" stroke-width="5"/>
+                <path d="M479 448 C475 365 495 300 518 265" stroke-width="4"/>
+              </g>
+              <g filter="url(#organShadow)">
               <!-- external myocardium -->
               <g id="heartBody">
-                <path d="M518 170
-                         C470 149 420 157 382 194
-                         C345 230 330 285 336 348
-                         C345 449 375 548 436 628
-                         C466 667 505 704 548 720
-                         C590 707 636 669 678 616
-                         C727 555 754 474 752 389
-                         C751 307 724 235 676 199
-                         C640 171 594 165 559 183
-                         C544 191 531 181 518 170Z"
-                      fill="url(#bodyGrad)" stroke="#d07c7f" stroke-width="5"/>
-                <path d="M518 170
-                         C470 149 420 157 382 194
-                         C345 230 330 285 336 348
-                         C345 449 375 548 436 628
-                         C466 667 505 704 548 720
-                         C590 707 636 669 678 616
-                         C727 555 754 474 752 389
-                         C751 307 724 235 676 199
-                         C640 171 594 165 559 183
-                         C544 191 531 181 518 170Z"
+                <path d="M520 176 C491 160 464 171 436 176 C389 180 366 220 349 251 C328 293 332 344 350 391 C351 445 366 499 388 544 C412 600 453 647 508 687 C524 699 550 718 572 713 C589 708 618 683 650 645 C691 596 731 540 742 472 C754 419 754 360 739 323 C727 274 702 232 675 216 C644 197 625 185 596 186 C573 188 555 201 539 192 C532 186 530 181 520 176 Z"
+                      fill="url(#bodyGrad)" stroke="url(#cardiacRim)" stroke-width="6"/>
+                <path d="M520 176 C491 160 464 171 436 176 C389 180 366 220 349 251 C328 293 332 344 350 391 C351 445 366 499 388 544 C412 600 453 647 508 687 C524 699 550 718 572 713 C589 708 618 683 650 645 C691 596 731 540 742 472 C754 419 754 360 739 323 C727 274 702 232 675 216 C644 197 625 185 596 186 C573 188 555 201 539 192 C532 186 530 181 520 176 Z"
                       fill="url(#bodyShade)"/>
+                <path d="M520 176 C491 160 464 171 436 176 C389 180 366 220 349 251 C328 293 332 344 350 391 C351 445 366 499 388 544 C412 600 453 647 508 687 C524 699 550 718 572 713 C589 708 618 683 650 645 C691 596 731 540 742 472 C754 419 754 360 739 323 C727 274 702 232 675 216 C644 197 625 185 596 186 C573 188 555 201 539 192 C532 186 530 181 520 176 Z" fill="url(#muscleHighlight)"/>
+              </g>
+
+              <!-- subtle muscle fibers and imperfect myocardial texture: decorative, outside the cavities -->
+              <g clip-path="url(#myocardiumClip)" pointer-events="none">
+                <ellipse cx="430" cy="305" rx="200" ry="250" fill="url(#myocardialGlow)"/>
+                <g fill="none" stroke="#f2b1a0" stroke-opacity=".13" stroke-width="3.6" stroke-linecap="round">
+                  <path d="M337 340 C356 370 368 405 385 436"/><path d="M333 391 C356 426 366 462 386 491"/>
+                  <path d="M351 450 C376 487 385 533 423 567"/><path d="M370 508 C390 547 427 599 457 625"/>
+                  <path d="M418 615 C451 652 486 669 519 688"/><path d="M592 700 C641 658 674 610 705 557"/>
+                  <path d="M625 693 C666 641 699 588 716 527"/><path d="M692 591 C720 552 736 502 743 468"/>
+                  <path d="M702 268 C729 305 739 343 742 386"/><path d="M384 224 C371 262 356 297 356 333"/>
+                  <path d="M467 178 C489 199 507 218 526 236"/><path d="M597 191 C619 212 632 227 660 248"/>
+                </g>
+                <g fill="none" stroke="#2b1624" stroke-opacity=".27" stroke-width="4" stroke-linecap="round">
+                  <path d="M343 355 Q360 422 387 457"/><path d="M357 475 Q383 551 424 589"/>
+                  <path d="M387 572 Q440 655 512 686"/><path d="M691 612 Q741 544 748 449"/>
+                </g>
               </g>
 
               <!-- atria: right atrium is more visible anteriorly; left atrium mostly posterior -->
@@ -249,7 +396,7 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
                   C445 376 461 352 461 319
                   C460 280 438 238 409 224
                   C400 220 390 219 382 224Z"
-                  fill="url(#raGrad)" stroke="#86a3c2" stroke-width="4"/>
+                  fill="url(#raGrad)" stroke="#93a5aa" stroke-width="3.4" filter="url(#cavityDepth)"/>
               </g>
 
               <g id="laGroup" class="clickable" data-id="la">
@@ -259,7 +406,7 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
                   C671 346 646 351 625 338
                   C606 327 598 303 602 279
                   C606 257 613 241 626 235Z"
-                  fill="url(#laGrad)" stroke="#da8b8f" stroke-width="4"/>
+                  fill="url(#laGrad)" stroke="#d59a94" stroke-width="3.5" filter="url(#cavityDepth)"/>
                 <!-- left atrial appendage hint -->
                 <path d="M614 253 C590 246 578 257 583 273 C589 289 602 291 616 282"
                       fill="#a95157" stroke="#cf7f84" stroke-width="3"/>
@@ -274,7 +421,7 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
                   C539 584 531 512 526 449
                   C522 404 506 371 478 353
                   C444 332 398 337 377 365Z"
-                  fill="url(#rvGrad)" stroke="#7e9bb9" stroke-width="4"/>
+                  fill="url(#rvGrad)" stroke="#77909e" stroke-width="4" filter="url(#cavityDepth)"/>
               </g>
 
               <g id="lvGroup" class="clickable" data-id="lv">
@@ -285,9 +432,15 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
                   C638 677 685 617 711 548
                   C735 485 735 415 705 374
                   C679 338 612 319 578 351Z"
-                  fill="url(#lvGrad)" stroke="#dc8a8e" stroke-width="5"/>
+                  fill="url(#lvGrad)" stroke="#de9b8b" stroke-width="4.6" filter="url(#cavityDepth)"/>
               </g>
 
+              <!-- chamber-wall folds and sculpted endocardial rims; purely illustrative -->
+              <g fill="none" pointer-events="none" stroke-linecap="round" stroke-linejoin="round">
+                 <path d="M382 377 C365 429 385 513 425 576 C442 607 465 629 486 640" stroke="#a8bbba" stroke-opacity=".36" stroke-width="5"/>
+                 <path d="M588 353 C562 408 570 496 583 567 C594 636 590 675 576 695" stroke="#ffb6a6" stroke-opacity=".29" stroke-width="5"/>
+                 <path d="M673 351 C725 402 721 496 692 552" stroke="#fbd0b6" stroke-opacity=".22" stroke-width="6"/>
+              </g>
               <!-- thicker interventricular septum and muscular LV wall -->
               <path id="septum" d="M541 338 C532 417 541 539 552 681"
                     fill="none" stroke="#d7a88f" stroke-width="24" stroke-linecap="round" opacity=".95"/>
@@ -322,17 +475,36 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
                 <ellipse cx="635" cy="458" rx="8" ry="17"/>
               </g>
 
+              <!-- subtle cutaway tissue: trabeculae and myocardial fiber contours -->
+              <g opacity=".18" fill="none" stroke-linecap="round" stroke-width="3">
+                <path stroke="#c1d5dc" d="M392 401 Q423 389 493 412 M390 438 Q433 417 511 450 M398 482 Q452 457 518 493 M417 523 Q469 501 524 538 M437 567 Q486 543 526 580 M453 610 Q491 598 526 621"/>
+                <path stroke="#ffd3be" d="M585 410 Q648 388 699 414 M578 454 Q636 439 705 462 M580 501 Q634 478 696 501 M586 552 Q634 521 677 549 M585 600 Q616 578 654 596 M585 645 Q614 622 630 626"/>
+                <path stroke="#fee1be" d="M375 257 Q394 240 430 268 M376 290 Q405 277 444 299 M630 262 Q667 256 689 281 M625 310 Q657 294 681 310"/>
+              </g>
+              <!-- epicardial contour, coronary fat ridges and muscular grooves -->
+              <g fill="none" stroke-linecap="round" pointer-events="none">
+                <path d="M372 365 C390 337 437 337 480 346" stroke="#e1b48e" stroke-width="8" stroke-opacity=".36"/>
+                <path d="M569 343 C607 326 672 326 715 365" stroke="#e7a97d" stroke-width="9" stroke-opacity=".34"/>
+                <path d="M531 344 C530 442 530 553 551 667" stroke="#5b232e" stroke-width="7" stroke-opacity=".44"/>
+                <path d="M374 364 C355 417 360 492 402 562" stroke="#4c2330" stroke-width="6" stroke-opacity=".33"/>
+              </g>
               <!-- coronary vessels -->
               <path d="M552 293 C527 378 522 504 494 615" fill="none" stroke="rgba(237,155,130,.50)" stroke-width="4" stroke-linecap="round"/>
               <path d="M572 311 C639 344 689 431 684 548" fill="none" stroke="rgba(237,155,130,.40)" stroke-width="4" stroke-linecap="round"/>
               <path d="M603 319 C643 339 667 367 681 403" fill="none" stroke="rgba(237,155,130,.28)" stroke-width="3"/>
 
+              </g><!-- /organShadow -->
+              <!-- margin leaders: anatomy is kept legible outside the chambers -->
+              <g id="labelGroup"><g class="leaderLines" fill="none" stroke="#b7b4a4" stroke-opacity=".5" stroke-width="1.4">
+                <path d="M282 310H318L370 315"/><path d="M270 503H325L383 492"/>
+                <path d="M731 312H718L692 310"/><path d="M758 515H730L704 519"/>
+                <path d="M290 234H331L382 241"/><path d="M711 156H737L749 196"/>
+              </g>
               <!-- labels -->
-              <g id="labelGroup">
-                <text class="label" x="276" y="285">Right atrium</text>
-                <text class="label" x="270" y="474">Right ventricle</text>
-                <text class="label" x="714" y="285">Left atrium</text>
-                <text class="label" x="717" y="486">Left ventricle</text>
+                <text class="label" x="280" y="296">RIGHT ATRIUM</text>
+                <text class="label" x="265" y="489">RIGHT VENTRICLE</text>
+                <text class="label" x="730" y="295">LEFT ATRIUM</text>
+                <text class="label" x="759" y="500">LEFT VENTRICLE</text>
                 <text class="sub" x="724" y="145">Aorta</text>
                 <text class="sub" x="292" y="222">Pulmonary artery</text>
                 <text class="sub" x="305" y="96">Vena cava</text>
@@ -351,19 +523,20 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
             </svg>
           </div>
 
-          <div class="overlay"><span class="pill">anterior cutaway</span><span class="pill">pressure-driven valves</span><span class="pill">live circulation</span></div>
-          <div class="cycle">
+          <div class="overlay"><span class="pill"><span class="pulsingDot"></span> LIVE ANATOMY</span><span class="pill">CUTAWAY STUDY · FRONT VIEW</span></div>
+          <div class="cycle" role="status" aria-live="off">
             <h3 id="cycleTitle">Ventricular filling</h3>
             <p id="cycleDesc">Blood returns to the atria and moves through open atrioventricular valves into the ventricles.</p>
-            <div class="bar"><div class="fill" id="barFill"></div></div>
+            <div class="bar"><div class="fill" id="barFill"></div></div><div class="phaseHelp">Select a phase above to inspect motion and valve position.</div>
           </div>
         </div>
       </section>
 
+      <div class="clinicalNote"><div class="clinicalIcon">i</div><div><b>How to read this illustration</b><p>Blue represents oxygen-poor blood; red represents oxygen-rich blood. In a real heart, all chambers contain blood throughout the cycle, and circulation is continuous. The moving particles emphasize the predominant direction of flow—not actual individual blood cells or measured velocities.</p></div></div>
       <div class="bottom">
         <section class="card">
           <h2>Electrical rhythm</h2>
-          <p>The ECG below is an illustrative timing trace synchronized with the simulation. It is not intended to reproduce a clinical ECG.</p>
+          <p>Illustrative ECG timing, synchronized with the teaching animation. This is not a clinical ECG or a measurement of electrical conduction.</p>
           <div class="legend">
             <div class="legendItem"><span class="dot" style="background:#5e7faa"></span>Deoxygenated blood</div>
             <div class="legendItem"><span class="dot" style="background:#c65d63"></span>Oxygenated blood</div>
@@ -375,7 +548,7 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
 
         <section class="card">
           <h2>What changes during a beat</h2>
-          <p>The ventricular myocardium shortens and thickens during systole while chamber volume falls. The atria contract late in diastole, just before ventricular systole.</p>
+          <p>Ventricular contraction increases pressure. The mitral and tricuspid valves close before the pulmonary and aortic valves open. Relaxation reverses the sequence.</p>
           <div class="facts">
             <div class="fact"><b>Ventricular filling</b><span>Tricuspid and mitral valves are open while the aortic and pulmonary valves remain closed.</span></div>
             <div class="fact"><b>Diastasis</b><span>Mid-diastolic filling slows as atrial and ventricular pressures approach each other.</span></div>
@@ -385,6 +558,7 @@ svg text{font-family:Inter,system-ui,Arial,sans-serif}.label{font-size:13px;font
           </div>
         </section>
       </div>
+      <section class="references"><strong>Study references</strong><span>Valve anatomy and the blood pathway are based on publicly available educational descriptions from the American Heart Association and NIH. Stage durations and disease animations are illustrative, not patient-specific measurements.</span><a href="https://www.heart.org/en/health-topics/congenital-heart-defects/about-congenital-heart-defects/how-the-healthy-heart-works" target="_blank" rel="noopener noreferrer">AHA · Healthy heart</a><a href="https://www.nhlbi.nih.gov/health/heart/blood-flow" target="_blank" rel="noopener noreferrer">NIH · Blood flow</a></section>
     </main>
   </div>
 </div>
@@ -694,7 +868,8 @@ function loop(now){
 }
 els.play.addEventListener('click',()=>{running=!running;els.play.textContent=running?'Pause':'Play'});
 els.reset.addEventListener('click',()=>{phase=0;running=false;condition='normal';beatIndex=0;els.play.textContent='Play';els.hr.value=72;els.motion.value=100;els.simSpeed.value=1;els.selectedInfo.textContent='Click a chamber or valve in the diagram.';updateConditionInfo();updateUI();});
-q('jump').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;phase=+b.dataset.p;running=false;els.play.textContent='Play'});
+q('jump').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;phase=+b.dataset.p;running=false;els.play.textContent='Play';updateUI();morph();particles();drawECG()});
+ document.querySelectorAll('.phaseChip').forEach(btn=>btn.addEventListener('click',()=>{phase=+btn.dataset.phase;running=false;els.play.textContent='Play';updateUI();morph();particles();drawECG()}));
 q('conditionGrid').addEventListener('click',e=>{
   const b=e.target.closest('[data-condition]');
   if(!b)return;
