@@ -1,896 +1,1436 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CHIVISPUPPETS | CHI WAYANG Archive</title>
-<style>
-    /* ==================================================
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CHIVISPUPPETS | CHI WAYANG Archive
+  </title>
+  <style>
+   /* ==================================================
        COLORS / BASE
     ================================================== */
-    :root {
-      --black:#000;
-      --orange:#d28a3b;
-      --green:#9aa060;
-      --purple:#9b6bd3;
-      --text:#d7d7d0;
-      --max:1200px;
-    }
 
-    * { box-sizing:border-box; margin:0; padding:0; }
+:root {
+    --black:#000;
+    --orange:#d28a3b;
+    --green:#9aa060;
+    --purple:#9b6bd3;
+    --text:#d7d7d0;
+    --max:1200px;
+}
 
-    html,body {
-      width:100%;
-      min-height:100%;
-    }
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-    body {
-      background:#000;
-      color:var(--text);
-      font-family:"Courier New",monospace;
-      line-height:1.6;
-      overflow-x:hidden;
-    }
+html,body {
+    width:100%;
+    min-height:100%;
+}
 
-    /* ==================================================
+body {
+    background:#000;
+    color:var(--text);
+    font-family:"Courier New",monospace;
+    line-height:1.6;
+    overflow-x:hidden;
+}
+
+/* ==================================================
        SPACE BACKGROUND
     ================================================== */
-    #spaceBackground {
-      position:fixed;
-      inset:0;
-      z-index:0;
-      overflow:hidden;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 20% 25%,rgba(210,138,59,.08),transparent 25%),
-        radial-gradient(circle at 78% 68%,rgba(154,160,96,.07),transparent 27%),
-        radial-gradient(circle at 65% 18%,rgba(155,107,211,.07),transparent 25%),
-        #000;
+
+#spaceBackground {
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+    background:         radial-gradient(circle at 20% 25%,rgba(210,138,59,.08),transparent 25%),         radial-gradient(circle at 78% 68%,rgba(154,160,96,.07),transparent 27%),         radial-gradient(circle at 65% 18%,rgba(155,107,211,.07),transparent 25%),         #000;
+}
+
+#starField,     #dataField,     #floatingWordField {
+    position:absolute;
+    inset:0;
+}
+
+#floatingWordField {
+    overflow:hidden;
+}
+
+.floating-word {
+    position:absolute;
+    white-space:nowrap;
+    font-weight:700;
+    letter-spacing:5px;
+    opacity:.27;
+    user-select:none;
+    text-shadow:0 0 10px currentColor;
+    animation:dynamicWordFloat var(--wordSpeed,18s) ease-in-out infinite alternate;
+}
+
+.floating-word.orange {
+    color:var(--orange);
+    text-shadow:0 0 10px rgba(210,138,59,.65);
+}
+
+.floating-word.green {
+    color:var(--green);
+    text-shadow:0 0 10px rgba(154,160,96,.65);
+}
+
+.floating-word.purple {
+    color:var(--purple);
+    text-shadow:0 0 10px rgba(155,107,211,.65);
+}
+
+@keyframes dynamicWordFloat {
+    from {
+        transform:translate3d(-10px,8px,0);
     }
+    to {
+        transform:translate3d(22px,-18px,0);
+    }
+}
 
-    #starField,
-    #dataField,
-    #floatingWordField { position:absolute; inset:0; }
-    #floatingWordField { overflow:hidden; }
-    .floating-word { position:absolute; white-space:nowrap; font-weight:700; letter-spacing:5px; opacity:.27; user-select:none; text-shadow:0 0 10px currentColor; animation:dynamicWordFloat var(--wordSpeed,18s) ease-in-out infinite alternate; }
-    .floating-word.orange { color:var(--orange); text-shadow:0 0 10px rgba(210,138,59,.65); }
-    .floating-word.green { color:var(--green); text-shadow:0 0 10px rgba(154,160,96,.65); }
-    .floating-word.purple { color:var(--purple); text-shadow:0 0 10px rgba(155,107,211,.65); }
-    @keyframes dynamicWordFloat { from { transform:translate3d(-10px,8px,0); } to { transform:translate3d(22px,-18px,0); } }
-
-    /* ==================================================
+/* ==================================================
        MILKY WAY
     ================================================== */
-    .milkyway {
-      position:absolute;
-      left:-15%;
-      top:39%;
-      width:135%;
-      height:300px;
-      transform:rotate(-17deg);
-      opacity:.30;
-      filter:blur(3px);
-      background:
-        radial-gradient(
-          ellipse at center,
-          rgba(155,107,211,.18),
-          rgba(210,138,59,.10) 25%,
-          rgba(154,160,96,.09) 43%,
-          transparent 72%
-        );
-    }
 
-    .milkyway::after {
-      content:"";
-      position:absolute;
-      inset:35% 0;
-      filter:blur(22px);
-      background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(155,107,211,.11),
-        rgba(210,138,59,.13),
-        rgba(154,160,96,.10),
-        transparent
-      );
-    }
+.milkyway {
+    position:absolute;
+    left:-15%;
+    top:39%;
+    width:135%;
+    height:300px;
+    transform:rotate(-17deg);
+    opacity:.30;
+    filter:blur(3px);
+    background:         radial-gradient(           ellipse at center,           rgba(155,107,211,.18),           rgba(210,138,59,.10) 25%,           rgba(154,160,96,.09) 43%,           transparent 72%         );
+}
 
-    /* ==================================================
+.milkyway::after {
+    content:"";
+    position:absolute;
+    inset:35% 0;
+    filter:blur(22px);
+    background:linear-gradient(         90deg,         transparent,         rgba(155,107,211,.11),         rgba(210,138,59,.13),         rgba(154,160,96,.10),         transparent       );
+}
+
+/* ==================================================
        STARS
     ================================================== */
-    .star {
-      position:absolute;
-      border-radius:50%;
-      opacity:.5;
-      animation:twinkle var(--speed,4s) ease-in-out infinite alternate;
-    }
 
-    .star.orange {
-      background:var(--orange);
-      box-shadow:0 0 6px var(--orange);
-    }
+.star {
+    position:absolute;
+    border-radius:50%;
+    opacity:.5;
+    animation:twinkle var(--speed,4s) ease-in-out infinite alternate;
+}
 
-    .star.green {
-      background:var(--green);
-      box-shadow:0 0 6px var(--green);
-    }
+.star.orange {
+    background:var(--orange);
+    box-shadow:0 0 6px var(--orange);
+}
 
-    .star.purple {
-      background:var(--purple);
-      box-shadow:0 0 7px var(--purple);
-    }
+.star.green {
+    background:var(--green);
+    box-shadow:0 0 6px var(--green);
+}
 
-    .star.white {
-      background:#fff;
-      box-shadow:0 0 6px rgba(255,255,255,.8);
-    }
+.star.purple {
+    background:var(--purple);
+    box-shadow:0 0 7px var(--purple);
+}
 
-    @keyframes twinkle {
-      from {
+.star.white {
+    background:#fff;
+    box-shadow:0 0 6px rgba(255,255,255,.8);
+}
+
+@keyframes twinkle {
+    from {
         opacity:.12;
         transform:scale(.7);
-      }
-
-      to {
+    }
+    to {
         opacity:.9;
         transform:scale(1.2);
-      }
     }
+}
 
-    /* ==================================================
+/* ==================================================
        GALAXIES
     ================================================== */
-    .galaxy {
-      position:absolute;
-      border-radius:50%;
-      opacity:.32;
-      filter:blur(4px);
-      animation:galaxyFloat var(--float,28s) ease-in-out infinite alternate;
-    }
 
-    .galaxy::before {
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:50%;
-      transform:rotate(var(--tilt)) scaleY(.43);
-      filter:blur(9px);
-      background:
-        radial-gradient(
-          ellipse at 50% 50%,
-          rgba(255,255,255,.8) 0 2%,
-          transparent 6%
-        ),
-        radial-gradient(
-          ellipse at 48% 52%,
-          currentColor 0 8%,
-          transparent 23%
-        ),
-        radial-gradient(
-          ellipse at 56% 45%,
-          currentColor 0 14%,
-          transparent 42%
-        );
-    }
+.galaxy {
+    position:absolute;
+    border-radius:50%;
+    opacity:.32;
+    filter:blur(4px);
+    animation:galaxyFloat var(--float,28s) ease-in-out infinite alternate;
+}
 
-    .galaxy::after {
-      content:"";
-      position:absolute;
-      inset:-15%;
-      border-radius:50%;
-      opacity:.65;
-      background:
-        radial-gradient(circle at 25% 38%,#fff 0 1px,transparent 2px),
-        radial-gradient(circle at 68% 42%,currentColor 0 1px,transparent 2px),
-        radial-gradient(circle at 45% 72%,#fff 0 1px,transparent 2px);
-      background-size:48px 48px,61px 61px,73px 73px;
-    }
+.galaxy::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    transform:rotate(var(--tilt)) scaleY(.43);
+    filter:blur(9px);
+    background:         radial-gradient(           ellipse at 50% 50%,           rgba(255,255,255,.8) 0 2%,           transparent 6%         ),         radial-gradient(           ellipse at 48% 52%,           currentColor 0 8%,           transparent 23%         ),         radial-gradient(           ellipse at 56% 45%,           currentColor 0 14%,           transparent 42%         );
+}
 
-    .galaxy.orange { color:var(--orange); }
-    .galaxy.green { color:var(--green); }
-    .galaxy.purple { color:var(--purple); }
+.galaxy::after {
+    content:"";
+    position:absolute;
+    inset:-15%;
+    border-radius:50%;
+    opacity:.65;
+    background:         radial-gradient(circle at 25% 38%,#fff 0 1px,transparent 2px),         radial-gradient(circle at 68% 42%,currentColor 0 1px,transparent 2px),         radial-gradient(circle at 45% 72%,#fff 0 1px,transparent 2px);
+    background-size:48px 48px,61px 61px,73px 73px;
+}
 
-    .galaxy.one {
-      width:330px;
-      height:175px;
-      left:3%;
-      top:18%;
-      --tilt:-18deg;
-      --float:30s;
-    }
+.galaxy.orange {
+    color:var(--orange);
+}
 
-    .galaxy.two {
-      width:400px;
-      height:210px;
-      right:-5%;
-      top:52%;
-      --tilt:14deg;
-      --float:36s;
-    }
+.galaxy.green {
+    color:var(--green);
+}
 
-    .galaxy.three {
-      width:220px;
-      height:120px;
-      right:18%;
-      top:10%;
-      --tilt:-8deg;
-      --float:25s;
-    }
+.galaxy.purple {
+    color:var(--purple);
+}
 
-    @keyframes galaxyFloat {
-      from {
+.galaxy.one {
+    width:330px;
+    height:175px;
+    left:3%;
+    top:18%;
+    --tilt:-18deg;
+    --float:30s;
+}
+
+.galaxy.two {
+    width:400px;
+    height:210px;
+    right:-5%;
+    top:52%;
+    --tilt:14deg;
+    --float:36s;
+}
+
+.galaxy.three {
+    width:220px;
+    height:120px;
+    right:18%;
+    top:10%;
+    --tilt:-8deg;
+    --float:25s;
+}
+
+@keyframes galaxyFloat {
+    from {
         transform:translate(0,0) scale(1);
-      }
-
-      to {
-        transform:translate(14px,-10px) scale(1.04);
-      }
     }
+    to {
+        transform:translate(14px,-10px) scale(1.04);
+    }
+}
 
-    /* ==================================================
+/* ==================================================
        FLOATING DATA
     ================================================== */
-    .data-number {
-      position:absolute;
-      white-space:nowrap;
-      font-size:9px;
-      letter-spacing:1px;
-      opacity:.48;
-      text-shadow:0 0 9px currentColor,0 0 16px currentColor;
-      transition:transform .2s linear;
-    }
 
-    .data-number.orange { color:var(--orange); }
-    .data-number.green { color:var(--green); }
-    .data-number.purple { color:var(--purple); }
-    .data-number.blue { color:var(--purple); }
-    .data-number.cyan { color:var(--green); }
+.data-number {
+    position:absolute;
+    white-space:nowrap;
+    font-size:9px;
+    letter-spacing:1px;
+    opacity:.48;
+    text-shadow:0 0 9px currentColor,0 0 16px currentColor;
+    transition:transform .2s linear;
+}
 
-    /* ==================================================
+.data-number.orange {
+    color:var(--orange);
+}
+
+.data-number.green {
+    color:var(--green);
+}
+
+.data-number.purple {
+    color:var(--purple);
+}
+
+.data-number.blue {
+    color:var(--purple);
+}
+
+.data-number.cyan {
+    color:var(--green);
+}
+
+/* ==================================================
        BACKGROUND WORDS
     ================================================== */
-    .background-word {
-      position:absolute;
-      font-weight:bold;
-      letter-spacing:6px;
-      opacity:.25;
-      white-space:nowrap;
-      user-select:none;
-      animation:wordFloat 18s ease-in-out infinite alternate;
-    }
 
-    .word1 {
-      left:3%;
-      top:15%;
-      font-size:65px;
-      color:var(--orange);
-    }
+.background-word {
+    position:absolute;
+    font-weight:bold;
+    letter-spacing:6px;
+    opacity:.25;
+    white-space:nowrap;
+    user-select:none;
+    animation:wordFloat 18s ease-in-out infinite alternate;
+}
 
-    .word2 {
-      right:4%;
-      top:32%;
-      font-size:52px;
-      color:var(--green);
-    }
+.word1 {
+    left:3%;
+    top:15%;
+    font-size:65px;
+    color:var(--orange);
+}
 
-    .word3 {
-      left:4%;
-      top:66%;
-      font-size:55px;
-      color:var(--purple);
-    }
+.word2 {
+    right:4%;
+    top:32%;
+    font-size:52px;
+    color:var(--green);
+}
 
-    .word4 {
-      right:5%;
-      top:80%;
-      font-size:46px;
-      color:var(--orange);
-    }
+.word3 {
+    left:4%;
+    top:66%;
+    font-size:55px;
+    color:var(--purple);
+}
 
-    @keyframes wordFloat {
-      from {
+.word4 {
+    right:5%;
+    top:80%;
+    font-size:46px;
+    color:var(--orange);
+}
+
+@keyframes wordFloat {
+    from {
         transform:translate(0,0);
-      }
-
-      to {
+    }
+    to {
         transform:translate(15px,-10px);
-      }
     }
+}
 
+/* COLOR SHIFT FOR LARGE BACKGROUND WORDS */
 
+.background-word {
+    animation:wordFloat 18s ease-in-out infinite alternate, wordColorShift 15s linear infinite;
+}
 
-    /* COLOR SHIFT FOR LARGE BACKGROUND WORDS */
-    .background-word { animation:wordFloat 18s ease-in-out infinite alternate, wordColorShift 15s linear infinite; }
-    .word1 { animation-delay:0s,-1s; }
-    .word2 { animation-delay:-4s,-6s; }
-    .word3 { animation-delay:-8s,-11s; }
-    .word4 { animation-delay:-12s,-4s; }
+.word1 {
+    animation-delay:0s,-1s;
+}
 
-    @keyframes wordColorShift {
-      0%,100% { color:var(--orange); text-shadow:0 0 12px rgba(210,138,59,.55); }
-      33% { color:var(--green); text-shadow:0 0 12px rgba(154,160,96,.55); }
-      66% { color:var(--purple); text-shadow:0 0 12px rgba(155,107,211,.55); }
+.word2 {
+    animation-delay:-4s,-6s;
+}
+
+.word3 {
+    animation-delay:-8s,-11s;
+}
+
+.word4 {
+    animation-delay:-12s,-4s;
+}
+
+@keyframes wordColorShift {
+    0%,100% {
+        color:var(--orange);
+        text-shadow:0 0 12px rgba(210,138,59,.55);
     }
+    33% {
+        color:var(--green);
+        text-shadow:0 0 12px rgba(154,160,96,.55);
+    }
+    66% {
+        color:var(--purple);
+        text-shadow:0 0 12px rgba(155,107,211,.55);
+    }
+}
 
-    /* ==================================================
+/* ==================================================
        PAGE
     ================================================== */
-    .page {
-      position:relative;
-      z-index:2;
-    }
 
-    /* ==================================================
+.page {
+    position:relative;
+    z-index:2;
+}
+
+/* ==================================================
        ANIMATED BANNER
     ================================================== */
-    .banner-header {
-      position:relative;
-      width:100%;
-      height:300px;
-      overflow:hidden;
-      background:#000;
-      border-bottom:1px solid rgba(154,160,96,.55);
-    }
 
-    .banner-header iframe {
-      display:block;
-      width:100%;
-      height:100%;
-      border:0;
-      background:#000;
-    }
+.banner-header {
+    position:relative;
+    width:100%;
+    height:300px;
+    overflow:hidden;
+    background:#000;
+    border-bottom:1px solid rgba(154,160,96,.55);
+}
 
-    /* ==================================================
+.banner-header iframe {
+    display:block;
+    width:100%;
+    height:100%;
+    border:0;
+    background:#000;
+}
+
+/* ==================================================
        NAVIGATION
     ================================================== */
-    nav {
-      width:100%;
-      background:linear-gradient(
-        90deg,
-        rgba(10,10,9,.97),
-        rgba(45,29,15,.96),
-        rgba(28,31,18,.96),
-        rgba(10,10,9,.97)
-      );
-      border-bottom:1px solid rgba(154,160,96,.38);
-    }
 
-    nav ul {
-      display:flex;
-      justify-content:center;
-      list-style:none;
-    }
+nav {
+    width:100%;
+    background:linear-gradient(         90deg,         rgba(10,10,9,.97),         rgba(45,29,15,.96),         rgba(28,31,18,.96),         rgba(10,10,9,.97)       );
+    border-bottom:1px solid rgba(154,160,96,.38);
+}
 
-    nav a {
-      display:block;
-      padding:13px 24px;
-      color:var(--orange);
-      text-decoration:none;
-      font-size:17px;
-      letter-spacing:1px;
-      transition:.25s ease;
-    }
+nav ul {
+    display:flex;
+    justify-content:center;
+    list-style:none;
+}
 
-    nav a:hover {
-      color:#b6bc72;
-      background:rgba(154,160,96,.10);
-      transform:translateY(-2px);
-    }
+nav a {
+    display:block;
+    padding:13px 24px;
+    color:var(--orange);
+    text-decoration:none;
+    font-size:17px;
+    letter-spacing:1px;
+    transition:.25s ease;
+}
 
-    /* ==================================================
+nav a:hover {
+    color:#b6bc72;
+    background:rgba(154,160,96,.10);
+    transform:translateY(-2px);
+}
+
+/* ==================================================
        MAIN CONTENT
     ================================================== */
-    .container {
-      width:calc(100% - 40px);
-      max-width:var(--max);
-      margin:0 auto;
-      padding:40px 0;
-    }
 
-    /* ==================================================
+.container {
+    width:calc(100% - 40px);
+    max-width:var(--max);
+    margin:0 auto;
+    padding:40px 0;
+}
+
+/* ==================================================
        ARCHIVE SECTIONS
     ================================================== */
-    section {
-      position:relative;
-      padding:25px;
-      margin-bottom:55px;
-      background:rgba(5,6,5,.74);
-      border:1px solid rgba(154,160,96,.25);
-      border-radius:8px;
-      box-shadow:0 20px 55px rgba(0,0,0,.75);
-      backdrop-filter:blur(5px);
-    }
 
-    section::before {
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:80px;
-      height:1px;
-      background:var(--orange);
-      box-shadow:0 0 10px rgba(210,138,59,.5);
-    }
+section {
+    position:relative;
+    padding:25px;
+    margin-bottom:55px;
+    background:rgba(5,6,5,.74);
+    border:1px solid rgba(154,160,96,.25);
+    border-radius:8px;
+    box-shadow:0 20px 55px rgba(0,0,0,.75);
+    backdrop-filter:blur(5px);
+}
 
-    section::after {
-      content:"";
-      position:absolute;
-      bottom:0;
-      right:0;
-      width:80px;
-      height:1px;
-      background:var(--green);
-      box-shadow:0 0 10px rgba(154,160,96,.4);
-    }
+section::before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:80px;
+    height:1px;
+    background:var(--orange);
+    box-shadow:0 0 10px rgba(210,138,59,.5);
+}
 
-    section h2 {
-      margin:0 auto 28px;
-      text-align:center;
-      color:var(--orange);
-      font-size:1.35rem;
-      line-height:1.5;
-      letter-spacing:1px;
-    }
+section::after {
+    content:"";
+    position:absolute;
+    bottom:0;
+    right:0;
+    width:80px;
+    height:1px;
+    background:var(--green);
+    box-shadow:0 0 10px rgba(154,160,96,.4);
+}
 
-    section h2::after {
-      content:"";
-      display:block;
-      width:130px;
-      height:2px;
-      margin:12px auto 0;
-      background:linear-gradient(
-        90deg,
-        var(--orange),
-        var(--green),
-        var(--purple)
-      );
-    }
+section h2 {
+    margin:0 auto 28px;
+    text-align:center;
+    color:var(--orange);
+    font-size:1.35rem;
+    line-height:1.5;
+    letter-spacing:1px;
+}
 
-    section h2 a {
-      color:var(--green);
-      text-decoration:none;
-      transition:.25s;
-    }
+section h2::after {
+    content:"";
+    display:block;
+    width:130px;
+    height:2px;
+    margin:12px auto 0;
+    background:linear-gradient(         90deg,         var(--orange),         var(--green),         var(--purple)       );
+}
 
-    section h2 a:hover {
-      color:var(--purple);
-      text-shadow:0 0 8px rgba(155,107,211,.4);
-    }
+section h2 a {
+    color:var(--green);
+    text-decoration:none;
+    transition:.25s;
+}
 
-    /* ==================================================
+section h2 a:hover {
+    color:var(--purple);
+    text-shadow:0 0 8px rgba(155,107,211,.4);
+}
+
+/* ==================================================
        EMBEDDED ARCHIVE PAGES
     ================================================== */
-    .iframe-container {
-      position:relative;
-      width:100%;
-      aspect-ratio:16 / 9;
-      overflow:hidden;
-      border:1px solid rgba(210,138,59,.55);
-      border-radius:6px;
-      background:#030303;
-      box-shadow:
-        0 18px 45px rgba(0,0,0,.8),
-        0 0 20px rgba(210,138,59,.06);
-    }
 
-    .iframe-container iframe {
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
-    }
+.iframe-container {
+    position:relative;
+    width:100%;
+    aspect-ratio:16 / 9;
+    overflow:hidden;
+    border:1px solid rgba(210,138,59,.55);
+    border-radius:6px;
+    background:#030303;
+    box-shadow:         0 18px 45px rgba(0,0,0,.8),         0 0 20px rgba(210,138,59,.06);
+}
 
-    /* ==================================================
+.iframe-container iframe {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:0;
+}
+
+/* ==================================================
        IMAGE GALLERY
        IMPORTANT: NO CROPPING
     ================================================== */
-    .gallery {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
-      align-items:start;
-    }
 
-    .gallery img {
-      display:block;
-      width:100%;
-      height:auto;
-      object-fit:contain;
-      border-radius:5px;
-      border:1px solid rgba(154,160,96,.30);
-      background:#030303;
-      box-shadow:0 12px 28px rgba(0,0,0,.75);
-      transition:
-        transform .32s ease,
-        border-color .32s ease,
-        box-shadow .32s ease,
-        filter .32s ease;
-    }
+.gallery {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    align-items:start;
+}
 
-    .gallery img:hover {
-      position:relative;
-      z-index:5;
-      transform:translateY(-6px) scale(1.025);
-      border-color:rgba(210,138,59,.75);
-      box-shadow:
-        0 18px 38px rgba(0,0,0,.9),
-        0 0 18px rgba(210,138,59,.15),
-        0 0 30px rgba(155,107,211,.08);
-      filter:brightness(1.08);
-    }
+.gallery img {
+    display:block;
+    width:100%;
+    height:auto;
+    object-fit:contain;
+    border-radius:5px;
+    border:1px solid rgba(154,160,96,.30);
+    background:#030303;
+    box-shadow:0 12px 28px rgba(0,0,0,.75);
+    transition:         transform .32s ease,         border-color .32s ease,         box-shadow .32s ease,         filter .32s ease;
+}
 
-    /* ==================================================
+.gallery img:hover {
+    position:relative;
+    z-index:5;
+    transform:translateY(-6px) scale(1.025);
+    border-color:rgba(210,138,59,.75);
+    box-shadow:         0 18px 38px rgba(0,0,0,.9),         0 0 18px rgba(210,138,59,.15),         0 0 30px rgba(155,107,211,.08);
+    filter:brightness(1.08);
+}
+
+/* ==================================================
        FOOTER
     ================================================== */
-    footer {
-      padding:15px;
-      text-align:center;
-      color:rgba(210,138,59,.65);
-      background:rgba(8,8,7,.94);
-      border-top:1px solid rgba(154,160,96,.25);
-      font-size:11px;
-      letter-spacing:2px;
-    }
 
-    /* ==================================================
+footer {
+    padding:15px;
+    text-align:center;
+    color:rgba(210,138,59,.65);
+    background:rgba(8,8,7,.94);
+    border-top:1px solid rgba(154,160,96,.25);
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+/* ==================================================
        MOBILE
     ================================================== */
-    @media(max-width:650px) {
-      .banner-header {
+
+@media(max-width:650px) {
+    .banner-header {
         height:190px;
-      }
-
-      nav ul {
+    }
+    nav ul {
         flex-wrap:wrap;
-      }
-
-      nav a {
+    }
+    nav a {
         padding:10px 13px;
         font-size:14px;
-      }
-
-      .container {
+    }
+    .container {
         width:calc(100% - 20px);
         padding:20px 0;
-      }
-
-      section {
+    }
+    section {
         padding:14px;
         margin-bottom:35px;
-      }
-
-      section h2 {
+    }
+    section h2 {
         font-size:1.05rem;
-      }
-
-      .gallery {
+    }
+    .gallery {
         grid-template-columns:1fr;
-      }
-
-      .background-word {
+    }
+    .background-word {
         font-size:28px !important;
         letter-spacing:2px;
-      }
     }
-  
+}
+
 /* ==================================================
    CURRENT CHIVISPUPPETS THEME — WARM DEEP SPACE
 ================================================== */
-body{background:#010102}
-#spaceBackground{
-  background:
-    radial-gradient(circle at 18% 22%,rgba(210,138,59,.12),transparent 28%),
-    radial-gradient(circle at 82% 66%,rgba(179,84,43,.08),transparent 31%),
-    radial-gradient(circle at 62% 16%,rgba(155,107,211,.055),transparent 25%),
-    #010102;
+
+body {
+    background:#010102
 }
-.milkyway{opacity:.22;filter:blur(10px);background:radial-gradient(ellipse at center,rgba(235,194,143,.11),rgba(210,138,59,.08) 28%,rgba(155,107,211,.045) 48%,transparent 73%)}
-.galaxy{opacity:.22;filter:blur(12px)}
-.galaxy.green{color:var(--orange)}
-.star.green{background:var(--orange);box-shadow:0 0 6px var(--orange)}
-.floating-word.green,.data-number.green,.data-number.cyan{color:var(--orange);text-shadow:0 0 10px rgba(210,138,59,.55)}
-.background-word{opacity:.20}
-.data-number{opacity:.38;text-shadow:0 0 7px currentColor}
-.banner-header{border-bottom-color:rgba(210,138,59,.38)}
-nav{background:linear-gradient(90deg,rgba(8,7,6,.98),rgba(47,27,13,.97),rgba(31,18,11,.97),rgba(8,7,6,.98));border-bottom-color:rgba(210,138,59,.30)}
-nav a{color:#d79a56}nav a:hover{color:#e2b16f;background:rgba(210,138,59,.09)}
-.container{max-width:1180px}
-section{background:rgba(5,5,5,.72);border-color:rgba(210,138,59,.22);box-shadow:0 18px 50px rgba(0,0,0,.78),0 0 22px rgba(210,138,59,.035)}
-section::after{background:var(--purple);box-shadow:0 0 10px rgba(155,107,211,.25)}
-section h2{color:#d99a55}
-section h2::after{background:linear-gradient(90deg,var(--orange),#c46f36,var(--purple))}
-section h2 a{color:#d7a060}
-.iframe-container{border-color:rgba(210,138,59,.42);background:#020202}
-.gallery{align-items:start}
-.gallery img{height:auto;object-fit:contain;border-color:rgba(210,138,59,.22);background:#020202}
-.gallery img:hover{border-color:rgba(210,138,59,.70);box-shadow:0 18px 38px rgba(0,0,0,.9),0 0 20px rgba(210,138,59,.13)}
-footer{background:rgba(6,5,5,.96);border-top-color:rgba(210,138,59,.22)}
 
+#spaceBackground {
+    background:     radial-gradient(circle at 18% 22%,rgba(210,138,59,.12),transparent 28%),     radial-gradient(circle at 82% 66%,rgba(179,84,43,.08),transparent 31%),     radial-gradient(circle at 62% 16%,rgba(155,107,211,.055),transparent 25%),     #010102;
+}
 
-.archive-strip{position:relative;text-align:center;padding:8px 12px;background:rgba(5,4,4,.82);border-bottom:1px solid rgba(210,138,59,.16);color:rgba(210,138,59,.58);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+.milkyway {
+    opacity:.22;
+    filter:blur(10px);
+    background:radial-gradient(ellipse at center,rgba(235,194,143,.11),rgba(210,138,59,.08) 28%,rgba(155,107,211,.045) 48%,transparent 73%)
+}
 
+.galaxy {
+    opacity:.22;
+    filter:blur(12px)
+}
+
+.galaxy.green {
+    color:var(--orange)
+}
+
+.star.green {
+    background:var(--orange);
+    box-shadow:0 0 6px var(--orange)
+}
+
+.floating-word.green,.data-number.green,.data-number.cyan {
+    color:var(--orange);
+    text-shadow:0 0 10px rgba(210,138,59,.55)
+}
+
+.background-word {
+    opacity:.20
+}
+
+.data-number {
+    opacity:.38;
+    text-shadow:0 0 7px currentColor
+}
+
+.banner-header {
+    border-bottom-color:rgba(210,138,59,.38)
+}
+
+nav {
+    background:linear-gradient(90deg,rgba(8,7,6,.98),rgba(47,27,13,.97),rgba(31,18,11,.97),rgba(8,7,6,.98));
+    border-bottom-color:rgba(210,138,59,.30)
+}
+
+nav a {
+    color:#d79a56
+}
+
+nav a:hover {
+    color:#e2b16f;
+    background:rgba(210,138,59,.09)
+}
+
+.container {
+    max-width:1180px
+}
+
+section {
+    background:rgba(5,5,5,.72);
+    border-color:rgba(210,138,59,.22);
+    box-shadow:0 18px 50px rgba(0,0,0,.78),0 0 22px rgba(210,138,59,.035)
+}
+
+section::after {
+    background:var(--purple);
+    box-shadow:0 0 10px rgba(155,107,211,.25)
+}
+
+section h2 {
+    color:#d99a55
+}
+
+section h2::after {
+    background:linear-gradient(90deg,var(--orange),#c46f36,var(--purple))
+}
+
+section h2 a {
+    color:#d7a060
+}
+
+.iframe-container {
+    border-color:rgba(210,138,59,.42);
+    background:#020202
+}
+
+.gallery {
+    align-items:start
+}
+
+.gallery img {
+    height:auto;
+    object-fit:contain;
+    border-color:rgba(210,138,59,.22);
+    background:#020202
+}
+
+.gallery img:hover {
+    border-color:rgba(210,138,59,.70);
+    box-shadow:0 18px 38px rgba(0,0,0,.9),0 0 20px rgba(210,138,59,.13)
+}
+
+footer {
+    background:rgba(6,5,5,.96);
+    border-top-color:rgba(210,138,59,.22)
+}
+
+.archive-strip {
+    position:relative;
+    text-align:center;
+    padding:8px 12px;
+    background:rgba(5,4,4,.82);
+    border-bottom:1px solid rgba(210,138,59,.16);
+    color:rgba(210,138,59,.58);
+    font-size:9px;
+    letter-spacing:3px;
+    text-transform:uppercase
+}
 
 /* ==================================================
    HISTORY NAVIGATION — WORLD SIMULATIONS FORMAT
    A single section is shown at a time, with horizontal slides.
 ================================================== */
-.history-heading{text-align:center;margin:0 0 21px}
-.history-heading h1{margin:0 0 8px;color:#d28a3b;font-size:30px;letter-spacing:5px;text-shadow:0 0 10px rgba(201,120,43,.24)}
-.history-heading h1::after{content:"";display:block;width:145px;height:3px;margin:12px auto 0;border-radius:5px;background:linear-gradient(90deg,#b3542b,#d28a3b,#89915a)}
-.gallery-subtitle{text-align:center;color:#a3a467;letter-spacing:3px;font-size:10px;margin:12px 0 22px}
-.history-tabs{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;margin:0 0 18px;background:rgba(5,6,4,.74);border:1px solid rgba(137,145,90,.30);border-radius:7px}
-.history-tab{cursor:pointer;padding:10px 15px;border:1px solid rgba(137,145,90,.40);border-radius:5px;background:#050505;color:#9aa060;font:700 11px "Courier New",monospace;letter-spacing:1px;transition:transform .2s,color .2s,border-color .2s,background .2s}
-.history-tab:hover{transform:translateY(-2px);color:#d28a3b;border-color:rgba(210,138,59,.72)}
-.history-tab.active{color:#000;background:linear-gradient(90deg,#d28a3b,#a8ad68);border-color:#d28a3b}
-.history-tab:focus-visible,.history-arrow:focus-visible{outline:2px solid #e3ae6d;outline-offset:3px}
-.history-slide-frame{position:relative;padding:0 48px;min-height:350px}
-.history-viewport{overflow:hidden;position:relative}
-.history-panel{margin:0 0 15px;width:100%;min-height:270px}
-.history-panel[hidden]{display:none!important}
-.history-panel.active{animation:historySlideIn .36s ease-out both}
-.history-panel.active.slide-reverse{animation-name:historySlideFromLeft}
-@keyframes historySlideIn{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:translateX(0)}}
-@keyframes historySlideFromLeft{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:translateX(0)}}
-.history-arrow{position:absolute;top:42%;z-index:5;display:grid;place-items:center;width:40px;height:64px;border:1px solid rgba(210,138,59,.48);border-radius:6px;background:rgba(8,8,7,.93);color:#d28a3b;font:42px/1 Georgia,serif;cursor:pointer;transition:background .2s,color .2s,transform .2s}
-.history-arrow:hover:not(:disabled){background:rgba(81,47,21,.95);color:#f0c18c;transform:scale(1.05)}
-.history-arrow:disabled{opacity:.25;cursor:not-allowed}
-.history-prev{left:0}.history-next{right:0}
-.history-controls{text-align:center;color:#b9ae8b;font-size:11px;letter-spacing:3px;padding:4px 0 12px}
+
+.history-heading {
+    text-align:center;
+    margin:0 0 21px
+}
+
+.history-heading h1 {
+    margin:0 0 8px;
+    color:#d28a3b;
+    font-size:30px;
+    letter-spacing:5px;
+    text-shadow:0 0 10px rgba(201,120,43,.24)
+}
+
+.history-heading h1::after {
+    content:"";
+    display:block;
+    width:145px;
+    height:3px;
+    margin:12px auto 0;
+    border-radius:5px;
+    background:linear-gradient(90deg,#b3542b,#d28a3b,#89915a)
+}
+
+.gallery-subtitle {
+    text-align:center;
+    color:#a3a467;
+    letter-spacing:3px;
+    font-size:10px;
+    margin:12px 0 22px
+}
+
+.history-tabs {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:10px;
+    margin:0 0 18px;
+    background:rgba(5,6,4,.74);
+    border:1px solid rgba(137,145,90,.30);
+    border-radius:7px
+}
+
+.history-tab {
+    cursor:pointer;
+    padding:10px 15px;
+    border:1px solid rgba(137,145,90,.40);
+    border-radius:5px;
+    background:#050505;
+    color:#9aa060;
+    font:700 11px "Courier New",monospace;
+    letter-spacing:1px;
+    transition:transform .2s,color .2s,border-color .2s,background .2s
+}
+
+.history-tab:hover {
+    transform:translateY(-2px);
+    color:#d28a3b;
+    border-color:rgba(210,138,59,.72)
+}
+
+.history-tab.active {
+    color:#000;
+    background:linear-gradient(90deg,#d28a3b,#a8ad68);
+    border-color:#d28a3b
+}
+
+.history-tab:focus-visible,.history-arrow:focus-visible {
+    outline:2px solid #e3ae6d;
+    outline-offset:3px
+}
+
+.history-slide-frame {
+    position:relative;
+    padding:0 48px;
+    min-height:350px
+}
+
+.history-viewport {
+    overflow:hidden;
+    position:relative
+}
+
+.history-panel {
+    margin:0 0 15px;
+    width:100%;
+    min-height:270px
+}
+
+.history-panel[hidden] {
+    display:none!important
+}
+
+.history-panel.active {
+    animation:historySlideIn .36s ease-out both
+}
+
+.history-panel.active.slide-reverse {
+    animation-name:historySlideFromLeft
+}
+
+@keyframes historySlideIn {
+    from {
+        opacity:0;
+        transform:translateX(36px)
+    }
+    to {
+        opacity:1;
+        transform:translateX(0)
+    }
+}
+
+@keyframes historySlideFromLeft {
+    from {
+        opacity:0;
+        transform:translateX(-36px)
+    }
+    to {
+        opacity:1;
+        transform:translateX(0)
+    }
+}
+
+.history-arrow {
+    position:absolute;
+    top:42%;
+    z-index:5;
+    display:grid;
+    place-items:center;
+    width:40px;
+    height:64px;
+    border:1px solid rgba(210,138,59,.48);
+    border-radius:6px;
+    background:rgba(8,8,7,.93);
+    color:#d28a3b;
+    font:42px/1 Georgia,serif;
+    cursor:pointer;
+    transition:background .2s,color .2s,transform .2s
+}
+
+.history-arrow:hover:not(:disabled) {
+    background:rgba(81,47,21,.95);
+    color:#f0c18c;
+    transform:scale(1.05)
+}
+
+.history-arrow:disabled {
+    opacity:.25;
+    cursor:not-allowed
+}
+
+.history-prev {
+    left:0
+}
+
+.history-next {
+    right:0
+}
+
+.history-controls {
+    text-align:center;
+    color:#b9ae8b;
+    font-size:11px;
+    letter-spacing:3px;
+    padding:4px 0 12px
+}
+
 /* Preserve original aspect ratios rather than cropping historic photographs. */
-.history-panel .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;align-items:start}
-.history-panel .gallery img{max-width:100%;width:100%;height:auto;object-fit:contain}
-@media(max-width:650px){.history-heading h1{font-size:23px;letter-spacing:3px}.history-tabs{gap:6px}.history-tab{padding:8px 10px;font-size:10px}.history-slide-frame{padding:0 30px}.history-arrow{width:27px;height:51px;font-size:30px}.history-panel .gallery{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.history-panel.active,.history-panel.active.slide-reverse{animation:none}.history-tab,.history-arrow{transition:none}}
+
+.history-panel .gallery {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    align-items:start
+}
+
+.history-panel .gallery img {
+    max-width:100%;
+    width:100%;
+    height:auto;
+    object-fit:contain
+}
+
+@media(max-width:650px) {
+    .history-heading h1 {
+        font-size:23px;
+        letter-spacing:3px
+    }
+    .history-tabs {
+        gap:6px
+    }
+    .history-tab {
+        padding:8px 10px;
+        font-size:10px
+    }
+    .history-slide-frame {
+        padding:0 30px
+    }
+    .history-arrow {
+        width:27px;
+        height:51px;
+        font-size:30px
+    }
+    .history-panel .gallery {
+        grid-template-columns:1fr
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .history-panel.active,.history-panel.active.slide-reverse {
+        animation:none
+    }
+    .history-tab,.history-arrow {
+        transition:none
+    }
+}
 
 /* ==================================================
    INTRODUCTION — EMBEDDED HTML LEFT / ORIGINAL TEXT RIGHT
 ================================================== */
-.chi-introduction-layout{display:grid;grid-template-columns:minmax(260px,40%) minmax(0,1fr);gap:clamp(20px,3.5vw,45px);align-items:start;max-width:1100px;margin:0 auto;padding:14px 10px 20px}
-.chi-introduction-side{display:flex;flex-direction:column;align-items:stretch;gap:14px;position:relative;padding:16px;border:1px solid rgba(210,138,59,.20);border-radius:7px;background:rgba(14,12,9,.55)}
-.chi-introduction-embed{display:block;width:100%;height:360px;border:1px solid rgba(210,138,59,.25);border-radius:5px;background:#030303}
-.chi-introduction-link{margin:0;text-align:center}
-.chi-introduction-link a{display:inline-block;color:#b4b977;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:1px;line-height:1.6;padding:11px 14px;border:1px solid rgba(154,160,96,.45);border-radius:4px;background:rgba(154,160,96,.06);overflow-wrap:anywhere}
-.chi-introduction-link a:hover{border-color:#d28a3b;color:#d28a3b}
+
+.chi-introduction-layout {
+    display:grid;
+    grid-template-columns:minmax(260px,40%) minmax(0,1fr);
+    gap:clamp(20px,3.5vw,45px);
+    align-items:start;
+    max-width:1100px;
+    margin:0 auto;
+    padding:14px 10px 20px
+}
+
+.chi-introduction-side {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:14px;
+    position:relative;
+    padding:16px;
+    border:1px solid rgba(210,138,59,.20);
+    border-radius:7px;
+    background:rgba(14,12,9,.55)
+}
+
+.chi-introduction-embed {
+    display:block;
+    width:100%;
+    height:360px;
+    border:1px solid rgba(210,138,59,.25);
+    border-radius:5px;
+    background:#030303
+}
+
+.chi-introduction-link {
+    margin:0;
+    text-align:center
+}
+
+.chi-introduction-link a {
+    display:inline-block;
+    color:#b4b977;
+    text-decoration:none;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1px;
+    line-height:1.6;
+    padding:11px 14px;
+    border:1px solid rgba(154,160,96,.45);
+    border-radius:4px;
+    background:rgba(154,160,96,.06);
+    overflow-wrap:anywhere
+}
+
+.chi-introduction-link a:hover {
+    border-color:#d28a3b;
+    color:#d28a3b
+}
+
 /* Keep the introduction beside the logo, with its own vertical scroll. */
-.chi-introduction-text{height:360px;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#a77343 rgba(210,138,59,.10);padding:16px 20px 12px 16px;border:1px solid rgba(210,138,59,.22);border-radius:5px;background:rgba(10,9,8,.60);-webkit-overflow-scrolling:touch}
-.chi-introduction-text::-webkit-scrollbar{width:8px}
-.chi-introduction-text::-webkit-scrollbar-thumb{background:#a77343;border-radius:6px}
-.chi-introduction-text::-webkit-scrollbar-track{background:rgba(210,138,59,.08)}
-.chi-introduction-text:focus-visible{outline:2px solid #d28a3b;outline-offset:3px}
-@media(max-width:760px){.chi-introduction-text{height:290px;padding:14px}}
-.chi-introduction-text h3{color:#dca363;font-size:clamp(17px,2vw,23px);line-height:1.4;letter-spacing:.4px;margin:0 0 18px}
-.chi-introduction-text p{font-size:15px;line-height:1.8;color:#d7d7d0;margin:0 0 19px;text-align:left}
-.chi-introduction-text a{color:#b4ba78;font-weight:700;text-decoration:none}
-.chi-introduction-text a:hover{color:#e0a260;text-decoration:underline}
-@media(max-width:760px){.chi-introduction-layout{grid-template-columns:1fr;gap:22px;padding:6px 0 18px}.chi-introduction-side{position:static;padding:16px;gap:10px}.chi-introduction-embed{height:290px}.chi-introduction-text h3{text-align:center}.chi-introduction-text p{font-size:14px}}
-</style>
-</head>
-<body>
-<!-- ==================================================
+
+.chi-introduction-text {
+    height:360px;
+    min-height:0;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:#a77343 rgba(210,138,59,.10);
+    padding:16px 20px 12px 16px;
+    border:1px solid rgba(210,138,59,.22);
+    border-radius:5px;
+    background:rgba(10,9,8,.60);
+    -webkit-overflow-scrolling:touch
+}
+
+.chi-introduction-text::-webkit-scrollbar {
+    width:8px
+}
+
+.chi-introduction-text::-webkit-scrollbar-thumb {
+    background:#a77343;
+    border-radius:6px
+}
+
+.chi-introduction-text::-webkit-scrollbar-track {
+    background:rgba(210,138,59,.08)
+}
+
+.chi-introduction-text:focus-visible {
+    outline:2px solid #d28a3b;
+    outline-offset:3px
+}
+
+@media(max-width:760px) {
+    .chi-introduction-text {
+        height:290px;
+        padding:14px
+    }
+}
+
+.chi-introduction-text h3 {
+    color:#dca363;
+    font-size:clamp(17px,2vw,23px);
+    line-height:1.4;
+    letter-spacing:.4px;
+    margin:0 0 18px
+}
+
+.chi-introduction-text p {
+    font-size:15px;
+    line-height:1.8;
+    color:#d7d7d0;
+    margin:0 0 19px;
+    text-align:left
+}
+
+.chi-introduction-text a {
+    color:#b4ba78;
+    font-weight:700;
+    text-decoration:none
+}
+
+.chi-introduction-text a:hover {
+    color:#e0a260;
+    text-decoration:underline
+}
+
+@media(max-width:760px) {
+    .chi-introduction-layout {
+        grid-template-columns:1fr;
+        gap:22px;
+        padding:6px 0 18px
+    }
+    .chi-introduction-side {
+        position:static;
+        padding:16px;
+        gap:10px
+    }
+    .chi-introduction-embed {
+        height:290px
+    }
+    .chi-introduction-text h3 {
+        text-align:center
+    }
+    .chi-introduction-text p {
+        font-size:14px
+    }
+}
+  </style>
+ </head>
+ <body>
+  <!-- ==================================================
        SPACE BACKGROUND
   ================================================== -->
-<div id="spaceBackground">
-<div class="milkyway"></div>
-<div class="galaxy purple one"></div>
-<div class="galaxy green two"></div>
-<div class="galaxy orange three"></div>
-<div id="starField"></div>
-<div id="dataField"></div>
-<div id="floatingWordField"></div>
-<span class="background-word word1">MOVEMENT</span>
-<span class="background-word word2">PUPPETRY</span>
-<span class="background-word word3">VISUAL</span>
-<span class="background-word word4">ARCHIVE</span>
-</div>
-<!-- ==================================================
+  <div id="spaceBackground">
+   <div class="milkyway">
+   </div>
+   <div class="galaxy purple one">
+   </div>
+   <div class="galaxy green two">
+   </div>
+   <div class="galaxy orange three">
+   </div>
+   <div id="starField">
+   </div>
+   <div id="dataField">
+   </div>
+   <div id="floatingWordField">
+   </div>
+   <span class="background-word word1">
+    MOVEMENT
+   </span>
+   <span class="background-word word2">
+    PUPPETRY
+   </span>
+   <span class="background-word word3">
+    VISUAL
+   </span>
+   <span class="background-word word4">
+    ARCHIVE
+   </span>
+  </div>
+  <!-- ==================================================
        PAGE
   ================================================== -->
-<div class="page">
-<!-- ==================================================
+  <div class="page">
+   <!-- ==================================================
          ANIMATED BANNER
     ================================================== -->
-<header class="banner-header">
-<iframe scrolling="no" src="../Website%20Design/Banner/Banner.html" title="CHI VIS PUPPETS Banner">
-</iframe>
-</header>
-<!-- ==================================================
+   <header class="banner-header">
+    <iframe scrolling="no" src="../Website%20Design/Banner/Banner.html" title="CHI VIS PUPPETS Banner">
+    </iframe>
+   </header>
+   <!-- ==================================================
          NAVIGATION
     ================================================== -->
-<nav>
-<ul>
-<li><a href="../ArchiveGallery.html">ARCHIVE</a></li>
-</ul>
-</nav>
-<div class="archive-strip">CHI WAYANG / PERFORMANCE / DIGITAL PUPPET ARCHIVE</div>
-<!-- ==================================================
+   <nav>
+    <ul>
+     <li>
+      <a href="../ArchiveGallery.html">
+       ARCHIVE
+      </a>
+     </li>
+    </ul>
+   </nav>
+   <div class="archive-strip">
+    CHI WAYANG / PERFORMANCE / DIGITAL PUPPET ARCHIVE
+   </div>
+   <!-- ==================================================
          MAIN CONTENT
     ================================================== -->
-<main class="container">
-<!-- ==================================================
-           OUR MISSION
-      ================================================== -->
-<!-- ==================================================
-           VIRTUAL PUPPET CONCEPTS — SPRING 2025
-      ================================================== -->
-<!-- ==================================================
-           VIRTUAL PUPPET FABRICATION — SPRING 2025
-      ================================================== -->
-<!-- ==================================================
-           THE ARCHER'S JOURNEY — SPRING 2025
-      ================================================== -->
-<!-- ==================================================
-           STAGE SCREENSHOTS
-      ================================================== -->
-<!-- ==================================================
-           SPRING 2025 ANIMATED BACKGROUNDS
-      ================================================== -->
-<!-- ==================================================
-           SPRING 2024 OPEN LAB
-      ================================================== -->
-<!-- ==================================================
-           SPRING 2024 PROJECT DEVELOPMENT
-      ================================================== -->
-<!-- ==================================================
-           SPRING 2024 PUPPET CONCEPTS
-      ================================================== -->
-<div class="history-heading"><h1>CHI WAYANG HISTORY</h1><div class="gallery-subtitle">CHIVISPUPPETS / ARCHIVE / HISTORY</div></div><div aria-label="CHI WAYANG history categories" class="history-tabs" role="tablist"><button aria-controls="history-panel-0" aria-selected="true" class="history-tab active" data-index="0" id="history-tab-0" role="tab" type="button">Introduction</button><button aria-controls="history-panel-1" aria-selected="false" class="history-tab" data-index="1" id="history-tab-1" role="tab" type="button">Concepts 2025</button><button aria-controls="history-panel-2" aria-selected="false" class="history-tab" data-index="2" id="history-tab-2" role="tab" type="button">Fabrication 2025</button><button aria-controls="history-panel-3" aria-selected="false" class="history-tab" data-index="3" id="history-tab-3" role="tab" type="button">Live Performance</button><button aria-controls="history-panel-4" aria-selected="false" class="history-tab" data-index="4" id="history-tab-4" role="tab" type="button">Stage Screenshots</button><button aria-controls="history-panel-5" aria-selected="false" class="history-tab" data-index="5" id="history-tab-5" role="tab" type="button">Backgrounds 2025</button><button aria-controls="history-panel-6" aria-selected="false" class="history-tab" data-index="6" id="history-tab-6" role="tab" type="button">Open Lab 2024</button><button aria-controls="history-panel-7" aria-selected="false" class="history-tab" data-index="7" id="history-tab-7" role="tab" type="button">Development 2024</button><button aria-controls="history-panel-8" aria-selected="false" class="history-tab" data-index="8" id="history-tab-8" role="tab" type="button">Concepts 2024</button></div><div class="history-slide-frame"><button aria-label="Previous history section" class="history-arrow history-prev" title="Previous section" type="button">‹</button><div aria-live="polite" class="history-viewport"><section aria-labelledby="history-tab-0" class="history-panel active" id="history-panel-0" role="tabpanel">
-<h2>Our Mission and Research</h2>
-
-<div class="chi-introduction-layout"><div class="chi-introduction-side"><!-- Replace the iframe src with another HTML page when desired. -->
-<iframe class="chi-introduction-embed" src="../ARCHIVE_GALLERY/Website Design/Gallery - AnimatedProfessorSmithPicture/ProfSmithChi.html" title="CHI embedded HTML display" loading="eager"></iframe><p class="chi-introduction-link">
-<a href="https://github.com/CHI-CityTech/BSP-graphic-imagery/wiki" target="_blank">
-          BSP-GRAPHIC IMAGERY WIKI
-        </a>
-</p></div><div class="chi-introduction-text" tabindex="0ProfSmithChi.html" role="region" aria-label="Scrollable CHI introduction text"><h3>City Tech’s Center for Holistic Integration (CHI)</h3><p>
-  City Tech’s Center for Holistic Integration (CHI) started in spring 2024 as a
+   <main class="container">
+    <div class="history-heading">
+     <h1>
+      CHI WAYANG HISTORY
+     </h1>
+     <div class="gallery-subtitle">
+      CHIVISPUPPETS / ARCHIVE / HISTORY
+     </div>
+    </div>
+    <div aria-label="CHI WAYANG history categories" class="history-tabs" role="tablist">
+     <button aria-controls="history-panel-0" aria-selected="true" class="history-tab active" data-index="0" id="history-tab-0" role="tab" type="button">
+      Introduction
+     </button>
+     <button aria-controls="history-panel-1" aria-selected="false" class="history-tab" data-index="1" id="history-tab-1" role="tab" type="button">
+      Concepts 2025
+     </button>
+     <button aria-controls="history-panel-2" aria-selected="false" class="history-tab" data-index="2" id="history-tab-2" role="tab" type="button">
+      Fabrication 2025
+     </button>
+     <button aria-controls="history-panel-3" aria-selected="false" class="history-tab" data-index="3" id="history-tab-3" role="tab" type="button">
+      Live Performance
+     </button>
+     <button aria-controls="history-panel-4" aria-selected="false" class="history-tab" data-index="4" id="history-tab-4" role="tab" type="button">
+      Stage Screenshots
+     </button>
+     <button aria-controls="history-panel-5" aria-selected="false" class="history-tab" data-index="5" id="history-tab-5" role="tab" type="button">
+      Backgrounds 2025
+     </button>
+     <button aria-controls="history-panel-6" aria-selected="false" class="history-tab" data-index="6" id="history-tab-6" role="tab" type="button">
+      Open Lab 2024
+     </button>
+     <button aria-controls="history-panel-7" aria-selected="false" class="history-tab" data-index="7" id="history-tab-7" role="tab" type="button">
+      Development 2024
+     </button>
+     <button aria-controls="history-panel-8" aria-selected="false" class="history-tab" data-index="8" id="history-tab-8" role="tab" type="button">
+      First Puppet Screen Testing 2024
+     </button>
+     <button aria-controls="history-panel-9" aria-selected="false" class="history-tab" data-index="9" id="history-tab-9" role="tab" type="button">
+      Concepts 2024
+     </button>
+    </div>
+    <div class="history-slide-frame">
+     <button aria-label="Previous history section" class="history-arrow history-prev" title="Previous section" type="button">
+      ‹
+     </button>
+     <div aria-live="polite" class="history-viewport">
+      <section aria-labelledby="history-tab-0" class="history-panel active" id="history-panel-0" role="tabpanel">
+       <h2>
+        Our Mission and Research
+       </h2>
+       <div class="chi-introduction-layout">
+        <div class="chi-introduction-side">
+         <!-- Replace the iframe src with another HTML page when desired. -->
+         <iframe class="chi-introduction-embed" loading="eager" src="../ARCHIVE_GALLERY/Website Design/Gallery - AnimatedProfessorSmithPicture/ProfSmithChi.html" title="CHI embedded HTML display">
+         </iframe>
+         <p class="chi-introduction-link">
+          <a href="https://github.com/CHI-CityTech/BSP-graphic-imagery/wiki" target="_blank">
+           BSP-GRAPHIC IMAGERY WIKI
+          </a>
+         </p>
+        </div>
+        <div aria-label="Scrollable CHI introduction text" class="chi-introduction-text" role="region" tabindex="0">
+         <h3>
+          City Tech’s Center for Holistic Integration (CHI)
+         </h3>
+         <p>
+          City Tech’s Center for Holistic Integration (CHI) started in spring 2024 as a
   small pilot project. It brought together
-  <a href="https://www.citytech.cuny.edu/faculty/DSmith" target="_blank">
-    Dr. David B. Smith
-  </a>
-  and
-  <a href="https://www.citytech.cuny.edu/faculty/CSwift" target="_blank">
-    Professor Christopher Swift
-  </a>,
+          <a href="https://www.citytech.cuny.edu/faculty/DSmith" target="_blank">
+           Dr. David B. Smith
+          </a>
+          and
+          <a href="https://www.citytech.cuny.edu/faculty/CSwift" target="_blank">
+           Professor Christopher Swift
+          </a>
+          ,
   along with Samuel Cheung, Tshari Yancey, and several other students from
   New York City College of Technology. Dr. Smith is a composer, sound designer,
   and inventor who has been part of the City Tech faculty since 1997. His work
   includes helping to develop one of the first virtual orchestra systems for
   live performance. Professor Swift is an associate professor of theatre whose
   research includes performance, puppetry, and theatrical space.
-</p><p>
-  One of CHI’s first projects was a Wayang kulit shadow-puppet performance
+         </p>
+         <p>
+          One of CHI’s first projects was a Wayang kulit shadow-puppet performance
   presented as part of City Tech’s response to anti-Asian hate. The project
   combined traditional Javanese shadow puppetry with digital backgrounds and
   other modern tools. Samuel Cheung worked on the virtual backgrounds and
   puppet designs, while Tshari Yancey developed the story, characters, and
   script.
-</p><p>
-  What began as a small project has continued to grow into a space for
+         </p>
+         <p>
+          What began as a small project has continued to grow into a space for
   experimenting with performance, storytelling, technology, and AI. CHI
   continues to explore Wayang kulit and other creative ideas while looking
   at different ways traditional and digital approaches can work together.
-</p></div></div></section><section aria-labelledby="history-tab-1" class="history-panel" hidden="" id="history-panel-1" role="tabpanel">
-<h2>Virtual Puppet Concepts | Spring 2025</h2>
-<div class="gallery">
-<img alt="Tiger Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Tiger.png"/>
-<img alt="Karna Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Karna%202.0.png"/>
-<img alt="Kunti Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Kunti%202.0.png"/>
-<img alt="Dragon Form" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/NagiKara%20(Dragon%20Form).png"/>
-</div>
-</section><section aria-labelledby="history-tab-2" class="history-panel" hidden="" id="history-panel-2" role="tabpanel">
-<h2>Virtual Puppet Fabrication | Spring 2025</h2>
-<div class="gallery">
-<img alt="Three Puppets" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/3_Puppets.jpg"/>
-<img alt="Karna Puppet" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KarnaPuppet.jpg"/>
-<img alt="Kunti Puppet" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KuntiPuppet.jpg"/>
-<img alt="Proto Tiger" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/ProtoTiger.jpg"/>
-<img alt="Dragon Puppet Heads Attached" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/Dragon%20Puppet%20_%20Heads%20Attached.jpg"/>
-</div>
-</section><section aria-labelledby="history-tab-3" class="history-panel" hidden="" id="history-panel-3" role="tabpanel">
-<h2>
-          The Archer's Journey / New York City Tech Fair /
+         </p>
+        </div>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-1" class="history-panel" hidden="" id="history-panel-1" role="tabpanel">
+       <h2>
+        Virtual Puppet Concepts | Spring 2025
+       </h2>
+       <div class="gallery">
+        <img alt="Tiger Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Tiger.png"/>
+        <img alt="Karna Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Karna%202.0.png"/>
+        <img alt="Kunti Poster" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/Kunti%202.0.png"/>
+        <img alt="Dragon Form" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202025/NagiKara%20(Dragon%20Form).png"/>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-2" class="history-panel" hidden="" id="history-panel-2" role="tabpanel">
+       <h2>
+        Virtual Puppet Fabrication | Spring 2025
+       </h2>
+       <div class="gallery">
+        <img alt="Three Puppets" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/3_Puppets.jpg"/>
+        <img alt="Karna Puppet" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KarnaPuppet.jpg"/>
+        <img alt="Kunti Puppet" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/KuntiPuppet.jpg"/>
+        <img alt="Proto Tiger" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/ProtoTiger.jpg"/>
+        <img alt="Dragon Puppet Heads Attached" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Fabrication/Dragon%20Puppet%20_%20Heads%20Attached.jpg"/>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-3" class="history-panel" hidden="" id="history-panel-3" role="tabpanel">
+       <h2>
+        The Archer's Journey / New York City Tech Fair /
           Friday Performance | Spring 2025
-          <br/>
-          Photo Credit:
-          <a href="https://www.citytech.cuny.edu/faculty/MMcaUliffe" target="_blank">
-            Professor Michael McAuliffe
-          </a>
-</h2>
-<div class="gallery">
-<img alt="Audience 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance1.jpg"/>
-<img alt="Audience 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance2.jpg"/>
-<img alt="Audience 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance3.jpg"/>
-<img alt="Audience 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance4.jpg"/>
-<img alt="Audience 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance5.jpg"/>
-<img alt="Audience 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance6.jpg"/>
-<img alt="Audience 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance7.jpg"/>
-<img alt="Audience 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance8.jpg"/>
-<img alt="Audience 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance9.jpg"/>
-<img alt="Audience 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance10.jpg"/>
-</div>
-</section><section aria-labelledby="history-tab-4" class="history-panel" hidden="" id="history-panel-4" role="tabpanel">
-<h2>
-          Stage Screenshots
-          <br/>
-          Photo Credit:
-          <a href="https://www.citytech.cuny.edu/faculty/MMcaUliffe" target="_blank">
-            Professor Michael McAuliffe
-          </a>
-</h2>
-<div class="gallery">
-<img alt="Screen 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%201.jpg"/>
-<img alt="Screen 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%202.jpg"/>
-<img alt="Screen 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%203.jpg"/>
-<img alt="Screen 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%204.jpg"/>
-<img alt="Screen 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%205.jpg"/>
-<img alt="Screen 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%206.jpg"/>
-</div>
-</section><section aria-labelledby="history-tab-5" class="history-panel" hidden="" id="history-panel-5" role="tabpanel">
-<h2>
-          CHI WAYANG Spring 2025:
+        <br/>
+        Photo Credit:
+        <a href="https://www.citytech.cuny.edu/faculty/MMcaUliffe" target="_blank">
+         Professor Michael McAuliffe
+        </a>
+       </h2>
+       <div class="gallery">
+        <img alt="Audience 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance1.jpg"/>
+        <img alt="Audience 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance2.jpg"/>
+        <img alt="Audience 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance3.jpg"/>
+        <img alt="Audience 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance4.jpg"/>
+        <img alt="Audience 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance5.jpg"/>
+        <img alt="Audience 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance6.jpg"/>
+        <img alt="Audience 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance7.jpg"/>
+        <img alt="Audience 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance8.jpg"/>
+        <img alt="Audience 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance9.jpg"/>
+        <img alt="Audience 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Audiance10.jpg"/>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-4" class="history-panel" hidden="" id="history-panel-4" role="tabpanel">
+       <h2>
+        Stage Screenshots
+        <br/>
+        Photo Credit:
+        <a href="https://www.citytech.cuny.edu/faculty/MMcaUliffe" target="_blank">
+         Professor Michael McAuliffe
+        </a>
+       </h2>
+       <div class="gallery">
+        <img alt="Screen 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%201.jpg"/>
+        <img alt="Screen 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%202.jpg"/>
+        <img alt="Screen 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%203.jpg"/>
+        <img alt="Screen 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%204.jpg"/>
+        <img alt="Screen 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%205.jpg"/>
+        <img alt="Screen 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Live_Performance%20Tech%20Fair/Screen%206.jpg"/>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-5" class="history-panel" hidden="" id="history-panel-5" role="tabpanel">
+       <h2>
+        CHI WAYANG Spring 2025:
           Animated Backgrounds Case Study
-        </h2>
-<div class="iframe-container">
-<iframe src="../ARCHIVE_GALLERY/Information_Pages/ABOUTCHIBACKGROUNDS.html" title="CHI WAYANG Animated Backgrounds Case Study">
-</iframe>
-</div>
-</section><section aria-labelledby="history-tab-6" class="history-panel" hidden="" id="history-panel-6" role="tabpanel">
-<h2>
-          CHI WAYANG Spring 2024:
+       </h2>
+       <div class="iframe-container">
+        <iframe src="../ARCHIVE_GALLERY/Information_Pages/ABOUTCHIBACKGROUNDS.html" title="CHI WAYANG Animated Backgrounds Case Study">
+        </iframe>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-6" class="history-panel" hidden="" id="history-panel-6" role="tabpanel">
+       <h2>
+        CHI WAYANG Spring 2024:
           Open Lab Archive: Animated Backgrounds
-        </h2>
-<div class="iframe-container">
-<iframe src="../ARCHIVE_GALLERY/Information_Pages/Wayang%202024.html" title="CHI WAYANG Spring 2024 Open Lab Archive">
-</iframe>
-</div>
-</section><section aria-labelledby="history-tab-7" class="history-panel" hidden="" id="history-panel-7" role="tabpanel">
-<h2>
-          Spring 2024 Project Development | BTS
-          <br/>
-          Photo Credit:
-          <a href="https://scmcoding.github.io/ER1-H-STUD10S/Home.html" target="_blank">
-            Samuel Cheung
-          </a>
-</h2>
-<div class="gallery">
-<img alt="Spring 2024 BTS 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-1.jpg"/>
-<img alt="Spring 2024 BTS 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-2.jpg"/>
-<img alt="Spring 2024 BTS 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-3.jpg"/>
-<img alt="Spring 2024 BTS 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-4.jpg"/>
-<img alt="Spring 2024 BTS 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-5.jpg"/>
-<img alt="Spring 2024 BTS 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-6.jpg"/>
-<img alt="Spring 2024 BTS 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-7.jpg"/>
-<img alt="Spring 2024 BTS 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-8.jpg"/>
-<img alt="Spring 2024 BTS 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-9.jpg"/>
-<img alt="Spring 2024 BTS 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-10.jpg"/>
-</div>
-</section><section aria-labelledby="history-tab-8" class="history-panel" hidden="" id="history-panel-8" role="tabpanel">
-<h2>
-          The Archer's Journey:
+       </h2>
+       <div class="iframe-container">
+        <iframe src="../ARCHIVE_GALLERY/Information_Pages/Wayang%202024.html" title="CHI WAYANG Spring 2024 Open Lab Archive">
+        </iframe>
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-7" class="history-panel" hidden="" id="history-panel-7" role="tabpanel">
+       <h2>
+        Spring 2024 Project Development | BTS
+        <br/>
+        Photo Credit:
+        <a href="https://scmcoding.github.io/ER1-H-STUD10S/Home.html" target="_blank">
+         Samuel Cheung
+        </a>
+       </h2>
+       <div class="gallery">
+        <img alt="Spring 2024 BTS 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-1.jpg"/>
+        <img alt="Spring 2024 BTS 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-2.jpg"/>
+        <img alt="Spring 2024 BTS 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-3.jpg"/>
+        <img alt="Spring 2024 BTS 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-4.jpg"/>
+        <img alt="Spring 2024 BTS 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-5.jpg"/>
+        <img alt="Spring 2024 BTS 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-6.jpg"/>
+        <img alt="Spring 2024 BTS 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-7.jpg"/>
+        <img alt="Spring 2024 BTS 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-8.jpg"/>
+        <img alt="Spring 2024 BTS 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-9.jpg"/>
+        <img alt="Spring 2024 BTS 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Spring-2024-Archives/Spring%202024-10.jpg"/>
+       </div>
+      </section>
+      <!-- First Puppet Screen Testing | Spring 2024 -->
+      <section aria-labelledby="history-tab-8" class="history-panel" hidden="" id="history-panel-8" role="tabpanel">
+       <h2>First Puppet Screen Testing | Spring 2024</h2>
+       <div class="gallery">
+        <img alt="First puppet screen testing 2024 - photo 1" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet1.jpg"/>
+        <img alt="First puppet screen testing 2024 - photo 2" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet2.jpg"/>
+        <img alt="First puppet screen testing 2024 - photo 3" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet3.jpg"/>
+        <img alt="First puppet screen testing 2024 - photo 4" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet4.jpg"/> 
+        <img alt="First puppet screen testing 2024 - photo 5" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet5.jpg"/>
+        <img alt="First puppet screen testing 2024 - photo 6" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet6.jpg"/>    
+        <img alt="First puppet screen testing 2024 - photo 7" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet7.jpg"/> 
+        <img alt="First puppet screen testing 2024 - photo 8" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet8.jpg"/>
+        <img alt="First puppet screen testing 2024 - photo 9" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet9.jpg"/>
+        <img alt="First puppet screen testing 2024 - photo 10" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Pre-PuppetTest2024/PrePuppet10.jpg"/>      
+           
+       </div>
+      </section>
+      <section aria-labelledby="history-tab-9" class="history-panel" hidden="" id="history-panel-9" role="tabpanel">
+       <h2>
+        The Archer's Journey:
           Puppet Concepts | Spring 2024
-        </h2>
-<div class="gallery">
-<img alt="Spring 2024 Puppet Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet.png"/>
-<img alt="Karna Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Karna.png"/>
-<img alt="Kunti Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Kunti.png"/>
-<img alt="Princess Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_ThePrincess.png"/>
-<img alt="Great Archer Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_GreatArcher.png"/>
-</div>
-</section></div><button aria-label="Next history section" class="history-arrow history-next" title="Next section" type="button">›</button></div><div class="history-controls"><span aria-live="polite" id="history-progress">01 / 09</span></div></main>
-<!-- ==================================================
+       </h2>
+       <div class="gallery">
+        <img alt="Spring 2024 Puppet Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet.png"/>
+        <img alt="Karna Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Karna.png"/>
+        <img alt="Kunti Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_Kunti.png"/>
+        <img alt="Princess Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_ThePrincess.png"/>
+        <img alt="Great Archer Concept" loading="lazy" src="../ARCHIVE_GALLERY/Gallery/CHIWAYANG/Concepts%20Spring%202024/2024SpringPuppet_GreatArcher.png"/>
+       </div>
+      </section>
+     </div>
+     <button aria-label="Next history section" class="history-arrow history-next" title="Next section" type="button">
+      ›
+     </button>
+    </div>
+    <div class="history-controls">
+     <span aria-live="polite" id="history-progress">
+      01 / 10
+     </span>
+    </div>
+   </main>
+   <!-- ==================================================
          FOOTER
     ================================================== -->
-<footer>
-      CHIVISPUPPETS  •  AN ARCHIVAL SANDBOX OF PUPPETRY
-    </footer>
-</div>
-<!-- ==================================================
+   <footer>
+    CHIVISPUPPETS  •  AN ARCHIVAL SANDBOX OF PUPPETRY
+   </footer>
+  </div>
+  <!-- ==================================================
        BACKGROUND JAVASCRIPT
   ================================================== -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
+  <script>
+   document.addEventListener("DOMContentLoaded", () => {
 
       /* ==================================================
          STARS
@@ -1115,8 +1655,8 @@ footer{background:rgba(6,5,5,.96);border-top-color:rgba(210,138,59,.22)}
 
     });
   </script>
-<script>
-/* Switch between history categories using tabs, arrows, or keyboard navigation. */
+  <script>
+   /* Switch between history categories using tabs, arrows, or keyboard navigation. */
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = [...document.querySelectorAll('.history-tab')];
   const panels = [...document.querySelectorAll('.history-panel')];
@@ -1169,5 +1709,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startX=startY=null;
   }, {passive:true});
 });
-</script></body>
+  </script>
+ </body>
 </html>
+
