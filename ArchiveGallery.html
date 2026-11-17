@@ -1412,6 +1412,28 @@
         .gallery-btn:hover .gallery-title { letter-spacing:1.3px; }
       }
 
+      /* Keep the bottom bar attached to the bottom of the page/viewport. */
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Keep the archive status immediately below the gallery. */
+      .gallery {
+        margin-bottom: 12px;
+      }
+
+      .system-bar {
+        margin: 0 auto 18px;
+      }
+
+      /* Push the footer to the bottom when content is short. */
+      .page > footer {
+        margin-top: auto;
+        width: 100%;
+      }
+
     </style>
 </head>
 
